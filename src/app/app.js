@@ -18,22 +18,8 @@ export default class App extends LitElement {
 
     constructor() {
         super();
-
-        this.addEventListener('modechange', (e) => {
-            this.mode = e.detail;
-            this.requestUpdate('mode');
-        });
-
-        /**
-         * application mode (background selection, foreground selection, or complete)
-         */
-        this.mode = 'background';
     }
 
-    onTabChange(e) {
-        this.mode = e.target.selected;
-        this.requestUpdate('mode');
-    }
     render() {
         return template(this);
     }

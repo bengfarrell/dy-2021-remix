@@ -30,9 +30,19 @@ export default class LayerChooser extends LitElement {
         this.foregroundImage = '';
 
         /**
-         * image index
+         * background image index
          */
-        this.imageIndex = 0;
+        this.bgImageIndex = -1;
+
+        /**
+         * foreground image index
+         */
+        this.fgImageIndex = -1;
+
+        /**
+         * pending upload image type
+         */
+        this.pendingUploadType = undefined;
 
         this.data = [
             './sampleimages/sample1.jpeg',
@@ -48,25 +58,30 @@ export default class LayerChooser extends LitElement {
         // however, once this is data connected, the problem will
         // solve itself
         requestAnimationFrame(() => {
-            this.nextImage();
+            this.nextImage('background');
         })
     }
 
 
-    nextImage() {
-        this.imageIndex ++;
-        if (this.imageIndex >= this.data.length) {
-            this.imageIndex = 0;
-        }
-        if (this.mode === 'background') {
-            this.backgroundImage = this.data[this.imageIndex];
+    nextImage(type) {
+        if (type === 'background') {
+            this.bgImageIndex ++;
+            if (this.bgImageIndex >= this.data.length) {
+                this.bgImageIndex = 0;
+            }
+            this.backgroundImage = this.data[this.bgImageIndex];
         } else {
-            this.foregroundImage = this.data[this.imageIndex];
+            this.fgImageIndex ++;
+            if (this.fgImageIndex >= this.data.length) {
+                this.fgImageIndex = 0;
+            }
+            this.foregroundImage = this.data[this.fgImageIndex];
         }
         this.requestUpdate();
     }
 
-    uploadImage() {
+    uploadImage(type) {
+        this.pendingUploadType = type;
         this.shadowRoot.querySelector('input').click();
     }
 
@@ -84,34 +99,11 @@ export default class LayerChooser extends LitElement {
     }
 
     onLocalImage(e) {
-        if (this.mode === 'background') {
+        if (this.pendingUploadType === 'background') {
             this.backgroundImage = URL.createObjectURL(e.target.files[0]);
         } else {
             this.foregroundImage = URL.createObjectURL(e.target.files[0]);
         }
-        this.requestUpdate();
-    }
-
-    nextStep() {
-        switch (this.mode) {
-            case 'background':
-                this.imageIndex = 0;
-                this.mode = 'foreground';
-                this.nextImage();
-                break;
-
-
-            case 'foreground':
-                this.mode = 'complete';
-                break;
-
-            case 'complete':
-                this.mode = 'background';
-                break;
-        }
-
-        const ce = new CustomEvent('modechange', { detail: this.mode, composed: true, bubbles: true });
-        this.dispatchEvent(ce);
         this.requestUpdate();
     }
 
