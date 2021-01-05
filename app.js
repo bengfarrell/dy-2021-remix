@@ -3359,6 +3359,41 @@ governing permissions and limitations under the License.
 */
 Theme.registerThemeFragment('large', 'scale', styles$6);
 
+function LikeAnchor(constructor) {
+    class LikeAnchorElement extends constructor {
+        renderAnchor({ id, className, 
+        // prettier-ignore
+        anchorContent = html `<slot></slot>` }) {
+            // prettier-ignore
+            return html `<a
+                    id=${id}
+                    class=${ifDefined(className)}
+                    href=${ifDefined(this.href)}
+                    download=${ifDefined(this.download)}
+                    target=${ifDefined(this.target)}
+                    aria-label=${ifDefined(this.label)}
+                    rel=${ifDefined(this.rel)}
+                >${anchorContent}</a>`;
+        }
+    }
+    __decorate([
+        property({ reflect: true })
+    ], LikeAnchorElement.prototype, "download", void 0);
+    __decorate([
+        property()
+    ], LikeAnchorElement.prototype, "label", void 0);
+    __decorate([
+        property({ reflect: true })
+    ], LikeAnchorElement.prototype, "href", void 0);
+    __decorate([
+        property({ reflect: true })
+    ], LikeAnchorElement.prototype, "target", void 0);
+    __decorate([
+        property({ reflect: true })
+    ], LikeAnchorElement.prototype, "rel", void 0);
+    return LikeAnchorElement;
+}
+
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -3931,56 +3966,6 @@ __decorate([
     property({ type: Number })
 ], Focusable.prototype, "tabIndex", null);
 
-/*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-const getActiveElement = (el) => {
-    return el.getRootNode().activeElement;
-};
-
-function LikeAnchor(constructor) {
-    class LikeAnchorElement extends constructor {
-        renderAnchor({ id, className, 
-        // prettier-ignore
-        anchorContent = html `<slot></slot>` }) {
-            // prettier-ignore
-            return html `<a
-                    id=${id}
-                    class=${ifDefined(className)}
-                    href=${ifDefined(this.href)}
-                    download=${ifDefined(this.download)}
-                    target=${ifDefined(this.target)}
-                    aria-label=${ifDefined(this.label)}
-                    rel=${ifDefined(this.rel)}
-                >${anchorContent}</a>`;
-        }
-    }
-    __decorate([
-        property({ reflect: true })
-    ], LikeAnchorElement.prototype, "download", void 0);
-    __decorate([
-        property()
-    ], LikeAnchorElement.prototype, "label", void 0);
-    __decorate([
-        property({ reflect: true })
-    ], LikeAnchorElement.prototype, "href", void 0);
-    __decorate([
-        property({ reflect: true })
-    ], LikeAnchorElement.prototype, "target", void 0);
-    __decorate([
-        property({ reflect: true })
-    ], LikeAnchorElement.prototype, "rel", void 0);
-    return LikeAnchorElement;
-}
-
 const slotElementObserver = Symbol('slotElementObserver');
 const startObserving = Symbol('startObserving');
 function ObserveSlotPresence(constructor, lightDomSelector) {
@@ -4086,422 +4071,6 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 const styles$7 = css `
-:host{position:relative;box-sizing:border-box;height:calc(var(--spectrum-tabs-height, var(--spectrum-global-dimension-size-600)) - var(--spectrum-tabs-rule-height,
-var(--spectrum-alias-border-size-thick)));line-height:calc(var(--spectrum-tabs-height, var(--spectrum-global-dimension-size-600)) - var(--spectrum-tabs-rule-height,
-var(--spectrum-alias-border-size-thick)));z-index:1;text-decoration:none;white-space:nowrap;transition:color var(--spectrum-global-animation-duration-100,.13s) ease-out;cursor:pointer;outline:none;color:var(--spectrum-tabs-text-color,var(--spectrum-alias-label-text-color))}:host([disabled]),:host([disabled]) #itemLabel{cursor:default}::slotted([slot=icon]){height:calc(var(--spectrum-tabs-height, var(--spectrum-global-dimension-size-600)) - var(--spectrum-tabs-rule-height,
-var(--spectrum-alias-border-size-thick)));color:var(--spectrum-tabs-icon-color,var(--spectrum-alias-icon-color))}:host([dir=ltr]) slot[name=icon]+#itemLabel{margin-left:calc(var(--spectrum-tabs-icon-gap, var(--spectrum-global-dimension-size-100)) - var(--spectrum-global-dimension-size-40))}:host([dir=rtl]) slot[name=icon]+#itemLabel{margin-right:calc(var(--spectrum-tabs-icon-gap, var(--spectrum-global-dimension-size-100)) - var(--spectrum-global-dimension-size-40))}:host([dir=ltr]):before{left:calc(-1*var(--spectrum-tabs-focus-ring-padding-x, var(--spectrum-global-dimension-size-100)))}:host([dir=ltr]):before,:host([dir=rtl]):before{right:calc(-1*var(--spectrum-tabs-focus-ring-padding-x, var(--spectrum-global-dimension-size-100)))}:host([dir=rtl]):before{left:calc(-1*var(--spectrum-tabs-focus-ring-padding-x, var(--spectrum-global-dimension-size-100)))}:host:before{content:"";position:absolute;top:50%;box-sizing:border-box;height:var(--spectrum-tabs-focus-ring-height,var(--spectrum-alias-single-line-height));margin-top:calc(var(--spectrum-tabs-focus-ring-height,
-var(--spectrum-alias-single-line-height))/-2 + var(--spectrum-tabs-rule-height,
-var(--spectrum-alias-border-size-thick))/2);border:var(--spectrum-tabs-focus-ring-size,var(--spectrum-alias-border-size-thick)) solid transparent;border-radius:var(--spectrum-tabs-focus-ring-border-radius);pointer-events:none}#itemLabel{cursor:pointer;vertical-align:top;display:inline-block;font-size:var(--spectrum-tabs-text-size,var(--spectrum-alias-font-size-default));font-weight:var(--spectrum-tabs-text-font-weight,var(--spectrum-alias-body-text-font-weight));text-decoration:none}#itemLabel:empty{display:none}:host(:hover){color:var(--spectrum-tabs-text-color-hover,var(--spectrum-alias-text-color-hover))}:host(:hover) ::slotted([slot=icon]){color:var(--spectrum-tabs-icon-color-hover,var(--spectrum-alias-icon-color-hover))}:host([selected]){color:var(--spectrum-tabs-text-color-selected,var(--spectrum-global-color-gray-900))}:host([selected]) ::slotted([slot=icon]){color:var(--spectrum-tabs-icon-color-selected,var(--spectrum-global-color-gray-900))}:host(.focus-visible){color:var(--spectrum-tabs-text-color-key-focus,var(--spectrum-alias-text-color-hover))}:host(.focus-visible):before{border-color:var(--spectrum-tabs-focus-ring-color,var(--spectrum-alias-border-color-focus))}:host(.focus-visible) ::slotted([slot=icon]){color:var(--spectrum-tabs-icon-color-key-focus,var(--spectrum-alias-icon-color-focus))}:host([disabled]){color:var(--spectrum-tabs-text-color-disabled,var(--spectrum-alias-text-color-disabled))}:host([disabled]) ::slotted([slot=icon]){color:var(--spectrum-tabs-icon-color-disabled,var(--spectrum-alias-icon-color-disabled))}:host([vertical]){display:flex;flex-direction:column;justify-content:center;align-items:center;height:var(--spectrum-tabs-vertical-item-height,auto)!important;--sp-tab-vertial-margin-y:calc((var(--spectrum-tabs-vertical-item-height,
-var(--spectrum-global-dimension-size-550)) - var(--spectrum-tabs-focus-ring-height,
-var(--spectrum-alias-single-line-height)))/2)}:host([vertical]):before{left:calc(-1*var(--spectrum-tabs-focus-ring-size, var(--spectrum-alias-border-size-thick)));right:calc(-1*var(--spectrum-tabs-focus-ring-size, var(--spectrum-alias-border-size-thick)));height:auto;margin-top:0;top:0;bottom:0}:host([vertical]) ::slotted([slot=icon]){margin-top:var(--sp-tab-vertial-margin-y);height:auto}:host([dir][vertical]) slot[name=icon]+#itemLabel{font-size:var(--spectrum-tabs-text-size,var(--spectrum-alias-font-size-default));font-weight:var(--spectrum-tabs-text-font-weight,var(--spectrum-alias-body-text-font-weight));line-height:1;margin:var(--sp-tab-vertial-margin-y) 0}
-`;
-
-/*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-/**
- * @slot icon - The icon that appears on the left of the label
- */
-class Tab extends FocusVisiblePolyfillMixin(ObserveSlotPresence(SpectrumElement, '[slot="icon"]')) {
-    constructor() {
-        super(...arguments);
-        this.label = '';
-        this.selected = false;
-        this.vertical = false;
-        this.value = '';
-    }
-    static get styles() {
-        return [styles$7];
-    }
-    get hasIcon() {
-        return this.slotContentIsPresent;
-    }
-    render() {
-        return html `
-            ${this.hasIcon
-            ? html `
-                      <slot name="icon"></slot>
-                  `
-            : html ``}
-            ${this.label
-            ? html `
-                      <label id="itemLabel">
-                          ${this.label}
-                      </label>
-                  `
-            : html ``}
-        `;
-    }
-    firstUpdated(changes) {
-        super.firstUpdated(changes);
-        this.setAttribute('role', 'tab');
-    }
-    updated(changes) {
-        super.updated(changes);
-        if (changes.has('selected')) {
-            this.setAttribute('aria-selected', this.selected ? 'true' : 'false');
-            this.setAttribute('tabindex', this.selected ? '0' : '-1');
-        }
-    }
-}
-__decorate([
-    property({ reflect: true })
-], Tab.prototype, "label", void 0);
-__decorate([
-    property({ type: Boolean, reflect: true })
-], Tab.prototype, "selected", void 0);
-__decorate([
-    property({ type: Boolean, reflect: true })
-], Tab.prototype, "vertical", void 0);
-__decorate([
-    property({ type: String, reflect: true })
-], Tab.prototype, "value", void 0);
-
-/*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-customElements.define('sp-tab', Tab);
-
-/*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-const styles$8 = css `
-:host{display:flex;position:relative;z-index:0;margin:0;padding-top:0;padding-bottom:0;padding-left:var(--spectrum-tabs-focus-ring-padding-x,var(--spectrum-global-dimension-size-100));padding-right:var(--spectrum-tabs-focus-ring-padding-x,var(--spectrum-global-dimension-size-100));vertical-align:top;border-bottom-color:var(--spectrum-tabs-rule-color,var(--spectrum-global-color-gray-200))}:host([dir=ltr]) ::slotted(*):before{left:calc(-1*var(--spectrum-tabs-focus-ring-padding-x, var(--spectrum-global-dimension-size-100)))}:host([dir=ltr]) ::slotted(*):before,:host([dir=rtl]) ::slotted(*):before{right:calc(-1*var(--spectrum-tabs-focus-ring-padding-x, var(--spectrum-global-dimension-size-100)))}:host([dir=rtl]) ::slotted(*):before{left:calc(-1*var(--spectrum-tabs-focus-ring-padding-x, var(--spectrum-global-dimension-size-100)))}:host([dir=ltr]) #selectionIndicator{left:0}:host([dir=rtl]) #selectionIndicator{right:0}#selectionIndicator{position:absolute;z-index:0;transition:transform var(--spectrum-tabs-selection-indicator-animation-duration,var(--spectrum-global-animation-duration-100)) ease-in-out;transform-origin:top left;border-radius:var(--spectrum-tabs-rule-border-radius,var(--spectrum-global-dimension-static-size-10));background-color:var(--spectrum-tabs-selection-indicator-color,var(--spectrum-global-color-gray-900))}:host([compact]) ::slotted(*){line-height:calc(var(--spectrum-tabs-quiet-compact-height,
-var(--spectrum-global-dimension-size-400)) - var(--spectrum-tabs-rule-height,
-var(--spectrum-alias-border-size-thick)));height:calc(var(--spectrum-tabs-quiet-compact-height,
-var(--spectrum-global-dimension-size-400)) - var(--spectrum-tabs-rule-height,
-var(--spectrum-alias-border-size-thick)))}:host([direction=horizontal]){align-items:center;border-bottom:var(--spectrum-tabs-rule-height,var(--spectrum-alias-border-size-thick)) solid}:host([direction=horizontal]) ::slotted(*){vertical-align:top}:host([dir=ltr][direction=horizontal]) ::slotted(:not(:first-child)){margin-left:var(--spectrum-tabs-item-gap,var(--spectrum-global-dimension-size-300))}:host([dir=rtl][direction=horizontal]) ::slotted(:not(:first-child)){margin-right:var(--spectrum-tabs-item-gap,var(--spectrum-global-dimension-size-300))}:host([direction=horizontal]) #selectionIndicator{position:absolute;bottom:0;height:var(--spectrum-tabs-rule-height,var(--spectrum-alias-border-size-thick));bottom:calc(-1*var(--spectrum-tabs-rule-height, var(--spectrum-alias-border-size-thick)))}:host([direction=horizontal][compact]){box-sizing:initial;height:calc(var(--spectrum-tabs-quiet-compact-height,
-var(--spectrum-global-dimension-size-400)) - var(--spectrum-tabs-rule-height,
-var(--spectrum-alias-border-size-thick)));align-items:end}:host([quiet]){display:inline-flex;border-bottom-color:var(--spectrum-tabs-quiet-rule-color,var(--spectrum-alias-border-color-transparent))}:host([dir=ltr][direction=vertical]){border-left:var(--spectrum-tabs-vertical-rule-width,var(--spectrum-alias-border-size-thick)) solid;border-left-color:var(--spectrum-tabs-vertical-rule-color,var(--spectrum-global-color-gray-200))}:host([dir=rtl][direction=vertical]){border-right:var(--spectrum-tabs-vertical-rule-width,var(--spectrum-alias-border-size-thick)) solid;border-right-color:var(--spectrum-tabs-vertical-rule-color,var(--spectrum-global-color-gray-200))}:host([direction=vertical]){display:inline-flex;flex-direction:column;padding:0}:host([dir=ltr][direction=vertical]) ::slotted(*){margin-left:calc(var(--spectrum-tabs-vertical-item-margin-left,
-var(--spectrum-global-dimension-size-150)) - var(--spectrum-tabs-focus-ring-padding-x,
-var(--spectrum-global-dimension-size-100)))}:host([dir=rtl][direction=vertical]) ::slotted(*){margin-right:calc(var(--spectrum-tabs-vertical-item-margin-left,
-var(--spectrum-global-dimension-size-150)) - var(--spectrum-tabs-focus-ring-padding-x,
-var(--spectrum-global-dimension-size-100)))}:host([direction=vertical]) ::slotted(*){height:var(--spectrum-tabs-vertical-item-height,var(--spectrum-global-dimension-size-550));padding-top:0;padding-bottom:0;padding-left:var(--spectrum-tabs-focus-ring-padding-x,var(--spectrum-global-dimension-size-100));padding-right:var(--spectrum-tabs-focus-ring-padding-x,var(--spectrum-global-dimension-size-100));margin-bottom:var(--spectrum-tabs-vertical-item-gap,var(--spectrum-global-dimension-size-50))}:host([dir=ltr][direction=vertical]) ::slotted(*):before{left:calc(-1*var(--spectrum-tabs-focus-ring-size, var(--spectrum-alias-border-size-thick)))}:host([dir=ltr][direction=vertical]) ::slotted(*):before,:host([dir=rtl][direction=vertical]) ::slotted(*):before{right:calc(-1*var(--spectrum-tabs-focus-ring-size, var(--spectrum-alias-border-size-thick)))}:host([dir=rtl][direction=vertical]) ::slotted(*):before{left:calc(-1*var(--spectrum-tabs-focus-ring-size, var(--spectrum-alias-border-size-thick)))}:host([direction=vertical]) ::slotted(*):before{margin-top:calc(var(--spectrum-tabs-focus-ring-height,
-var(--spectrum-alias-single-line-height))/-2)}:host([direction=vertical][compact]) ::slotted(*){line-height:var(--spectrum-tabs-compact-vertical-item-height,var(--spectrum-global-dimension-size-400));margin-bottom:var(--spectrum-tabs-compact-vertical-item-gap,var(--spectrum-global-dimension-size-50));height:var(--spectrum-tabs-compact-vertical-item-height,var(--spectrum-global-dimension-size-400))}:host([dir=ltr][direction=vertical]) #selectionIndicator{left:0;left:calc(-1*var(--spectrum-tabs-vertical-rule-width, var(--spectrum-alias-border-size-thick)))}:host([dir=rtl][direction=vertical]) #selectionIndicator{right:0;right:calc(-1*var(--spectrum-tabs-vertical-rule-width, var(--spectrum-alias-border-size-thick)))}:host([direction=vertical]) #selectionIndicator{position:absolute;width:var(--spectrum-tabs-vertical-rule-width,var(--spectrum-alias-border-size-thick))}:host([quiet]) #selectionIndicator{background-color:var(--spectrum-tabs-quiet-selection-indicator-color,var(--spectrum-global-color-gray-900))}:host([dir=ltr][direction=vertical][compact]),:host([dir=ltr][direction=vertical][quiet]){border-left-color:var(--spectrum-tabs-quiet-vertical-rule-color,var(--spectrum-alias-border-color-transparent))}:host([dir=rtl][direction=vertical][compact]),:host([dir=rtl][direction=vertical][quiet]){border-right-color:var(--spectrum-tabs-quiet-vertical-rule-color,var(--spectrum-alias-border-color-transparent))}:host([direction=vertical][compact]) #selectionIndicator,:host([direction=vertical][quiet]) #selectionIndicator{background-color:var(--spectrum-tabs-quiet-selection-indicator-color,var(--spectrum-global-color-gray-900))}:host([direction=vertical-right]) #selectionIndicator,:host([direction=vertical]) #selectionIndicator{top:0;height:1px}:host([compact]){--spectrum-tabs-height:var(--spectrum-tabs-quiet-compact-height)}:host([direction=horizontal]:not([quiet])){border-bottom-color:var(--spectrum-tabs-rule-color,var(--spectrum-global-color-gray-200))}:host([dir][direction=horizontal]) #selectionIndicator{width:1px;left:0;right:auto}:host([dir=ltr][direction=vertical-right]){display:inline-flex;flex-direction:column;padding:0;border-right:var(--spectrum-tabs-vertical-rule-width,var(--spectrum-alias-border-size-thick)) solid;border-right-color:var(--spectrum-tabs-vertical-rule-color,var(--spectrum-global-color-gray-200))}:host([dir=rtl][direction=vertical-right]){display:inline-flex;flex-direction:column;padding:0;border-left:var(--spectrum-tabs-vertical-rule-width,var(--spectrum-alias-border-size-thick)) solid;border-left-color:var(--spectrum-tabs-vertical-rule-color,var(--spectrum-global-color-gray-200))}:host([dir=ltr][direction=vertical-right]) ::slotted(*){margin-right:calc(var(--spectrum-tabs-vertical-item-margin-left,
-var(--spectrum-global-dimension-size-150)) - var(--spectrum-tabs-focus-ring-padding-x,
-var(--spectrum-global-dimension-size-100)))}:host([dir=ltr][direction=vertical-right]) ::slotted(*),:host([dir=rtl][direction=vertical-right]) ::slotted(*){height:var(--spectrum-tabs-vertical-item-height,var(--spectrum-global-dimension-size-550));padding:0 var(--spectrum-tabs-focus-ring-padding-x,var(--spectrum-global-dimension-size-100));margin-bottom:var(--spectrum-tabs-vertical-item-gap,var(--spectrum-global-dimension-size-50))}:host([dir=rtl][direction=vertical-right]) ::slotted(*){margin-left:calc(var(--spectrum-tabs-vertical-item-margin-left,
-var(--spectrum-global-dimension-size-150)) - var(--spectrum-tabs-focus-ring-padding-x,
-var(--spectrum-global-dimension-size-100)))}:host([direction=vertical-right][compact]) ::slotted(*){line-height:var(--spectrum-tabs-compact-vertical-item-height,var(--spectrum-global-dimension-size-400));margin-bottom:var(--spectrum-tabs-compact-vertical-item-gap,var(--spectrum-global-dimension-size-50));height:var(--spectrum-tabs-compact-vertical-item-height,var(--spectrum-global-dimension-size-400))}:host([dir=ltr][direction=vertical-right]) #selectionIndicator{position:absolute;left:auto;width:var(--spectrum-tabs-vertical-rule-width,var(--spectrum-alias-border-size-thick));right:calc(-1*var(--spectrum-tabs-vertical-rule-width, var(--spectrum-alias-border-size-thick)))}:host([dir=rtl][direction=vertical-right]) #selectionIndicator{position:absolute;right:auto;width:var(--spectrum-tabs-vertical-rule-width,var(--spectrum-alias-border-size-thick));left:calc(-1*var(--spectrum-tabs-vertical-rule-width, var(--spectrum-alias-border-size-thick)))}:host([dir=ltr][direction=vertical-right][compact]),:host([dir=ltr][direction=vertical-right][quiet]){border-right-color:var(--spectrum-tabs-quiet-vertical-rule-color,var(--spectrum-alias-border-color-transparent))}:host([dir=rtl][direction=vertical-right][compact]),:host([dir=rtl][direction=vertical-right][quiet]){border-left-color:var(--spectrum-tabs-quiet-vertical-rule-color,var(--spectrum-alias-border-color-transparent))}:host([direction=vertical-right][compact]) #selectionIndicator,:host([direction=vertical-right][quiet]) #selectionIndicator{background-color:var(--spectrum-tabs-quiet-selection-indicator-color,var(--spectrum-global-color-gray-900))}
-`;
-
-/*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-const availableArrowsByDirection = {
-    vertical: ['ArrowUp', 'ArrowDown'],
-    ['vertical-right']: ['ArrowUp', 'ArrowDown'],
-    horizontal: ['ArrowLeft', 'ArrowRight'],
-};
-/**
- * @slot - Child tab elements
- * @attr {Boolean} quiet - The tabs border is a lot smaller
- * @attr {Boolean} compact - The collection of tabs take up less space
- */
-class Tabs extends Focusable {
-    constructor() {
-        super();
-        this.direction = 'horizontal';
-        this.selectionIndicatorStyle = '';
-        this._selected = '';
-        this.tabs = [];
-        /**
-         * This will force apply the focus visible styling.
-         * It should always do so when this styling is already applied.
-         */
-        this.shouldApplyFocusVisible = false;
-        this.manageFocusinType = () => {
-            if (this.shouldApplyFocusVisible) {
-                return;
-            }
-            const handleFocusin = () => {
-                this.shouldApplyFocusVisible = false;
-                this.removeEventListener('focusin', handleFocusin);
-            };
-            this.addEventListener('focusin', handleFocusin);
-        };
-        this.startListeningToKeyboard = () => {
-            this.addEventListener('keydown', this.handleKeydown);
-            this.shouldApplyFocusVisible = true;
-            const selected = this.querySelector('[selected]');
-            if (selected) {
-                selected.tabIndex = -1;
-            }
-            const stopListeningToKeyboard = () => {
-                this.removeEventListener('keydown', this.handleKeydown);
-                this.shouldApplyFocusVisible = false;
-                const selected = this.querySelector('[selected]');
-                if (selected) {
-                    selected.tabIndex = 0;
-                }
-                this.removeEventListener('focusout', stopListeningToKeyboard);
-            };
-            this.addEventListener('focusout', stopListeningToKeyboard);
-        };
-        this.onClick = (event) => {
-            const target = event.target;
-            this.selectTarget(target);
-            if (this.shouldApplyFocusVisible && event.composedPath()[0] !== this) {
-                /* Trick :focus-visible polyfill into thinking keyboard based focus */
-                this.dispatchEvent(new KeyboardEvent('keydown', {
-                    code: 'Tab',
-                }));
-                target.focus();
-            }
-        };
-        this.onKeyDown = (event) => {
-            if (event.code === 'Enter' || event.code === 'Space') {
-                event.preventDefault();
-                const target = event.target;
-                if (target) {
-                    this.selectTarget(target);
-                }
-            }
-        };
-        this.updateCheckedState = () => {
-            if (!this.tabs.length) {
-                this.tabs = [...this.querySelectorAll('[role="tab"]')];
-            }
-            this.tabs.forEach((element) => {
-                element.removeAttribute('selected');
-            });
-            if (this.selected) {
-                const currentChecked = this.tabs.find((el) => el.value === this.selected);
-                if (currentChecked) {
-                    currentChecked.selected = true;
-                }
-                else {
-                    this.selected = '';
-                }
-            }
-            else {
-                const firstTab = this.tabs[0];
-                if (firstTab) {
-                    firstTab.setAttribute('tabindex', '0');
-                }
-            }
-            this.updateSelectionIndicator();
-            this.tabChangeResolver();
-        };
-        this.updateSelectionIndicator = async () => {
-            const selectedElement = this.tabs.find((el) => el.selected);
-            if (!selectedElement) {
-                this.selectionIndicatorStyle = `transform: translateX(0px) scaleX(0) scaleY(0);`;
-                return;
-            }
-            await Promise.all([
-                selectedElement.updateComplete,
-                document.fonts ? document.fonts.ready : Promise.resolve(),
-            ]);
-            const tabBoundingClientRect = selectedElement.getBoundingClientRect();
-            const parentBoundingClientRect = this.getBoundingClientRect();
-            if (this.direction === 'horizontal') {
-                const width = tabBoundingClientRect.width;
-                const offset = tabBoundingClientRect.left - parentBoundingClientRect.left;
-                this.selectionIndicatorStyle = `transform: translateX(${offset}px) scaleX(${width});`;
-            }
-            else {
-                const height = tabBoundingClientRect.height;
-                const offset = tabBoundingClientRect.top - parentBoundingClientRect.top;
-                this.selectionIndicatorStyle = `transform: translateY(${offset}px) scaleY(${height});`;
-            }
-        };
-        this.tabChangePromise = Promise.resolve();
-        this.tabChangeResolver = function () {
-            return;
-        };
-        // These can be added as @click and @keydown handlers on the
-        // slot once we no longer need web component polyfills
-        this.addEventListener('click', this.onClick);
-        this.addEventListener('keydown', this.onKeyDown);
-    }
-    static get styles() {
-        return [styles$8];
-    }
-    get selected() {
-        return this._selected;
-    }
-    set selected(value) {
-        const oldValue = this.selected;
-        if (value === oldValue) {
-            return;
-        }
-        this._selected = value;
-        this.shouldUpdateCheckedState();
-        this.requestUpdate('selected', oldValue);
-    }
-    get focusElement() {
-        const focusElement = this.tabs.find((tab) => tab.selected || tab.value === this.selected);
-        if (focusElement) {
-            return focusElement;
-        }
-        return this.tabs[0] || this;
-    }
-    manageAutoFocus() {
-        const tabs = [...this.children];
-        const tabUpdateCompletes = tabs.map((tab) => {
-            if (typeof tab.updateComplete !== 'undefined') {
-                return tab.updateComplete;
-            }
-            return Promise.resolve();
-        });
-        Promise.all(tabUpdateCompletes).then(() => super.manageAutoFocus());
-    }
-    render() {
-        return html `
-            <slot @slotchange=${this.onSlotChange}></slot>
-            <div
-                id="selectionIndicator"
-                style=${this.selectionIndicatorStyle}
-            ></div>
-        `;
-    }
-    firstUpdated(changes) {
-        super.firstUpdated(changes);
-        this.setAttribute('role', 'tablist');
-        this.addEventListener('mousedown', this.manageFocusinType);
-        this.addEventListener('focusin', this.startListeningToKeyboard);
-        const selectedChild = this.querySelector('[selected]');
-        if (selectedChild) {
-            this.selectTarget(selectedChild);
-        }
-    }
-    updated(changes) {
-        super.updated(changes);
-        if (changes.has('direction')) {
-            if (this.direction === 'horizontal') {
-                this.removeAttribute('aria-orientation');
-            }
-            else {
-                this.setAttribute('aria-orientation', 'vertical');
-            }
-        }
-        if (changes.has('dir')) {
-            this.updateSelectionIndicator();
-        }
-    }
-    handleKeydown(event) {
-        const { code } = event;
-        const availableArrows = [...availableArrowsByDirection[this.direction]];
-        if (!availableArrows.includes(code)) {
-            return;
-        }
-        if (!this.isLTR && this.direction === 'horizontal') {
-            availableArrows.reverse();
-        }
-        event.preventDefault();
-        const currentFocusedTab = getActiveElement(this);
-        let currentFocusedTabIndex = this.tabs.indexOf(currentFocusedTab);
-        currentFocusedTabIndex += code === availableArrows[0] ? -1 : 1;
-        this.tabs[(currentFocusedTabIndex + this.tabs.length) % this.tabs.length].focus();
-    }
-    selectTarget(target) {
-        const value = target.getAttribute('value');
-        if (value) {
-            const selected = this.selected;
-            this.selected = value;
-            const applyDefault = this.dispatchEvent(new Event('change', {
-                cancelable: true,
-            }));
-            if (!applyDefault) {
-                this.selected = selected;
-            }
-        }
-    }
-    onSlotChange() {
-        this.tabs = [...this.querySelectorAll('[role="tab"]')];
-        this.shouldUpdateCheckedState();
-    }
-    shouldUpdateCheckedState() {
-        this.tabChangeResolver();
-        this.tabChangePromise = new Promise((res) => (this.tabChangeResolver = res));
-        setTimeout(this.updateCheckedState);
-    }
-    async _getUpdateComplete() {
-        await super._getUpdateComplete();
-        await this.tabChangePromise;
-    }
-    connectedCallback() {
-        super.connectedCallback();
-        window.addEventListener('resize', this.updateSelectionIndicator);
-        if ('fonts' in document) {
-            document.fonts.addEventListener('loadingdone', this.updateSelectionIndicator);
-        }
-    }
-    disconnectedCallback() {
-        window.removeEventListener('resize', this.updateSelectionIndicator);
-        if ('fonts' in document) {
-            document.fonts.removeEventListener('loadingdone', this.updateSelectionIndicator);
-        }
-        super.disconnectedCallback();
-    }
-}
-__decorate([
-    property({ reflect: true })
-], Tabs.prototype, "direction", void 0);
-__decorate([
-    property()
-], Tabs.prototype, "selectionIndicatorStyle", void 0);
-__decorate([
-    property({ reflect: true })
-], Tabs.prototype, "selected", null);
-
-/*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-customElements.define('sp-tabs', Tabs);
-
-/*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-const styles$9 = css `
 .button{position:relative;display:inline-flex;box-sizing:border-box;align-items:center;justify-content:center;overflow:visible;margin:0;border-style:solid;text-transform:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-appearance:button;vertical-align:top;transition:background var(--spectrum-global-animation-duration-100,.13s) ease-out,border-color var(--spectrum-global-animation-duration-100,.13s) ease-out,color var(--spectrum-global-animation-duration-100,.13s) ease-out,box-shadow var(--spectrum-global-animation-duration-100,.13s) ease-out;text-decoration:none;font-family:var(--spectrum-alias-body-text-font-family,var(--spectrum-global-font-family-base));line-height:1.3;-moz-user-select:none;user-select:none;-webkit-user-select:none;touch-action:none;cursor:pointer}.button:focus{outline:none}.button::-moz-focus-inner{border:0;border-style:none;padding:0;margin-top:-2px;margin-bottom:-2px}.button:disabled{cursor:default}::slotted([slot=icon]){max-height:100%;flex-shrink:0}:host{display:inline-flex;flex-direction:row;vertical-align:top}#button{display:flex;flex:1 1 auto;-webkit-appearance:none}slot[name=icon]::slotted(svg){fill:currentColor;stroke:currentColor;width:var(--spectrum-alias-workflow-icon-size,18px);height:var(--spectrum-alias-workflow-icon-size,18px)}
 `;
 
@@ -4522,7 +4091,7 @@ class ButtonBase extends LikeAnchor(ObserveSlotText(ObserveSlotPresence(Focusabl
         this.iconRight = false;
     }
     static get styles() {
-        return [styles$9];
+        return [styles$7];
     }
     get hasIcon() {
         return this.slotContentIsPresent;
@@ -4592,7 +4161,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-const styles$a = css `
+const styles$8 = css `
 .button:after{border-radius:calc(var(--spectrum-button-primary-border-radius,
 var(--spectrum-alias-border-radius-large)) + var(--spectrum-alias-focus-ring-gap,
 var(--spectrum-global-dimension-static-size-25)));content:"";display:block;position:absolute;left:0;right:0;bottom:0;top:0;margin:calc(var(--spectrum-alias-focus-ring-gap,
@@ -4636,7 +4205,7 @@ class Button extends ButtonBase {
         this.quiet = false;
     }
     static get styles() {
-        return [...super.styles, styles$a];
+        return [...super.styles, styles$8];
     }
 }
 __decorate([
@@ -6419,20 +5988,16 @@ const template = function(scope) { return html`
 </halftone-svg>
 
 <div id="button-row">
-    ${scope.mode === 'complete' ?  html`
-                <sp-button variant="primary" @click="${() => scope.upload()}">Upload to Gallery</sp-button>
-                <sp-button variant="primary" @click="${() => scope.onDownloadImage()}">Download</sp-button>
-                <sp-button @click="${() => scope.nextStep()}">Remix Again</sp-button>` : html`
-                <input type="file" id="backgroundimage" @change=${(e) => scope.onLocalImage(e) } name="img" accept="image/*">
-                <sp-button variant="primary" @click="${() => scope.nextImage()}">Try another</sp-button>
-                <sp-button variant="primary" @click="${() => scope.uploadImage()}">Upload a file</sp-button>
-                ${scope.mode === 'foreground' ? 
-                        html`<sp-button variant="primary" 
-                                        @click="${() => scope.onCameraClick()}">
-                            ${scope.foregroundImage === 'camera' ? 'Snap picture' : 'Use my camera'}
-                        </sp-button>` : nothing }
-                <sp-button @click="${() => scope.nextStep()}">Next</sp-button>
-    `}
+    <sp-button variant="primary" @click="${() => scope.upload()}">Upload to Gallery</sp-button>
+    <sp-button variant="primary" @click="${() => scope.onDownloadImage()}">Download</sp-button>
+    <input type="file" id="upload" @change=${(e) => scope.onLocalImage(e) } name="img" accept="image/*">
+    <sp-button variant="primary" @click="${() => scope.nextImage('background')}">Try another Background</sp-button>
+    <sp-button variant="primary" @click="${() => scope.nextImage('foreground')}">Try another Foreground</sp-button>
+    <sp-button variant="primary" @click="${() => scope.uploadImage('background')}">Upload a background file</sp-button>
+    <sp-button variant="primary" @click="${() => scope.uploadImage('foreground')}">Upload a foreground file</sp-button>
+    <sp-button variant="primary" @click="${() => scope.onCameraClick()}">
+        ${scope.foregroundImage === 'camera' ? 'Snap picture' : 'Use my camera'}
+    </sp-button>
 </div>
 `};
 
@@ -6600,9 +6165,19 @@ class LayerChooser extends LitElement {
         this.foregroundImage = '';
 
         /**
-         * image index
+         * background image index
          */
-        this.imageIndex = 0;
+        this.bgImageIndex = -1;
+
+        /**
+         * foreground image index
+         */
+        this.fgImageIndex = -1;
+
+        /**
+         * pending upload image type
+         */
+        this.pendingUploadType = undefined;
 
         this.data = [
             './sampleimages/sample1.jpeg',
@@ -6618,25 +6193,30 @@ class LayerChooser extends LitElement {
         // however, once this is data connected, the problem will
         // solve itself
         requestAnimationFrame(() => {
-            this.nextImage();
+            this.nextImage('background');
         });
     }
 
 
-    nextImage() {
-        this.imageIndex ++;
-        if (this.imageIndex >= this.data.length) {
-            this.imageIndex = 0;
-        }
-        if (this.mode === 'background') {
-            this.backgroundImage = this.data[this.imageIndex];
+    nextImage(type) {
+        if (type === 'background') {
+            this.bgImageIndex ++;
+            if (this.bgImageIndex >= this.data.length) {
+                this.bgImageIndex = 0;
+            }
+            this.backgroundImage = this.data[this.bgImageIndex];
         } else {
-            this.foregroundImage = this.data[this.imageIndex];
+            this.fgImageIndex ++;
+            if (this.fgImageIndex >= this.data.length) {
+                this.fgImageIndex = 0;
+            }
+            this.foregroundImage = this.data[this.fgImageIndex];
         }
         this.requestUpdate();
     }
 
-    uploadImage() {
+    uploadImage(type) {
+        this.pendingUploadType = type;
         this.shadowRoot.querySelector('input').click();
     }
 
@@ -6654,34 +6234,11 @@ class LayerChooser extends LitElement {
     }
 
     onLocalImage(e) {
-        if (this.mode === 'background') {
+        if (this.pendingUploadType === 'background') {
             this.backgroundImage = URL.createObjectURL(e.target.files[0]);
         } else {
             this.foregroundImage = URL.createObjectURL(e.target.files[0]);
         }
-        this.requestUpdate();
-    }
-
-    nextStep() {
-        switch (this.mode) {
-            case 'background':
-                this.imageIndex = 0;
-                this.mode = 'foreground';
-                this.nextImage();
-                break;
-
-
-            case 'foreground':
-                this.mode = 'complete';
-                break;
-
-            case 'complete':
-                this.mode = 'background';
-                break;
-        }
-
-        const ce = new CustomEvent('modechange', { detail: this.mode, composed: true, bubbles: true });
-        this.dispatchEvent(ce);
         this.requestUpdate();
     }
 
@@ -6695,11 +6252,6 @@ customElements.define('remix-layer-chooser', LayerChooser);
 const template$1 = function(scope) { return html`
 
 <sp-theme scale="medium" color="light">
-    Choose a
-    <sp-tabs selected="${scope.mode}" @change=${(e) => scope.onTabChange(e)}>
-        <sp-tab label="Background" value="background"></sp-tab>
-        <sp-tab label="Foreground" value="foreground"></sp-tab>
-    </sp-tabs>
     <remix-layer-chooser mode="${scope.mode}"></remix-layer-chooser>
 </sp-theme>
 `};
@@ -6733,22 +6285,8 @@ class App extends LitElement {
 
     constructor() {
         super();
-
-        this.addEventListener('modechange', (e) => {
-            this.mode = e.detail;
-            this.requestUpdate('mode');
-        });
-
-        /**
-         * application mode (background selection, foreground selection, or complete)
-         */
-        this.mode = 'background';
     }
 
-    onTabChange(e) {
-        this.mode = e.target.selected;
-        this.requestUpdate('mode');
-    }
     render() {
         return template$1(this);
     }
