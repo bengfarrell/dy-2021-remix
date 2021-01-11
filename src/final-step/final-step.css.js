@@ -4,8 +4,4 @@ export const style = css`
     :host {
       display: inline-block;
     }
-  
-    #download {
-      justify-content: center;
-    }
 `;

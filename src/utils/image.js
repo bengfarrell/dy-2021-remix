@@ -1,4 +1,4 @@
-export const downloadImage = (htComponent, backgroundImage) => {
+export const downloadImage = (htComponent, backgroundImage, filetype = 'jpg') => {
     let rendered = false;
     const imgA = document.createElement('img');
     const imgB = document.createElement('img');
@@ -19,7 +19,7 @@ export const downloadImage = (htComponent, backgroundImage) => {
             }
             ctx.globalCompositeOperation = 'overlay'; //blendMode;
             ctx.drawImage(imgA, 0, 0);
-            downloadCanvasAsImage(canvas);
+            downloadCanvasAsImage(canvas, filetype);
             rendered = true;
         }
     }
@@ -33,27 +33,29 @@ export const downloadImage = (htComponent, backgroundImage) => {
     }
 }
 
-export const svgToImage = async (htComponent) => {
-    const img = document.createElement('img');
-    let svg64 = btoa(htComponent.getSVG());
-    let b64Start = 'data:image/svg+xml;base64,';
-    let image64 = b64Start + svg64;
-    img.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = htComponent.contentWidth;
-        canvas.height = htComponent.contentHeight;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
-        return canvas.toDataURL();
-    };
-    img.src = image64;
+export const svgToImage = (htComponent) => {
+    return new Promise(resolve => {
+        const img = document.createElement('img');
+        let svg64 = btoa(htComponent.getSVG());
+        let b64Start = 'data:image/svg+xml;base64,';
+        let image64 = b64Start + svg64;
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = htComponent.contentWidth;
+            canvas.height = htComponent.contentHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            resolve(canvas.toDataURL());
+        };
+        img.src = image64;
+    });
 }
 
-export const downloadCanvasAsImage = (canvas) => {
-    const pngdata = canvas.toDataURL('image/png');
+export const downloadCanvasAsImage = (canvas, filetype) => {
+    const imgdata = canvas.toDataURL(`image/${filetype}`);
     const dl = document.createElement('a');
-    dl.setAttribute('download', 'halftone.png');
-    dl.setAttribute('href', pngdata);
+    dl.setAttribute('download', `halftone.${filetype}`);
+    dl.setAttribute('href', imgdata);
     dl.click();
 }
 

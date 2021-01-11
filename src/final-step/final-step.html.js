@@ -10,9 +10,13 @@ export const template = function(scope) { return html`
     <span>Share and save your artwork!</span>
 </div>
 
-<div class="button-row" id="download">
-    <sp-action-button><sp-icon size="s" slot="icon">${SaveFloppy}</sp-icon> Download as a JPG</sp-action-button>
-    <sp-action-button><sp-icon size="s" slot="icon">${SaveFloppy}</sp-icon> Download as a PNG</sp-action-button>
+<div class="button-row centered">
+    <sp-action-button @click=${() => scope.saveAs('jpg')}>
+        <sp-icon size="s" slot="icon">${SaveFloppy}</sp-icon> Download as a JPG
+    </sp-action-button>
+    <sp-action-button @click=${() => scope.saveAs('png')}>
+        <sp-icon size="s" slot="icon">${SaveFloppy}</sp-icon> Download as a PNG
+    </sp-action-button>
 </div>
 
 <div class="navigation-row">

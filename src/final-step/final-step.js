@@ -8,6 +8,13 @@ export default class FinalStep extends LitElement {
         return [style, commonstyle];
     }
 
+    saveAs(filetype) {
+        const ce = new CustomEvent('save', {
+            detail: { filetype },
+            composed: true, bubbles: true });
+        this.dispatchEvent(ce);
+    }
+
     render() {
         return template(this);
     }

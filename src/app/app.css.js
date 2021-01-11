@@ -30,4 +30,8 @@ export const style = css`
         background-position: center;
         background-size: cover;
     }
+    
+    input {
+      display: none;
+    }
 `;

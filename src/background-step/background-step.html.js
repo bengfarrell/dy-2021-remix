@@ -11,9 +11,13 @@ export const template = function(scope) { return html`
     <span>Choose a background image</span>
 </div>
 
-<div class="button-row">
-    <sp-action-button variant="secondary"><sp-icon size="s" slot="icon">${Shuffle}</sp-icon> Generate a random image</sp-action-button>
-    <sp-action-button variant="secondary"><sp-icon size="s" slot="icon">${Upload}</sp-icon> Upload your own image</sp-action-button>
+<div class="button-row centered">
+    <sp-action-button @click=${() => scope.randomImage()} variant="secondary">
+        <sp-icon size="s" slot="icon">${Shuffle}</sp-icon> Generate a random image
+    </sp-action-button>
+    <sp-action-button @click=${() => scope.uploadImage()} variant="secondary">
+        <sp-icon size="s" slot="icon">${Upload}</sp-icon> Upload your own image
+    </sp-action-button>
 </div>
 
 <div class="navigation-row">

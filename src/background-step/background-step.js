@@ -8,6 +8,36 @@ export default class BackgroundStep extends LitElement {
         return [style, commonstyle];
     }
 
+    randomImage() {
+        const data = [
+            './sampleimages/sample1.jpeg',
+            './sampleimages/sample2.jpeg',
+            './sampleimages/sample3.jpeg',
+            './sampleimages/sample4.jpeg',
+            './sampleimages/sample5.jpeg',
+            './sampleimages/sample6.jpeg',
+            './sampleimages/sample7.jpeg'
+        ];
+        const ce = new CustomEvent('propertychange', {
+            detail: {
+                action: 'imagechange',
+                layer: 'background',
+                image: data[parseInt(Math.random() * data.length)]
+            },
+            composed: true, bubbles: true });
+        this.dispatchEvent(ce);
+    }
+
+    uploadImage() {
+        const ce = new CustomEvent('propertychange', {
+            detail: {
+                action: 'imageupload',
+                layer: 'background'
+            },
+            composed: true, bubbles: true });
+        this.dispatchEvent(ce);
+    }
+
     render() {
         return template(this);
     }

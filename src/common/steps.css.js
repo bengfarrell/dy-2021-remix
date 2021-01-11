@@ -28,6 +28,10 @@ export const style = css`
           align-items: center;
           margin-bottom: 25px;
         }
+
+        .button-row.centered {
+          justify-content: center;
+        }
         
         .navigation-row {
           display: flex;

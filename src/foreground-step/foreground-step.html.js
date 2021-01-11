@@ -18,37 +18,60 @@ export const template = function(scope) { return html`
 
 <label>Choose an image</label>
 <div class="button-row">
-    <sp-button variant="secondary"><sp-icon size="s" slot="icon">${Shuffle}</sp-icon> Random</sp-button>
-    <sp-button variant="secondary"><sp-icon size="s" slot="icon">${Upload}</sp-icon> Upload</sp-button>
-    <sp-button variant="secondary"><sp-icon size="s" slot="icon">${Camera}</sp-icon> Camera</sp-button>
+    <sp-button variant="secondary" @click=${() => scope.randomImage()} >
+        <sp-icon size="s" slot="icon">${Shuffle}</sp-icon> Random
+    </sp-button>
+    <sp-button variant="secondary" @click=${() => scope.uploadImage()} >
+        <sp-icon size="s" slot="icon">${Upload}</sp-icon> Upload
+    </sp-button>
+    <sp-button variant="secondary" @click=${() => scope.useCamera()}>
+        <sp-icon size="s" slot="icon">${Camera}</sp-icon> ${scope.cameraEnabled ? 'Snap' : 'Camera'}
+    </sp-button>
 </div>
 
 <div class="button-row">
     <label>Choose a shape</label>
-    <sp-dropdown label="Choose a shape">
+    <sp-dropdown @change=${(e) => scope.chooseShape(e)} value=${scope.shapeType} label="Choose a shape">
         <sp-menu>
-            <sp-menu-item>Circle</sp-menu-item>
-            <sp-menu-item>Triangle</sp-menu-item>
-            <sp-menu-item>Square</sp-menu-item>
-            <sp-menu-item>Hexagon</sp-menu-item>
+            <sp-menu-item value="hexagons">Hexagon</sp-menu-item>
+            <sp-menu-item value="circles">Circle</sp-menu-item>
+            <sp-menu-item value="circulardots">Circular Dot</sp-menu-item>
+            <sp-menu-item value="sunflowerdots">Sunflower Dot</sp-menu-item>
+            <sp-menu-item value="altcircles">Circle 2</sp-menu-item>
+            <sp-menu-item value="squares">Square</sp-menu-item>
+            <sp-menu-item value="crosses">Cross</sp-menu-item>
+            <sp-menu-item value="triangles">Triangle</sp-menu-item>
+            <sp-menu-item value="alttriangles">Triangle 2</sp-menu-item>
+            <sp-menu-item value="diamonds">Diamond</sp-menu-item>
+            <sp-menu-item value="waves">Wave</sp-menu-item>
+            <sp-menu-item value="altsquares">Square 2</sp-menu-item>
         </sp-menu>
     </sp-dropdown>
 </div>
 
 <div class="button-row">
     <label>Choose a shape color</label>
-    <input type="color" />
+    <input type="color" @input=${(e) => scope.chooseColor(e)} />
 </div>
 
 <div class="button-row">
     <label>Choose a shape distance</label>
-    <sp-patched-slider></sp-patched-slider>
+    <sp-patched-slider 
+        @input=${(e) => scope.chooseDistance(e)} 
+        min="5" max="20" step="1" 
+        value=${scope.shapeDistance}>
+    </sp-patched-slider>
 </div>
 
 <label>Blend mode</label>
 <div class="button-row" id="blend-modes">
 ${ForegroundStep.BlendModes.map((blendmode) =>
-    html`<sp-action-button toggles>${blendmode}</sp-action-button>`)}
+    html`<sp-action-button 
+            data-blend=${blendmode.value} 
+            ?selected=${blendmode.value === scope.blendMode}
+            @change=${(e) => scope.chooseBlendMode(e)} 
+            toggles>${blendmode.label}
+    </sp-action-button>`)}
 </div>
 
 <div class="navigation-row">
