@@ -74,10 +74,16 @@ export default class App extends LitElement {
     }
 
     takePhoto() {
-        svgToImage(this.shadowRoot.querySelector('halftone-svg')).then( (result) => {
-            this.foregroundImage = result;
-            this.requestUpdate('foregroundImage');
-        });
+        const halftone = this.shadowRoot.querySelector('halftone-svg');
+        const videoEl = halftone.inputSource;
+        const canvas = document.createElement('canvas');
+        canvas.width = videoEl.videoWidth;
+        canvas.height = videoEl.videoHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
+        const imgdata = canvas.toDataURL(`image/jpg`);
+        this.foregroundImage = imgdata;
+        this.requestUpdate('foregroundImage');
     }
 
     onPropertyChange(event) {
