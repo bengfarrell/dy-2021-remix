@@ -1,1 +1,1 @@
-export { A as default } from './app-2547d520.js';
+export { A as default } from './app-0cde78d4.js';
