@@ -7,7 +7,7 @@ import { Shuffle, Upload } from '../icons.js';
 export const template = function(scope) { return html`
         
 <div class="header">
-    <h2>Step 2</h2>
+    <h2>Step 3</h2>
     <span>Choose a background image</span>
 </div>
 
