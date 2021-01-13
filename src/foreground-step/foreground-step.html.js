@@ -6,7 +6,7 @@ import { Shuffle, Upload, Camera } from '../icons.js';
 export const template = function(scope) { return html`
 
 <div class="header">
-    <h2>Step 2</h2>
+    <h2>Step 1</h2>
     <span>Choose a foreground image</span>
 </div>
 
@@ -26,7 +26,6 @@ export const template = function(scope) { return html`
 </div>
 
 <div class="navigation-row">
-    <sp-button variant="secondary" @click=${() => scope.navigate('back')}>Back</sp-button>
     <sp-button @click=${() => scope.navigate('next')}>Next</sp-button>
 </div>
 `;}

@@ -2,6 +2,7 @@ import {LitElement} from "lit-element";
 import {template} from './app.html.js';
 import {style} from "./app.css.js";
 import {downloadImage, svgToImage} from '../utils/image.js';
+import EventBus from '../eventbus.js';
 
 // global fix for dropdown popper JS in Spectrum Web Components
 window.process = { env : { NODE_ENV: 'nothing' }};
@@ -74,6 +75,10 @@ export default class App extends LitElement {
         ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
         const imgdata = canvas.toDataURL(`image/jpg`);
         this.foregroundImage = imgdata;
+
+        // Doh! This is the one property I need to propagate back up. So throwing an event bus in
+        new EventBus().dispatchEvent(new CustomEvent('cameraframe', { detail: imgdata }));
+
         this.requestUpdate('foregroundImage');
     }
 

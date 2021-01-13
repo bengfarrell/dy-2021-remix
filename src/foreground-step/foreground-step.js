@@ -2,9 +2,14 @@ import {LitElement} from "lit-element";
 import {template} from './foreground-step.html.js';
 import {style} from './foreground-step.css.js';
 import {style as commonstyle} from '../common/steps.css.js';
+import EventBus from '../eventbus.js';
 
 export default class ForegroundStep extends LitElement {
     constructor() {
+        new EventBus().addEventListener('cameraframe', e => {
+            this.currentImage = e.detail;
+        });
+
         super();
 
         /**
@@ -15,7 +20,7 @@ export default class ForegroundStep extends LitElement {
         /**
          * is camera enabled
          */
-        this.cameraEnabled = false
+        this.cameraEnabled = false;
     }
 
     static get styles() {
