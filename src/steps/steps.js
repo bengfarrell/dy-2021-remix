@@ -7,6 +7,24 @@ export default class Steps extends LitElement {
         return [style];
     }
 
+    constructor() {
+        super();
+
+        this.addEventListener('navigate', e => {
+            if (e.detail === 'next') {
+                this.currentStep ++;
+            } else {
+                this.currentStep --;
+            }
+            this.requestUpdate('currentStep');
+        });
+
+        /**
+         * current step index
+         */
+        this.currentStep = 0;
+    }
+
     render() {
         return template(this);
     }

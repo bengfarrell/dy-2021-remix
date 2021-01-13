@@ -18,6 +18,11 @@ export default class FinalStep extends LitElement {
     render() {
         return template(this);
     }
+
+    navigate(direction) {
+        const ce = new CustomEvent('navigate', { detail: direction, composed: true, bubbles: true });
+        this.dispatchEvent(ce);
+    }
 }
 
 customElements.define('remix-final-step', FinalStep);

@@ -8,6 +8,15 @@ export default class BackgroundStep extends LitElement {
         return [style, commonstyle];
     }
 
+    constructor() {
+        super();
+
+        /**
+         * image
+         */
+        this.currentImage = undefined;
+    }
+
     randomImage() {
         const data = [
             './sampleimages/sample1.jpeg',
@@ -18,28 +27,40 @@ export default class BackgroundStep extends LitElement {
             './sampleimages/sample6.jpeg',
             './sampleimages/sample7.jpeg'
         ];
-        const ce = new CustomEvent('propertychange', {
-            detail: {
-                action: 'imagechange',
-                layer: 'background',
-                image: data[parseInt(Math.random() * data.length)]
-            },
-            composed: true, bubbles: true });
-        this.dispatchEvent(ce);
+
+        this.currentImage = data[parseInt(Math.random() * data.length)];
+        this.requestUpdate('currentImage');
+        this.sendEvent();
+    }
+
+    onLocalImage(e) {
+        this.currentImage = URL.createObjectURL(e.target.files[0]);
+        this.requestUpdate('currentImage');
+        this.sendEvent();
     }
 
     uploadImage() {
-        const ce = new CustomEvent('propertychange', {
-            detail: {
-                action: 'imageupload',
-                layer: 'background'
-            },
-            composed: true, bubbles: true });
-        this.dispatchEvent(ce);
+        this.shadowRoot.querySelector('input').click();
     }
 
     render() {
         return template(this);
+    }
+
+    navigate(direction) {
+        const ce = new CustomEvent('navigate', { detail: direction, composed: true, bubbles: true });
+        this.dispatchEvent(ce);
+    }
+
+    sendEvent() {
+        const ce = new CustomEvent('propertychange', {
+            detail: {
+                action: 'imagechange',
+                layer: 'background',
+                image: this.currentImage
+            },
+            composed: true, bubbles: true });
+        this.dispatchEvent(ce);
     }
 }
 

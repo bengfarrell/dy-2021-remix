@@ -8,7 +8,6 @@ import Steps from '../steps/steps.js';
 export const template = function(scope) { return html`
 
 <sp-theme scale="medium" color="light">
-    <input type="file" id="upload" @change=${(e) => scope.onLocalImage(e) } name="img" accept="image/*">
     <remix-steps></remix-steps>
     <halftone-svg 
             blendmode=${scope.blendMode} 

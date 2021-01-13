@@ -25,7 +25,7 @@ export default class App extends LitElement {
         /**
          * background image
          */
-        this.backgroundImage = './sampleimages/sample1.jpeg';
+        this.backgroundImage = undefined;
 
         /**
          * background image
@@ -51,15 +51,6 @@ export default class App extends LitElement {
          * shape color
          */
         this.blendMode = App.DEFAULT_BLENDMODE;
-    }
-
-    onLocalImage(e) {
-        if (this.pendingUploadType === 'background') {
-            this.backgroundImage = URL.createObjectURL(e.target.files[0]);
-        } else {
-            this.foregroundImage = URL.createObjectURL(e.target.files[0]);
-        }
-        this.requestUpdate('backgroundImage');
     }
 
     render() {
@@ -96,11 +87,6 @@ export default class App extends LitElement {
                     this.foregroundImage = event.detail.image;
                     this.requestUpdate('foregroundImage');
                 }
-                break;
-
-            case 'imageupload':
-                this.pendingUploadType = event.detail.layer;
-                this.shadowRoot.querySelector('input').click();
                 break;
 
             case 'shapechange':

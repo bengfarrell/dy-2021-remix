@@ -6,7 +6,7 @@ import { SaveFloppy } from '../icons.js';
 export const template = function(scope) { return html`
 
 <div class="header">
-    <h2>Step 3</h2>
+    <h2>Step 4</h2>
     <span>Share and save your artwork!</span>
 </div>
 
@@ -19,8 +19,11 @@ export const template = function(scope) { return html`
     </sp-action-button>
 </div>
 
+<span>* You’ll be submitting to the DeYoung staff for approval. Check the gallery later to see your creation</span>
+
+<br />
 <div class="navigation-row">
-    <sp-button variant="secondary">Back</sp-button>
-    <sp-button>Finish</sp-button>
+    <sp-button variant="secondary" @click=${() => scope.navigate('back')}>Back</sp-button>
+    <sp-button>Submit & Return to Gallery</sp-button>
 </div>
 `};

@@ -11,6 +11,9 @@ export const template = function(scope) { return html`
     <span>Choose a background image</span>
 </div>
 
+<input type="file" id="upload" @change=${(e) => scope.onLocalImage(e) } name="img" accept="image/*">
+<div id="preview" style="background-image: url(${scope.currentImage})"></div>
+
 <div class="button-row centered">
     <sp-action-button @click=${() => scope.randomImage()} variant="secondary">
         <sp-icon size="s" slot="icon">${Shuffle}</sp-icon> Generate a random image
@@ -21,6 +24,6 @@ export const template = function(scope) { return html`
 </div>
 
 <div class="navigation-row">
-    <sp-button>Next</sp-button>
+    <sp-button @click=${() => scope.navigate('next')}>Next</sp-button>
 </div>
 `};
