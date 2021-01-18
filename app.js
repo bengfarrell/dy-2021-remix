@@ -9262,6 +9262,7 @@ const downloadImage = (htComponent, backgroundImage, filetype = 'jpg') => {
     const imgA = document.createElement('img');
     const imgB = document.createElement('img');
     imgA.crossOrigin = 'anonymous';
+    imgB.crossOrigin = 'anonymous';
     let svg64 = btoa(htComponent.getSVG());
     let b64Start = 'data:image/svg+xml;base64,';
     let image64 = b64Start + svg64;
@@ -9357,7 +9358,7 @@ class App extends LitElement {
 
     constructor() {
         super();
-        console.log('build 2');
+        console.log('build 3');
         this.addEventListener('propertychange', (event) => this.onPropertyChange(event));
         this.addEventListener('save', (event) => this.onSaveImage(event));
         this.addEventListener('takephoto',() => this.takePhoto());
