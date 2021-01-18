@@ -9358,6 +9358,7 @@ class App extends LitElement {
 
     constructor() {
         super();
+        console.log('build 1');
         this.addEventListener('propertychange', (event) => this.onPropertyChange(event));
         this.addEventListener('save', (event) => this.onSaveImage(event));
         this.addEventListener('takephoto',() => this.takePhoto());
