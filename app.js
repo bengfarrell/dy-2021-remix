@@ -4870,7 +4870,6 @@ class BaseHalftoneElement extends HTMLElement {
 
     loadImage(uri) {
         this.inputSource = new Image();
-        console.log('load image');
         this.inputSource.crossOrigin = 'anonymous';
         this.inputSource.addEventListener('load', e => {
             if (this.renderer) {
@@ -9262,6 +9261,8 @@ const downloadImage = (htComponent, backgroundImage, filetype = 'jpg') => {
     let rendered = false;
     const imgA = document.createElement('img');
     const imgB = document.createElement('img');
+    imgA.crossOrigin = 'anonymous';
+    imgB.crossOrigin = 'anonymous';
     let svg64 = btoa(htComponent.getSVG());
     let b64Start = 'data:image/svg+xml;base64,';
     let image64 = b64Start + svg64;
