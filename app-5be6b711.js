@@ -6179,11 +6179,8 @@ class ButtonBase extends LikeAnchor(ObserveSlotText(ObserveSlotPresence(Focusabl
                 break;
         }
     }
-    handleRemoveActive() {
+    handleFocusout() {
         this.active = false;
-    }
-    handlePointerdown() {
-        this.active = true;
     }
     manageRole() {
         if (this.href && this.href.length > 0) {
@@ -6202,7 +6199,6 @@ class ButtonBase extends LikeAnchor(ObserveSlotText(ObserveSlotPresence(Focusabl
         this.addEventListener('click', this.shouldProxyClick);
         this.addEventListener('keydown', this.handleKeydown);
         this.addEventListener('keypress', this.handleKeypress);
-        this.addEventListener('pointerdown', this.handlePointerdown);
     }
     updated(changed) {
         super.updated(changed);
@@ -6214,12 +6210,10 @@ class ButtonBase extends LikeAnchor(ObserveSlotText(ObserveSlotPresence(Focusabl
         }
         if (changed.has('active')) {
             if (this.active) {
-                this.addEventListener('focusout', this.handleRemoveActive);
-                this.addEventListener('pointerup', this.handleRemoveActive);
+                this.addEventListener('focusout', this.handleFocusout);
             }
             else {
-                this.removeEventListener('focusout', this.handleRemoveActive);
-                this.removeEventListener('pointerup', this.handleRemoveActive);
+                this.removeEventListener('focusout', this.handleFocusout);
             }
         }
         if (this.anchorElement) {
@@ -6338,15 +6332,15 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-const Asterisk100Icon = () => {
+const Checkmark100Icon = () => {
     return tag `<svg
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 8 8"
+    viewBox="0 0 10 10"
     aria-hidden="true"
     fill="currentColor"
   >
     <path
-      d="M6.575 6.555c.055.056.092.13 0 .2l-1.149.741c-.092.056-.129.019-.166-.074L3.834 4.94 1.963 7c-.019.036-.074.073-.129 0l-.889-.927c-.093-.055-.074-.111 0-.166l2.111-1.76L.648 3.24c-.037 0-.092-.074-.056-.167l.63-1.259a.097.097 0 01.167-.036L3.5 3.148l.13-2.7a.1.1 0 01.081-.111.15.15 0 01.03 0l1.537.2c.093 0 .111.037.093.13l-.723 2.647 2.445-.741c.055-.037.111-.037.148.074l.241 1.37c.018.093 0 .13-.074.13l-2.556.2z"
+      d="M3.5 9.5a.999.999 0 01-.774-.368l-2.45-3a1 1 0 111.548-1.264l1.657 2.028 4.68-6.01A1 1 0 019.74 2.114l-5.45 7a1 1 0 01-.777.386z"
     />
   </svg>`;
 };
@@ -6362,7 +6356,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-const Checkmark100Icon = () => {
+const Chevron100Icon = () => {
     return tag `<svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 10 10"
@@ -6370,7 +6364,7 @@ const Checkmark100Icon = () => {
     fill="currentColor"
   >
     <path
-      d="M3.5 9.5a.999.999 0 01-.774-.368l-2.45-3a1 1 0 111.548-1.264l1.657 2.028 4.68-6.01A1 1 0 019.74 2.114l-5.45 7a1 1 0 01-.777.386z"
+      d="M3 9.95a.875.875 0 01-.615-1.498L5.88 5 2.385 1.547A.875.875 0 013.615.302L7.74 4.377a.876.876 0 010 1.246L3.615 9.698A.872.872 0 013 9.95z"
     />
   </svg>`;
 };
@@ -6794,179 +6788,11 @@ const SaveFloppy = svg`<svg xmlns="http://www.w3.org/2000/svg" height="18" viewB
   <path fill="#747474" d="M15.854,4.1465s-2.0075-2-2.073-2.057A.48449.48449,0,0,0,13.5,2H13V6H7V2H2.5a.5.5,0,0,0-.5.5v13a.5.5,0,0,0,.5.5h13a.5.5,0,0,0,.5-.5V4.5A.5.5,0,0,0,15.854,4.1465ZM13,15H5V8h8Z" />
 </svg>`;
 
-const PaintPalette = svg`<svg xmlns="http://www.w3.org/2000/svg" width="74.904" height="75" viewBox="0 0 74.904 75">
-  <g transform="translate(-81.024 -80.054)">
-    <path d="M118.082,127.5a5.116,5.116,0,0,1,5.254,1.241c.288.31.643.754,1.064,1.264,2.35,2.882,6.739,8.224,14.209,8.224a19.167,19.167,0,0,0,6.362-1.175c5.187-1.84,8.712-6.473,10.2-13.367a35.051,35.051,0,0,0,.687-9.487,35.97,35.97,0,0,0-13.3-25.425,40.3,40.3,0,0,0-3.768-2.815,34.894,34.894,0,0,0-14.054-5.475,40.426,40.426,0,0,0-9.554-.266A36.621,36.621,0,0,0,89.753,93.5l-.022.022a36.736,36.736,0,0,0-8.556,27.354,36.212,36.212,0,0,0,13.3,25.425c7.226,6.052,14.342,8.756,23.009,8.756h.222c3.924-.022,6.827-1.618,7.758-4.278,1.286-3.68-1.352-8.224-7.869-13.477-2.571-2.084-3.791-4.256-3.392-6.14A5.251,5.251,0,0,1,118.082,127.5Zm-3.259,13.211c5.83,4.7,6.805,7.6,6.473,8.579-.266.776-1.751,1.308-3.613,1.33h-.2c-7.67,0-13.7-2.305-20.172-7.714A31.53,31.53,0,0,1,85.585,120.5a33.057,33.057,0,0,1,29.969-35.888,35.006,35.006,0,0,1,8.49.244,30.22,30.22,0,0,1,12.28,4.788.022.022,0,0,1,.022.022,35.306,35.306,0,0,1,3.347,2.5,31.377,31.377,0,0,1,11.726,22.411c.022.155,1.175,15.051-7.936,18.31-8.512,3.037-12.812-2.217-15.672-5.675-.465-.576-.865-1.064-1.264-1.485a9.459,9.459,0,0,0-9.709-2.461,9.6,9.6,0,0,0-6.983,7C108.883,135.06,112.562,138.873,114.823,140.713Z"/>
-    <path data-name="Path 1627" d="M200.776,132.638a6.938,6.938,0,1,0-6.938,6.938A6.949,6.949,0,0,0,200.776,132.638Zm-9.465,0a2.5,2.5,0,1,1,2.5,2.5A2.5,2.5,0,0,1,191.311,132.638Z" transform="translate(-82.406 -35.527)"/>
-    <path d="M267.338,139.676a6.938,6.938,0,1,0-6.938-6.938A6.949,6.949,0,0,0,267.338,139.676Zm0-9.465a2.5,2.5,0,1,1-2.5,2.5A2.5,2.5,0,0,1,267.338,130.211Z" transform="translate(-139.614 -35.605)"/>
-    <path d="M312.9,182.538a6.938,6.938,0,1,0,6.938-6.938A6.949,6.949,0,0,0,312.9,182.538Zm6.938-2.5a2.5,2.5,0,1,1-2.5,2.5A2.5,2.5,0,0,1,319.838,180.033Z" transform="translate(-180.476 -74.366)"/>
-    <path d="M138.838,179.5a6.938,6.938,0,1,0,6.938,6.938A6.949,6.949,0,0,0,138.838,179.5Zm0,9.465a2.5,2.5,0,1,1,2.5-2.5A2.5,2.5,0,0,1,138.838,188.965Z" transform="translate(-39.598 -77.402)"/>
-  </g>
-</svg>`;
-
-const FloppyDisk = svg`<svg xmlns="http://www.w3.org/2000/svg" width="67.457" height="74" viewBox="0 0 67.457 74">
-  <g transform="translate(-6.7 -2.5)">
-    <path d="M71.742,19.481,57.176,4.915A8.3,8.3,0,0,0,51.256,2.5H12.7a6,6,0,0,0-6,6v62a6,6,0,0,0,6,6H68.159a6,6,0,0,0,6-6V25.4A8.574,8.574,0,0,0,71.742,19.481ZM23.525,7.329H35.287v6.855H23.525ZM69.327,70.5a1.2,1.2,0,0,1-1.168,1.168H12.7A1.2,1.2,0,0,1,11.529,70.5V8.5A1.2,1.2,0,0,1,12.7,7.329h6V16.6a2.427,2.427,0,0,0,2.415,2.415H37.624A2.427,2.427,0,0,0,40.039,16.6V7.329H51.256a3.751,3.751,0,0,1,2.493,1.013L68.315,22.908A3.41,3.41,0,0,1,69.327,25.4V70.5Z"/>
-    <path d="M63.151,34.3H24.515A2.427,2.427,0,0,0,22.1,36.715v32.4a2.427,2.427,0,0,0,2.415,2.415H63.151a2.427,2.427,0,0,0,2.415-2.415v-32.4A2.427,2.427,0,0,0,63.151,34.3ZM60.736,66.7H26.929V39.129H60.736Z" transform="translate(-3.404 -7.029)"/>
-    <path d="M37.515,53.529H55.9a2.415,2.415,0,0,0,0-4.829H37.515a2.415,2.415,0,0,0,0,4.829Z" transform="translate(-6.278 -10.213)"/>
-    <path d="M37.515,66.329H55.9a2.415,2.415,0,0,0,0-4.829H37.515a2.415,2.415,0,0,0,0,4.829Z" transform="translate(-6.278 -13.042)"/>
-  </g>
-</svg>
-`;
-
-const ShapeCircle = svg`<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
-  <g stroke-width="3">
-    <circle cx="20" cy="20" r="20" stroke="none" fill="none"/>
-    <circle cx="20" cy="20" r="18.5" fill="none"/>
-  </g>
-</svg>`;
-
-const ShapeTwoCircles = svg`<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
-  <g transform="translate(-1041 6474)">
-    <g transform="translate(1041 -6463)" fill="none" stroke-width="3">
-      <circle cx="14.5" cy="14.5" r="14.5" stroke="none"/>
-      <circle cx="14.5" cy="14.5" r="13" fill="none"/>
-    </g>
-    <g transform="translate(1063 -6474)" fill="none" stroke-width="3">
-      <circle cx="9" cy="9" r="9" stroke="none"/>
-      <circle cx="9" cy="9" r="7.5" fill="none"/>
-    </g>
-  </g>
-</svg>`;
-
-const ShapeHexagon = svg`<svg xmlns="http://www.w3.org/2000/svg" width="44.819" height="37.19" viewBox="0 0 44.819 37.19">
-  <g fill="none">
-    <path style="fill: none" d="M31.354,0A4,4,0,0,1,34.78,1.936l8.794,14.6a4,4,0,0,1,0,4.129l-8.794,14.6a4,4,0,0,1-3.426,1.936H13.464a4,4,0,0,1-3.426-1.936L1.244,20.659a4,4,0,0,1,0-4.129L10.038,1.936A4,4,0,0,1,13.464,0Z" stroke="none" />
-    <path d="M 13.4644718170166 3 C 13.11600112915039 3 12.78779983520508 3.185420989990234 12.60795211791992 3.483890533447266 L 3.813522338867188 18.07889938354492 C 3.621700286865234 18.39723968505859 3.621700286865234 18.79275894165039 3.813529968261719 19.11110877990723 L 12.60795211791992 33.70610809326172 C 12.78779983520508 34.00457763671875 13.11600112915039 34.18999862670898 13.4644718170166 34.18999862670898 L 31.35424041748047 34.18999862670898 C 31.70272064208984 34.18999862670898 32.03092193603516 34.00457763671875 32.21076965332031 33.70610809326172 L 41.00519943237305 19.11109924316406 C 41.197021484375 18.79275894165039 41.197021484375 18.39723968505859 41.00519180297852 18.07888984680176 L 32.21078109741211 3.483898162841797 C 32.03092193603516 3.185420989990234 31.70272064208984 3 31.35425186157227 3 L 13.4644718170166 3 M 13.4644718170166 0 L 31.35425186157227 0 C 32.75661087036133 0 34.05656051635742 0.7343978881835938 34.78034210205078 1.935558319091797 L 43.57476043701172 16.53055953979492 C 44.33998107910156 17.80048942565918 44.33998107910156 19.3895092010498 43.57476043701172 20.65943908691406 L 34.78034210205078 35.25444030761719 C 34.05656051635742 36.45558929443359 32.75661087036133 37.18999862670898 31.35424041748047 37.18999862670898 L 13.4644718170166 37.18999862670898 C 12.06209945678711 37.18999862670898 10.76214981079102 36.45558929443359 10.03837966918945 35.25444030761719 L 1.243961334228516 20.65943908691406 C 0.4787406921386719 19.3895092010498 0.4787406921386719 17.80048942565918 1.243961334228516 16.53055953979492 L 10.03837966918945 1.935558319091797 C 10.76216125488281 0.7343978881835938 12.06211090087891 0 13.4644718170166 0 Z" stroke="none" fill="none"/>
-  </g>
-</svg>
-`;
-
-const ShapeSpiral = svg`<svg xmlns="http://www.w3.org/2000/svg" width="42.573" height="43" viewBox="0 0 42.573 43">
-  <path style="fill: none" d="M728.915,308.882a23.883,23.883,0,0,1-34.315,0,20.177,20.177,0,0,1,0-28.079,15.285,15.285,0,0,1,21.961,0,12.913,12.913,0,0,1,0,17.97,9.782,9.782,0,0,1-14.055,0,8.264,8.264,0,0,1,0-11.5,6.261,6.261,0,0,1,9,0,5.289,5.289,0,0,1,0,7.361,4.007,4.007,0,0,1-5.757,0,3.385,3.385,0,0,1,0-4.711" transform="translate(-687.415 -274.651)" fill="none" stroke-miterlimit="10" stroke-width="3"/>
-</svg>`;
-
-const ShapeSunflower = svg`<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
-  <g transform="translate(-990.285 6473.716)">
-    <g transform="translate(0.285 0.284)">
-      <g transform="translate(1003 -6461)" fill="none" stroke-width="3">
-        <circle cx="7" cy="7" r="7" stroke="none"/>
-        <circle cx="7" cy="7" r="5.5" fill="none"/>
-      </g>
-      <g>
-        <g transform="translate(1006 -6474)" fill="none" stroke-width="3">
-          <ellipse cx="4" cy="7" rx="4" ry="7" stroke="none"/>
-          <ellipse cx="4" cy="7" rx="2.5" ry="5.5" fill="none"/>
-        </g>
-        <g transform="translate(1006 -6448)" fill="none" stroke-width="3">
-          <ellipse cx="4" cy="7" rx="4" ry="7" stroke="none"/>
-          <ellipse cx="4" cy="7" rx="2.5" ry="5.5" fill="none"/>
-        </g>
-        <g transform="translate(-5444 -7464) rotate(90)">
-          <g transform="translate(1014 -6460) rotate(180)" fill="none" stroke-width="3">
-            <ellipse cx="4" cy="7" rx="4" ry="7" stroke="none"/>
-            <ellipse cx="4" cy="7" rx="2.5" ry="5.5" fill="none"/>
-          </g>
-          <g transform="translate(1014 -6434) rotate(180)" fill="none" stroke-width="3">
-            <ellipse cx="4" cy="7" rx="4" ry="7" stroke="none"/>
-            <ellipse cx="4" cy="7" rx="2.5" ry="5.5" fill="none"/>
-          </g>
-        </g>
-      </g>
-      <g transform="translate(-4267.845 -2604.511) rotate(45)">
-        <g transform="translate(1006 -6474)" fill="none" stroke-width="3">
-          <ellipse cx="4" cy="7" rx="4" ry="7" stroke="none"/>
-          <ellipse cx="4" cy="7" rx="2.5" ry="5.5" fill="none"/>
-        </g>
-        <g transform="translate(1006 -6448)" fill="none" stroke-width="3">
-          <ellipse cx="4" cy="7" rx="4" ry="7" stroke="none"/>
-          <ellipse cx="4" cy="7" rx="2.5" ry="5.5" fill="none"/>
-        </g>
-        <g transform="translate(-5444 -7464) rotate(90)">
-          <g transform="translate(1014 -6460) rotate(180)" fill="none" stroke-width="3">
-            <ellipse cx="4" cy="7" rx="4" ry="7" stroke="none"/>
-            <ellipse cx="4" cy="7" rx="2.5" ry="5.5" fill="none"/>
-          </g>
-          <g transform="translate(1014 -6434) rotate(180)" fill="none" stroke-width="3">
-            <ellipse cx="4" cy="7" rx="4" ry="7" stroke="none"/>
-            <ellipse cx="4" cy="7" rx="2.5" ry="5.5" fill="none"/>
-          </g>
-        </g>
-      </g>
-    </g>
-  </g>
-</svg>`;
-
-const ShapeSquare = svg`<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
-  <g fill="none" stroke="#707070" stroke-width="3">
-    <rect width="40" height="40" rx="4" stroke="none"/>
-    <rect x="1.5" y="1.5" width="37" height="37" rx="2.5" fill="none"/>
-  </g>
-</svg>`;
-
-const ShapeCross = svg`<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
-  <g fill="none">
-    <path style="fill: none" d="M15.282,40a4,4,0,0,1-4-4V28.718H4a4,4,0,0,1-4-4V15.282a4,4,0,0,1,4-4h7.283V4a4,4,0,0,1,4-4h9.436a4,4,0,0,1,4,4v7.283H36a4,4,0,0,1,4,4v9.436a4,4,0,0,1-4,4H28.718V36a4,4,0,0,1-4,4Z" stroke="none"/>
-    <path d="M 24.71759986877441 37.0004997253418 C 25.26927947998047 37.0004997253418 25.71809959411621 36.55168151855469 25.71809959411621 36 L 25.71809959411621 28.71809959411621 L 25.71809959411621 25.71809959411621 L 28.71809959411621 25.71809959411621 L 36 25.71809959411621 C 36.55117797851562 25.71809959411621 36.99959945678711 25.26968002319336 36.99959945678711 24.7185001373291 L 36.99959945678711 15.2819995880127 C 36.99959945678711 14.73081970214844 36.55117797851562 14.28240013122559 36 14.28240013122559 L 28.71809959411621 14.28240013122559 L 25.71809959411621 14.28240013122559 L 25.71809959411621 11.28240013122559 L 25.71809959411621 3.999599933624268 C 25.71809959411621 3.448419809341431 25.26927947998047 2.999999761581421 24.71759986877441 2.999999761581421 L 15.2819995880127 2.999999761581421 C 14.73081970214844 2.999999761581421 14.28240013122559 3.448419809341431 14.28240013122559 3.999599933624268 L 14.28240013122559 11.28240013122559 L 14.28240013122559 14.28240013122559 L 11.28240013122559 14.28240013122559 L 3.999599695205688 14.28240013122559 C 3.448419809341431 14.28240013122559 2.999999761581421 14.73081970214844 2.999999761581421 15.2819995880127 L 2.999999761581421 24.7185001373291 C 2.999999761581421 25.26968002319336 3.448419809341431 25.71809959411621 3.999599695205688 25.71809959411621 L 11.28240013122559 25.71809959411621 L 14.28240013122559 25.71809959411621 L 14.28240013122559 28.71809959411621 L 14.28240013122559 36 C 14.28240013122559 36.55168151855469 14.73081970214844 37.0004997253418 15.2819995880127 37.0004997253418 L 24.71759986877441 37.0004997253418 M 24.71759986877441 40.0004997253418 L 15.2819995880127 40.0004997253418 C 13.07249927520752 40.0004997253418 11.28240013122559 38.20949935913086 11.28240013122559 36 L 11.28240013122559 28.71809959411621 L 3.999599695205688 28.71809959411621 C 1.79099977016449 28.71809959411621 -2.716064386731887e-07 26.92709922790527 -2.716064386731887e-07 24.7185001373291 L -2.716064386731887e-07 15.2819995880127 C -2.716064386731887e-07 13.07339954376221 1.79099977016449 11.28240013122559 3.999599695205688 11.28240013122559 L 11.28240013122559 11.28240013122559 L 11.28240013122559 3.999599933624268 C 11.28240013122559 1.790999889373779 13.07249927520752 -1.373290956507844e-07 15.2819995880127 -1.373290956507844e-07 L 24.71759986877441 -1.373290956507844e-07 C 26.92709922790527 -1.373290956507844e-07 28.71809959411621 1.790999889373779 28.71809959411621 3.999599933624268 L 28.71809959411621 11.28240013122559 L 36 11.28240013122559 C 38.20859909057617 11.28240013122559 39.99959945678711 13.07339954376221 39.99959945678711 15.2819995880127 L 39.99959945678711 24.7185001373291 C 39.99959945678711 26.92709922790527 38.20859909057617 28.71809959411621 36 28.71809959411621 L 28.71809959411621 28.71809959411621 L 28.71809959411621 36 C 28.71809959411621 38.20949935913086 26.92709922790527 40.0004997253418 24.71759986877441 40.0004997253418 Z" stroke="none"/>
-  </g>
-</svg>
-`;
-
-const ShapeTriangle = svg`<svg xmlns="http://www.w3.org/2000/svg" width="46.316" height="40" viewBox="0 0 46.316 40">
-  <g fill="none">
-    <path style="fill: none" d="M19.7,5.979a4,4,0,0,1,6.923,0L42.84,34a4,4,0,0,1-3.462,6H6.938a4,4,0,0,1-3.462-6Z" stroke="none"/>
-    <path d="M 23.15789222717285 6.983444213867188 C 22.94257164001465 6.983444213867188 22.5438117980957 7.048263549804688 22.29247283935547 7.482414245605469 L 6.072360992431641 35.49896240234375 C 5.820491790771484 35.93400573730469 5.963691711425781 36.31255340576172 6.071460723876953 36.49948501586914 C 6.179241180419922 36.6864128112793 6.435100555419922 37.00000381469727 6.937793731689453 37.00000381469727 L 39.37800216674805 37.00000381469727 C 39.88068389892578 37.00000381469727 40.13654327392578 36.6864128112793 40.24432373046875 36.49948501586914 C 40.35209274291992 36.31255340576172 40.49529266357422 35.93400573730469 40.24342346191406 35.49896240234375 L 24.02332305908203 7.482414245605469 C 23.77197265625 7.048263549804688 23.37321281433105 6.983444213867188 23.15789222717285 6.983444213867188 M 23.15789413452148 3.983448028564453 C 24.50358200073242 3.983448028564453 25.84927177429199 4.648735046386719 26.61960220336914 5.979305267333984 L 42.83970260620117 33.99585342407227 C 44.38356399536133 36.66251373291016 42.45932388305664 40.00000381469727 39.37800216674805 40.00000381469727 L 6.937793731689453 40.00000381469727 C 3.856460571289062 40.00000381469727 1.932220458984375 36.66251373291016 3.476081848144531 33.99585342407227 L 19.69619178771973 5.979305267333984 C 20.46651649475098 4.648735046386719 21.81220436096191 3.983448028564453 23.15789413452148 3.983448028564453 Z" stroke="none"/>
-  </g>
-</svg>`;
-
-const ShapeTwoTriangles = svg`<svg xmlns="http://www.w3.org/2000/svg" width="45.895" height="44" viewBox="0 0 45.895 44">
-  <g transform="translate(-927 6418)">
-    <g transform="translate(936.579 -6418)" fill="none">
-      <path style="fill: none" d="M14.706,5.893a4,4,0,0,1,6.9,0L32.789,24.978A4,4,0,0,1,29.337,31H6.979a4,4,0,0,1-3.451-6.022Z" stroke="none"/>
-      <path d="M 18.15789413452148 6.914236068725586 C 17.94382476806641 6.914236068725586 17.54707336425781 6.978485107421875 17.29501342773438 7.408815383911133 L 6.115743637084961 26.49457550048828 C 5.860933303833008 26.92961502075195 6.003423690795898 27.30953598022461 6.111034393310547 27.49728584289551 C 6.218643188476562 27.68503570556641 6.474464416503906 28.0000057220459 6.97862434387207 28.0000057220459 L 29.3371639251709 28.0000057220459 C 29.84132385253906 28.0000057220459 30.09714508056641 27.68503570556641 30.20475387573242 27.49728584289551 C 30.31236457824707 27.30953598022461 30.45485305786133 26.92961502075195 30.20004463195801 26.49458503723145 L 19.02077484130859 7.408815383911133 C 18.76871490478516 6.978485107421875 18.37196350097656 6.914236068725586 18.15789413452148 6.914236068725586 M 18.15789413452148 3.91423225402832 C 19.49738311767578 3.91423225402832 20.83686828613281 4.573671340942383 21.60939407348633 5.892555236816406 L 32.78866577148438 24.97832489013672 C 34.3505859375 27.64491653442383 32.42752456665039 31.0000057220459 29.3371639251709 31.0000057220459 L 6.97862434387207 31.0000057220459 C 3.888263702392578 31.0000057220459 1.965202331542969 27.64491653442383 3.527122497558594 24.97832489013672 L 14.70639419555664 5.892555236816406 C 15.47891426086426 4.573675155639648 16.81840515136719 3.91423225402832 18.15789413452148 3.91423225402832 Z" stroke="none"/>
-    </g>
-    <g transform="translate(927 -6394)" fill="none">
-      <path style="fill: none" d="M8.117,5.979a4,4,0,0,1,6.923,0L19.682,14a4,4,0,0,1-3.462,6H6.938a4,4,0,0,1-3.462-6Z" stroke="none"/>
-      <path d="M 11.57879638671875 6.983451843261719 C 11.36347579956055 6.983451843261719 10.96472549438477 7.048273086547852 10.71337604522705 7.482421875 L 6.072366714477539 15.49872207641602 C 5.82049560546875 15.93376159667969 5.963685989379883 16.31231307983398 6.071466445922852 16.49923324584961 C 6.179235458374023 16.6861629486084 6.435096740722656 16.99975204467773 6.937786102294922 16.99975204467773 L 16.21982574462891 16.99975204467773 C 16.72251510620117 16.99975204467773 16.9783763885498 16.6861629486084 17.08614540100098 16.49923324584961 C 17.19392585754395 16.31231307983398 17.33711624145508 15.93376159667969 17.08524703979492 15.49872207641602 L 12.44422626495361 7.482421875 C 12.19287586212158 7.048273086547852 11.79411602020264 6.983451843261719 11.57879638671875 6.983451843261719 M 11.57880115509033 3.983457565307617 C 12.92448806762695 3.983457565307617 14.27017593383789 4.64874267578125 15.04050636291504 5.979312896728516 L 19.68152618408203 13.99561214447021 C 21.22538566589355 16.66227340698242 19.30115509033203 19.99975204467773 16.21982574462891 19.99975204467773 L 6.937786102294922 19.99975204467773 C 3.856456756591797 19.99975204467773 1.932226181030273 16.66227340698242 3.476085662841797 13.99561214447021 L 8.117095947265625 5.979312896728516 C 8.887426376342773 4.64874267578125 10.23311328887939 3.983457565307617 11.57880115509033 3.983457565307617 Z" stroke="none"/>
-    </g>
-  </g>
-</svg>`;
-
-const ShapeDiamond = svg`<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42">
-  <g fill="none">
-    <path style="fill: none" d="M18.172,2.828a4,4,0,0,1,5.657,0L39.172,18.172a4,4,0,0,1,0,5.657L23.828,39.172a4,4,0,0,1-5.657,0L2.828,23.828a4,4,0,0,1,0-5.657Z" stroke="none"/>
-    <path d="M 21 4.656852722167969 C 20.84530067443848 4.656852722167969 20.5477294921875 4.694900512695312 20.29289054870605 4.949741363525391 L 4.949748992919922 20.29289245605469 C 4.694908142089844 20.54773139953613 4.656848907470703 20.84530258178711 4.656848907470703 21.00000190734863 C 4.656848907470703 21.15469169616699 4.694908142089844 21.45226097106934 4.949748992919922 21.70710182189941 L 20.29289054870605 37.05025100708008 C 20.5477294921875 37.30509185791016 20.84530067443848 37.34314346313477 21 37.34314346313477 C 21.15469932556152 37.34314346313477 21.4522705078125 37.30509185791016 21.70710945129395 37.05025100708008 L 37.05025100708008 21.70711135864258 C 37.30509185791016 21.45227241516113 37.3431396484375 21.15470123291016 37.3431396484375 21.00000190734863 C 37.3431396484375 20.84530258178711 37.30509185791016 20.54773139953613 37.05025100708008 20.29289245605469 L 21.70710945129395 4.949741363525391 C 21.4522705078125 4.694900512695312 21.15469932556152 4.656852722167969 21 4.656852722167969 M 21 1.656852722167969 C 22.02368927001953 1.656852722167969 23.0473804473877 2.047378540039062 23.82843017578125 2.828422546386719 L 39.17156982421875 18.17157173156738 C 40.73366928100586 19.73367118835449 40.73366928100586 22.26633262634277 39.17156982421875 23.82843208312988 L 23.82843017578125 39.17157363891602 C 23.0473804473877 39.95262145996094 22.02368927001953 40.34314727783203 21 40.34314727783203 C 19.97631072998047 40.34314727783203 18.9526195526123 39.95262145996094 18.17156982421875 39.17157363891602 L 2.82843017578125 23.82842254638672 C 1.266330718994141 22.26633262634277 1.266330718994141 19.73367118835449 2.82843017578125 18.17157173156738 L 18.17156982421875 2.828422546386719 C 18.9526195526123 2.047378540039062 19.97631072998047 1.656852722167969 21 1.656852722167969 Z" stroke="none"/>
-  </g>
-</svg>`;
-
-const ShapeWaves = svg`<svg xmlns="http://www.w3.org/2000/svg" width="39.013" height="30.806" viewBox="0 0 39.013 30.806">
-  <g transform="translate(-1029.752 6405.403)">
-    <path style="fill: none" d="M1029.764-6388h5.622s13.647-18.315,10.579-9.507,2.556,9.507,2.556,9.507h20.244" transform="translate(0 -4)" fill="none" stroke-width="3"/>
-    <path style="fill: none" d="M1029.752-6388H1049s13.647-18.315,10.579-9.507,2.556,9.507,2.556,9.507h6.522" transform="translate(0 11.903)" fill="none" stroke-width="3"/>
-  </g>
-</svg>`;
-
-const ShapeTwoSquares = svg`<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
-  <g transform="translate(-1085 6408)">
-    <g transform="translate(1109 -6408)" fill="none" stroke-width="3">
-      <rect width="16" height="16" rx="4" stroke="none"/>
-      <rect x="1.5" y="1.5" width="13" height="13" rx="2.5" fill="none"/>
-    </g>
-    <g transform="translate(1085 -6395)" fill="none" stroke-width="3">
-      <rect width="27" height="27" rx="4" stroke="none"/>
-      <rect x="1.5" y="1.5" width="24" height="24" rx="2.5" fill="none"/>
-    </g>
-  </g>
-</svg>`;
-
 const template = function(scope) { return html`
         
 <div class="header">
-    <div class="preview" style="background-image: url(${scope.currentImage})"></div>
-    <div>
-        <h2>Step 1</h2>
-        <span>Choose a background image</span>
-    </div>
+    <h2>Step 3</h2>
+    <span>Choose a background image</span>
 </div>
 
 <input type="file" id="upload" @change=${(e) => scope.onLocalImage(e) } name="img" accept="image/*">
@@ -6982,6 +6808,7 @@ const template = function(scope) { return html`
 </div>
 
 <div class="navigation-row">
+    <sp-button variant="secondary" @click=${() => scope.navigate('back')}>Back</sp-button>
     <sp-button @click=${() => scope.navigate('next')}>Next</sp-button>
 </div>
 `};
@@ -7001,7 +6828,6 @@ const style$1 = css`
     }
   
     :host([disabled]) {
-        min-height: 120px;
         height: 120px;
         background-color: #F4F4F4;
         color: #b8b8b8;
@@ -7010,37 +6836,12 @@ const style$1 = css`
     }
     
     :host([disabled]) .header {
-        margin-top: 10px;
+        margin-top: 25px;
         margin-bottom: 200px;
-    }
-
-    :host([disabled]) .header .preview {
-      display: inline-block;
-    }
+    } 
   
     .header {
         margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-    }
-    
-    .header .preview {
-        width: 98px;
-        height: 74px;
-        border-style: solid;
-        border-width: 1px;
-        border-color: #D3D3D3;
-        border-radius: 5px;
-        margin-right: 15px;
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        display: none;
-    }
-
-    .header .preview.illustrated {
-      border: none;
-      text-align: center;
     }
     
     .header h2 {
@@ -7054,8 +6855,7 @@ const style$1 = css`
         font-size: 18px;
     }
     
-    .button-row,
-    .form-row {
+    .button-row {
         display: flex;
         align-items: center;
         margin-bottom: 25px;
@@ -7078,6 +6878,14 @@ const style$1 = css`
         margin-right: 15px;
     }
 
+    label {
+        color: #747474;
+        display: inline-block;
+        font-size: 15px;
+        margin-bottom: 5px;
+        margin-right: 5px;
+    }
+
     input#upload {
         display: none;
     }
@@ -7095,50 +6903,6 @@ const style$1 = css`
     }
 `;
 
-const params = new URLSearchParams(document.location.href.split('?')[1] );
-const ASSET_CATEGORY = 'layer'; // composite, or all
-const IMAGE_URI = 'https://artparty.ctlprojects.com';
-const ASSETS_PER_FETCH = 30;
-
-let assets = [];
-
-const getRandomResult = async () => {
-    if (assets.length === 0) {
-        console.log('make request');
-        const results = await fetchAssetSet();
-        if (results.assets) {
-            assets = results.assets;
-        }
-    }
-    return assets.pop();
-};
-
-const getRandomImage = async () => {
-    const asset = await getRandomResult();
-    return getAssetImage(asset);
-};
-
-const fetchAssetSet = () => {
-    const serverUrl = `https://artparty.ctlprojects.com/list/${ASSET_CATEGORY}?count=${ASSETS_PER_FETCH}&random=${Date.now()}`;
-    const targetUrl = params.has('dataurl') ? params.get('datarul') || './assets/sampledata.json' : serverUrl;
-    const proxyUrl = params.has('proxy') ? (params.get('proxy') || 'https://cors-anywhere.herokuapp.com') : undefined;
-    const uri = proxyUrl ? `${proxyUrl}/${targetUrl}` : `${targetUrl}`;
-
-    return fetch(uri)
-        .then(blob => blob.json())
-        .then(data => {
-            return data;
-        })
-        .catch(e => {
-            console.error(e);
-            return e;
-        });
-};
-
-const getAssetImage = (item) => {
-    return `${IMAGE_URI}/image/${item.asset_type}/${item.unique_id}`;
-};
-
 class BackgroundStep extends LitElement {
     static get styles() {
         return [style, style$1];
@@ -7151,26 +6915,20 @@ class BackgroundStep extends LitElement {
          * image
          */
         this.currentImage = undefined;
-
-        /**
-         * backgroundParamUsed
-         * has the background GET param been used? We only want it to set the image on inital load
-         */
-        this.backgroundParamUsed = false;
     }
 
-    updated(changedProperties) {
-        const params = new URLSearchParams(document.location.href.split('?')[1] );
-        if (params.has('background') && !this.backgroundParamUsed) {
-            this.currentImage = params.get('background');
-            this.backgroundParamUsed = true;
-            this.requestUpdate('currentImage');
-            this.sendEvent();
-        }
-    }
+    randomImage() {
+        const data = [
+            './sampleimages/sample1.jpeg',
+            './sampleimages/sample2.jpeg',
+            './sampleimages/sample3.jpeg',
+            './sampleimages/sample4.jpeg',
+            './sampleimages/sample5.jpeg',
+            './sampleimages/sample6.jpeg',
+            './sampleimages/sample7.jpeg'
+        ];
 
-    async randomImage() {
-        this.currentImage = await getRandomImage();
+        this.currentImage = data[parseInt(Math.random() * data.length)];
         this.requestUpdate('currentImage');
         this.sendEvent();
     }
@@ -7211,12 +6969,10 @@ customElements.define('remix-background-step', BackgroundStep);
 const template$1 = function(scope) { return html`
 
 <div class="header">
-    <div class="preview" style="background-image: url(${scope.currentImage})"></div>
-    <div>
-        <h2>Step 2</h2>
-        <span>Add another image on top</span>
-    </div>
+    <h2>Step 1</h2>
+    <span>Choose a foreground image</span>
 </div>
+
 <input type="file" id="upload" @change=${(e) => scope.onLocalImage(e) } name="img" accept="image/*">
 <div id="preview" style="background-image: url(${scope.currentImage})"></div>
 
@@ -7233,7 +6989,6 @@ const template$1 = function(scope) { return html`
 </div>
 
 <div class="navigation-row">
-    <sp-button variant="secondary" @click=${() => scope.navigate('back')}>Back</sp-button>
     <sp-button @click=${() => scope.navigate('next')}>Next</sp-button>
 </div>
 `;};
@@ -7334,9 +7089,19 @@ class ForegroundStep extends LitElement {
         return [style$2, style$1];
     }
 
-    async randomImage() {
+    randomImage() {
         this.cameraEnabled = false;
-        this.currentImage = await getRandomImage();
+        const data = [
+            './sampleimages/sample1.jpeg',
+            './sampleimages/sample2.jpeg',
+            './sampleimages/sample3.jpeg',
+            './sampleimages/sample4.jpeg',
+            './sampleimages/sample5.jpeg',
+            './sampleimages/sample6.jpeg',
+            './sampleimages/sample7.jpeg'
+        ];
+
+        this.currentImage = data[parseInt(Math.random() * data.length)];
         this.requestUpdate('currentImage');
         this.sendEvent();
     }
@@ -7406,18 +7171,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 const styles$c = css `
-:host{display:flex;flex-wrap:wrap}::slotted(*){flex-shrink:0}:host(:not([vertical]):not([compact])){margin-top:calc(-1*var(--spectrum-actiongroup-button-gap-y, var(--spectrum-global-dimension-size-100)))}:host(:not([vertical]):not([compact])) ::slotted(*){flex-shrink:0;margin-top:var(--spectrum-actiongroup-button-gap-y,var(--spectrum-global-dimension-size-100))}:host([dir=ltr]:not([vertical]):not([compact])) ::slotted(:not(:last-child)){margin-right:var(--spectrum-actiongroup-button-gap-x,var(--spectrum-global-dimension-size-100))}:host([dir=rtl]:not([vertical]):not([compact])) ::slotted(:not(:last-child)){margin-left:var(--spectrum-actiongroup-button-gap-x,var(--spectrum-global-dimension-size-100))}:host([vertical]){display:inline-flex;flex-direction:column}:host([dir=ltr][vertical]) ::slotted(:not(:first-child)){margin-left:0}:host([dir=rtl][vertical]) ::slotted(:not(:first-child)){margin-right:0}:host([vertical]) ::slotted(:not(:first-child)){margin-top:var(--spectrum-actiongroup-button-gap-y,var(--spectrum-global-dimension-size-100))}:host([dir=ltr][vertical][vertical]){margin-left:0}:host([dir=rtl][vertical][vertical]){margin-right:0}:host([vertical][vertical]){margin-top:var(--spectrum-actiongroup-button-gap-y,var(--spectrum-global-dimension-size-100))}:host([dir=ltr][compact][quiet]) ::slotted(:not(:first-child)){margin-left:var(--spectrum-global-dimension-size-25)}:host([dir=rtl][compact][quiet]) ::slotted(:not(:first-child)){margin-right:var(--spectrum-global-dimension-size-25)}:host([compact][quiet]) ::slotted(:not(:first-child)){margin-top:0}:host([dir=ltr][compact][quiet][vertical]) ::slotted(:not(:first-child)){margin-left:0}:host([dir=rtl][compact][quiet][vertical]) ::slotted(:not(:first-child)){margin-right:0}:host([compact][quiet][vertical]) ::slotted(:not(:first-child)){margin-top:var(--spectrum-global-dimension-size-25)}:host([compact]:not([quiet])){flex-wrap:nowrap}:host([compact]:not([quiet])) ::slotted(*){position:relative;border-radius:0;z-index:0}:host([dir=ltr][compact]:not([quiet])) ::slotted(:first-child){border-top-left-radius:var(--spectrum-actionbutton-m-border-radius,var(--spectrum-alias-border-radius-regular))}:host([dir=rtl][compact]:not([quiet])) ::slotted(:first-child){border-top-right-radius:var(--spectrum-actionbutton-m-border-radius,var(--spectrum-alias-border-radius-regular))}:host([dir=ltr][compact]:not([quiet])) ::slotted(:first-child){border-bottom-left-radius:var(--spectrum-actionbutton-m-border-radius,var(--spectrum-alias-border-radius-regular))}:host([dir=rtl][compact]:not([quiet])) ::slotted(:first-child){border-bottom-right-radius:var(--spectrum-actionbutton-m-border-radius,var(--spectrum-alias-border-radius-regular))}:host([dir=ltr][compact]:not([quiet])) ::slotted(:first-child){margin-right:calc(-1*var(--spectrum-actionbutton-m-border-size,
-var(--spectrum-alias-border-size-thin))/2)}:host([dir=rtl][compact]:not([quiet])) ::slotted(:first-child){margin-left:calc(-1*var(--spectrum-actionbutton-m-border-size,
-var(--spectrum-alias-border-size-thin))/2)}:host([dir=ltr][compact]:not([quiet])) ::slotted(:last-child){border-top-right-radius:var(--spectrum-actionbutton-m-border-radius,var(--spectrum-alias-border-radius-regular))}:host([dir=rtl][compact]:not([quiet])) ::slotted(:last-child){border-top-left-radius:var(--spectrum-actionbutton-m-border-radius,var(--spectrum-alias-border-radius-regular))}:host([dir=ltr][compact]:not([quiet])) ::slotted(:last-child){border-bottom-right-radius:var(--spectrum-actionbutton-m-border-radius,var(--spectrum-alias-border-radius-regular))}:host([dir=rtl][compact]:not([quiet])) ::slotted(:last-child){border-bottom-left-radius:var(--spectrum-actionbutton-m-border-radius,var(--spectrum-alias-border-radius-regular))}:host([dir=ltr][compact]:not([quiet])) ::slotted(:last-child){margin-left:calc(-1*var(--spectrum-actionbutton-m-border-size,
-var(--spectrum-alias-border-size-thin))/2)}:host([dir=rtl][compact]:not([quiet])) ::slotted(:last-child){margin-right:calc(-1*var(--spectrum-actionbutton-m-border-size,
-var(--spectrum-alias-border-size-thin))/2)}:host([dir=ltr][compact]:not([quiet])) ::slotted(:last-child){margin-right:0}:host([dir=rtl][compact]:not([quiet])) ::slotted(:last-child){margin-left:0}:host([compact]:not([quiet])) ::slotted([selected]){z-index:1}:host([compact]:not([quiet])) ::slotted(:hover){z-index:2}:host([compact]:not([quiet])) ::slotted(.focus-visible),:host([compact]:not([quiet])) ::slotted(.focus-visible){z-index:3}:host([compact]:not([quiet])) ::slotted(.focus-visible),:host([compact]:not([quiet])) ::slotted(:focus-visible){z-index:3}:host([dir=ltr][compact]:not([quiet])) ::slotted(:not(:first-child)){margin-left:calc(-1*var(--spectrum-actionbutton-m-border-size,
-var(--spectrum-alias-border-size-thin))/2)}:host([dir=ltr][compact]:not([quiet])) ::slotted(:not(:first-child)),:host([dir=rtl][compact]:not([quiet])) ::slotted(:not(:first-child)){margin-right:calc(-1*var(--spectrum-actionbutton-m-border-size,
-var(--spectrum-alias-border-size-thin))/2)}:host([dir=rtl][compact]:not([quiet])) ::slotted(:not(:first-child)){margin-left:calc(-1*var(--spectrum-actionbutton-m-border-size,
-var(--spectrum-alias-border-size-thin))/2)}:host([compact][vertical]:not([quiet])) ::slotted(*){border-radius:0}:host([compact][vertical]:not([quiet])) ::slotted(:not(:first-child)){margin-top:calc(-1*var(--spectrum-actionbutton-m-border-size,
-var(--spectrum-alias-border-size-thin))/2);margin-bottom:calc(-1*var(--spectrum-actionbutton-m-border-size,
-var(--spectrum-alias-border-size-thin))/2)}:host([dir=ltr][compact][vertical]:not([quiet])) ::slotted(:first-child){border-top-left-radius:var(--spectrum-actionbutton-m-border-radius,var(--spectrum-alias-border-radius-regular))}:host([dir=ltr][compact][vertical]:not([quiet])) ::slotted(:first-child),:host([dir=rtl][compact][vertical]:not([quiet])) ::slotted(:first-child){border-top-right-radius:var(--spectrum-actionbutton-m-border-radius,var(--spectrum-alias-border-radius-regular))}:host([dir=rtl][compact][vertical]:not([quiet])) ::slotted(:first-child){border-top-left-radius:var(--spectrum-actionbutton-m-border-radius,var(--spectrum-alias-border-radius-regular))}:host([compact][vertical]:not([quiet])) ::slotted(:first-child){border-radius:0;margin-bottom:calc(-1*var(--spectrum-actionbutton-m-border-size,
-var(--spectrum-alias-border-size-thin))/2)}:host([dir=ltr][compact][vertical]:not([quiet])) ::slotted(:last-child){border-bottom-left-radius:var(--spectrum-actionbutton-m-border-radius,var(--spectrum-alias-border-radius-regular))}:host([dir=ltr][compact][vertical]:not([quiet])) ::slotted(:last-child),:host([dir=rtl][compact][vertical]:not([quiet])) ::slotted(:last-child){border-bottom-right-radius:var(--spectrum-actionbutton-m-border-radius,var(--spectrum-alias-border-radius-regular))}:host([dir=rtl][compact][vertical]:not([quiet])) ::slotted(:last-child){border-bottom-left-radius:var(--spectrum-actionbutton-m-border-radius,var(--spectrum-alias-border-radius-regular))}:host([compact][vertical]:not([quiet])) ::slotted(:last-child){border-radius:0;margin-top:calc(-1*var(--spectrum-actionbutton-m-border-size,
-var(--spectrum-alias-border-size-thin))/2);margin-bottom:0}:host([justified]) ::slotted(*){flex:1}:host([dir][compact][vertical]) ::slotted(:nth-child(n)){margin-right:0;margin-left:0}
+#button{position:relative;display:inline-flex;box-sizing:border-box;overflow:visible;text-transform:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-appearance:button;vertical-align:top;transition:background var(--spectrum-global-animation-duration-100,.13s) ease-out,border-color var(--spectrum-global-animation-duration-100,.13s) ease-out,color var(--spectrum-global-animation-duration-100,.13s) ease-out,box-shadow var(--spectrum-global-animation-duration-100,.13s) ease-out;text-decoration:none;font-family:var(--spectrum-alias-body-text-font-family,var(--spectrum-global-font-family-base));line-height:1.3;-moz-user-select:none;user-select:none;-webkit-user-select:none;touch-action:none;cursor:pointer}#button:focus{outline:none}#button::-moz-focus-inner{border:0;border-style:none;padding:0;margin-top:-2px;margin-bottom:-2px}#button:disabled{cursor:default}#button{--spectrum-picker-border-size:var(--spectrum-alias-border-size-thin,var(--spectrum-global-dimension-static-size-10));--spectrum-picker-text-size:var(--spectrum-alias-item-text-size-m,var(--spectrum-global-dimension-font-size-100));--spectrum-picker-height:var(--spectrum-alias-item-height-m,var(--spectrum-global-dimension-size-400));--spectrum-picker-icon-gap:var(--spectrum-alias-item-workflow-icon-gap-m,var(--spectrum-global-dimension-size-100));--spectrum-picker-placeholder-text-font-style:var(--spectrum-global-font-style-italic,italic);--spectrum-picker-placeholder-text-font-weight:var(--spectrum-global-font-weight-regular,400);--spectrum-picker-border-radius:var(--spectrum-alias-border-radius-regular,var(--spectrum-global-dimension-size-50));--spectrum-picker-ui-icon-gap:var(--spectrum-alias-item-ui-icon-gap-m,var(--spectrum-global-dimension-size-100));--spectrum-picker-error-icon-margin-left:var(--spectrum-global-dimension-size-150);--spectrum-picker-textonly-padding-left:var(--spectrum-alias-item-padding-m,var(--spectrum-global-dimension-size-150));--spectrum-picker-textonly-padding-right:var(--spectrum-alias-item-padding-m,var(--spectrum-global-dimension-size-150));--spectrum-picker-min-width:var(--spectrum-global-dimension-size-400);--spectrum-picker-disabled-border-size:0;--spectrum-picker-popover-max-width:var(--spectrum-global-dimension-size-3000);--spectrum-picker-width:var(--spectrum-global-dimension-size-2400);--spectrum-picker-border-size-increase-focus:1px}:host([dir=ltr]) #button{padding-left:var(--spectrum-picker-textonly-padding-left);padding-right:var(--spectrum-picker-textonly-padding-right)}:host([dir=rtl]) #button{padding-right:var(--spectrum-picker-textonly-padding-left);padding-left:var(--spectrum-picker-textonly-padding-right)}#button{display:flex;justify-content:center;align-items:center;max-width:100%;width:var(--spectrum-picker-width);min-width:var(--spectrum-picker-min-width);height:var(--spectrum-picker-height);margin:0;padding-top:0;padding-bottom:0;border-width:var(--spectrum-picker-border-size);border-style:solid;border-radius:var(--spectrum-picker-border-radius);transition:background-color var(--spectrum-global-animation-duration-100,.13s),box-shadow var(--spectrum-global-animation-duration-100,.13s),border-color var(--spectrum-global-animation-duration-100,.13s)}#button:disabled,:host([disabled]) #button{border-width:var(--spectrum-picker-disabled-border-size);cursor:default}:host([dir=ltr]) #button .spectrum-Picker-icon{margin-right:var(--spectrum-picker-icon-gap)}:host([dir=rtl]) #button .spectrum-Picker-icon{margin-left:var(--spectrum-picker-icon-gap)}.spectrum-Picker-icon{flex-shrink:0}:host([dir=ltr]) #button #label+.spectrum-Picker-icon{margin-left:var(--spectrum-picker-icon-gap)}:host([dir=rtl]) #button #label+.spectrum-Picker-icon{margin-right:var(--spectrum-picker-icon-gap)}:host([quiet]) #button{--spectrum-picker-border-size:0;--spectrum-picker-border-radius:0;--spectrum-picker-textonly-padding-left:0;--spectrum-picker-textonly-padding-right:0;width:auto;min-width:0}:host([quiet]) #button:disabled.focus-visible,:host([quiet]) #button:disabled.focus-visible,:host([quiet][disabled]) #button.focus-visible,:host([quiet][disabled]) #button.focus-visible{box-shadow:none}:host([quiet]) #button:disabled.focus-visible,:host([quiet]) #button:disabled:focus-visible,:host([quiet][disabled]) #button.focus-visible,:host([quiet][disabled]) #button:focus-visible{box-shadow:none}:host([dir=ltr]) #label{text-align:left}:host([dir=rtl]) #label{text-align:right}#label{flex:1 1 auto;white-space:nowrap;overflow:hidden;height:calc(var(--spectrum-picker-height) - var(--spectrum-picker-border-size)*2);line-height:calc(var(--spectrum-picker-height) - var(--spectrum-picker-border-size)*2);font-size:var(--spectrum-picker-text-size);text-overflow:ellipsis}#label.placeholder{font-weight:var(--spectrum-picker-placeholder-text-font-weight);font-style:var(--spectrum-picker-placeholder-text-font-style);transition:color var(--spectrum-global-animation-duration-100,.13s) ease-in-out}.dropdown{display:inline-block;position:relative;vertical-align:top;transition:color var(--spectrum-global-animation-duration-100,.13s) ease-out;flex-shrink:0}:host([dir=ltr]) .validationIcon{margin-left:var(--spectrum-picker-error-icon-margin-left)}:host([dir=rtl]) .validationIcon{margin-right:var(--spectrum-picker-error-icon-margin-left)}:host([dir=ltr]) #label~.dropdown{margin-left:var(--spectrum-picker-ui-icon-gap)}:host([dir=rtl]) #label~.dropdown{margin-right:var(--spectrum-picker-ui-icon-gap)}#popover{max-width:var(--spectrum-picker-popover-max-width)}:host([dir=ltr]) .spectrum-Picker-popover--quiet{margin-left:calc(-1*(var(--spectrum-global-dimension-size-150) + var(--spectrum-popover-border-size,
+var(--spectrum-alias-border-size-thin))))}:host([dir=rtl]) .spectrum-Picker-popover--quiet{margin-right:calc(-1*(var(--spectrum-global-dimension-size-150) + var(--spectrum-popover-border-size,
+var(--spectrum-alias-border-size-thin))))}#button{color:var(--spectrum-alias-text-color,var(--spectrum-global-color-gray-800));background-color:var(--spectrum-global-color-gray-75);border-color:var(--spectrum-alias-border-color,var(--spectrum-global-color-gray-400))}#button:hover{color:var(--spectrum-alias-text-color-hover,var(--spectrum-global-color-gray-900));background-color:var(--spectrum-global-color-gray-50);border-color:var(--spectrum-alias-border-color-hover,var(--spectrum-global-color-gray-500))}#button:hover .dropdown{color:var(--spectrum-alias-icon-color-hover,var(--spectrum-global-color-gray-900))}#button:active,:host([open]) #button{background-color:var(--spectrum-global-color-gray-200);border-color:var(--spectrum-alias-border-color-down,var(--spectrum-global-color-gray-500))}#button:active.placeholder #label,:host([open]) #button.placeholder #label{color:var(--spectrum-alias-placeholder-text-color-down,var(--spectrum-global-color-gray-900))}#button.focus-visible,#button.focus-visible,:host([focused]) #button{background-color:var(--spectrum-global-color-gray-50);border-color:var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400));box-shadow:0 0 0 var(--spectrum-picker-border-size-increase-focus) var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400));color:var(--spectrum-alias-text-color-hover,var(--spectrum-global-color-gray-900))}#button.focus-visible,#button:focus-visible,:host([focused]) #button{background-color:var(--spectrum-global-color-gray-50);border-color:var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400));box-shadow:0 0 0 var(--spectrum-picker-border-size-increase-focus) var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400));color:var(--spectrum-alias-text-color-hover,var(--spectrum-global-color-gray-900))}#button.focus-visible.placeholder,#button.focus-visible.placeholder,:host([focused]) #button.placeholder{color:var(--spectrum-alias-placeholder-text-color-hover,var(--spectrum-global-color-gray-900))}#button.focus-visible.placeholder,#button:focus-visible.placeholder,:host([focused]) #button.placeholder{color:var(--spectrum-alias-placeholder-text-color-hover,var(--spectrum-global-color-gray-900))}:host([invalid]) #button{border-color:var(--spectrum-global-color-red-500)}:host([invalid]) #button .validationIcon{color:var(--spectrum-semantic-negative-color-icon,var(--spectrum-global-color-red-600))}:host([invalid]) #button:active,:host([invalid]) #button:hover,:host([invalid][open]) #button{border-color:var(--spectrum-global-color-red-600)}:host([invalid]) #button.focus-visible,:host([invalid]) #button.focus-visible,:host([invalid][focused]) #button{border-color:var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400));box-shadow:0 0 0 var(--spectrum-picker-border-size-increase-focus) var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400))}:host([invalid]) #button.focus-visible,:host([invalid]) #button:focus-visible,:host([invalid][focused]) #button{border-color:var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400));box-shadow:0 0 0 var(--spectrum-picker-border-size-increase-focus) var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400))}#button:disabled,:host([disabled]) #button{background-color:var(--spectrum-global-color-gray-200);color:var(--spectrum-alias-text-color-disabled,var(--spectrum-global-color-gray-500))}#button:disabled .dropdown,#button:disabled .spectrum-Picker-icon,#button:disabled .validationIcon,:host([disabled]) #button .dropdown,:host([disabled]) #button .spectrum-Picker-icon,:host([disabled]) #button .validationIcon{color:var(--spectrum-alias-icon-color-disabled,var(--spectrum-global-color-gray-400))}#button:disabled #label.placeholder,:host([disabled]) #button #label.placeholder{color:var(--spectrum-alias-text-color-disabled,var(--spectrum-global-color-gray-500))}.dropdown{color:var(--spectrum-alias-icon-color,var(--spectrum-global-color-gray-700))}#label.placeholder{color:var(--spectrum-alias-placeholder-text-color,var(--spectrum-global-color-gray-800))}#label.placeholder:hover{color:var(--spectrum-alias-placeholder-text-color-hover,var(--spectrum-global-color-gray-900))}#label.placeholder:active{color:var(--spectrum-alias-placeholder-text-color,var(--spectrum-global-color-gray-800))}:host([quiet]) #button{color:var(--spectrum-alias-text-color,var(--spectrum-global-color-gray-800));border-color:var(--spectrum-alias-border-color-transparent,transparent)}:host([quiet]) #button,:host([quiet]) #button:hover{background-color:var(--spectrum-alias-background-color-transparent,transparent)}:host([quiet]) #button:hover{color:var(--spectrum-alias-text-color-hover,var(--spectrum-global-color-gray-900))}:host([quiet]) #button.focus-visible,:host([quiet]) #button.focus-visible,:host([quiet][focused]) #button{background-color:var(--spectrum-alias-background-color-transparent,transparent);box-shadow:0 2px 0 0 var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400))}:host([quiet]) #button.focus-visible,:host([quiet]) #button:focus-visible,:host([quiet][focused]) #button{background-color:var(--spectrum-alias-background-color-transparent,transparent);box-shadow:0 2px 0 0 var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400))}:host([quiet]) #button.focus-visible.placeholder,:host([quiet]) #button.focus-visible.placeholder,:host([quiet][focused]) #button.placeholder{color:var(--spectrum-alias-placeholder-text-color-hover,var(--spectrum-global-color-gray-900))}:host([quiet]) #button.focus-visible.placeholder,:host([quiet]) #button:focus-visible.placeholder,:host([quiet][focused]) #button.placeholder{color:var(--spectrum-alias-placeholder-text-color-hover,var(--spectrum-global-color-gray-900))}:host([quiet]) #button.focus-visible .dropdown,:host([quiet]) #button.focus-visible .dropdown,:host([quiet][focused]) #button .dropdown{color:var(--spectrum-alias-icon-color-focus,var(--spectrum-global-color-gray-900))}:host([quiet]) #button.focus-visible .dropdown,:host([quiet]) #button:focus-visible .dropdown,:host([quiet][focused]) #button .dropdown{color:var(--spectrum-alias-icon-color-focus,var(--spectrum-global-color-gray-900))}:host([quiet]) #button:active,:host([quiet][open]) #button{background-color:var(--spectrum-alias-background-color-transparent,transparent);border-color:var(--spectrum-alias-border-color-transparent,transparent)}:host([quiet]) #button:active.focus-visible,:host([quiet]) #button:active.focus-visible,:host([quiet][focused]) #button:active,:host([quiet][open]) #button.focus-visible,:host([quiet][open]) #button.focus-visible,:host([quiet][open][focused]) #button{background-color:var(--spectrum-alias-background-color-transparent,transparent);box-shadow:0 2px 0 0 var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400))}:host([quiet]) #button:active.focus-visible,:host([quiet]) #button:active:focus-visible,:host([quiet][focused]) #button:active,:host([quiet][open]) #button.focus-visible,:host([quiet][open]) #button:focus-visible,:host([quiet][open][focused]) #button{background-color:var(--spectrum-alias-background-color-transparent,transparent);box-shadow:0 2px 0 0 var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400))}:host([quiet][invalid]) #button.focus-visible,:host([quiet][invalid]) #button.focus-visible,:host([quiet][invalid][focused]) #button{box-shadow:0 2px 0 0 var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400))}:host([quiet][invalid]) #button.focus-visible,:host([quiet][invalid]) #button:focus-visible,:host([quiet][invalid][focused]) #button{box-shadow:0 2px 0 0 var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400))}:host([quiet]) #button:disabled,:host([quiet][disabled]) #button{background-color:var(--spectrum-alias-background-color-transparent,transparent);color:var(--spectrum-alias-text-color-disabled,var(--spectrum-global-color-gray-500))}:host{display:inline-flex;vertical-align:top}sp-popover{display:none}.dropdown,.validationIcon{flex-shrink:0}:host([focused]:not([quiet])) #button #label.placeholder{color:var(--spectrum-picker-placeholder-text-color-key-focus,var(--spectrum-alias-placeholder-text-color-hover))}:host([focused]:not([quiet])) #button .dropdown{color:var(--spectrum-picker-icon-color-key-focus,var(--spectrum-alias-icon-color-focus))}
 `;
 
 /*
@@ -7431,302 +7187,902 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-const EMPTY_SELECTION = [];
+const styles$d = css `
+.spectrum-UIIcon-ChevronDown75,.spectrum-UIIcon-ChevronDown100,.spectrum-UIIcon-ChevronDown200,.spectrum-UIIcon-ChevronDown300,.spectrum-UIIcon-ChevronDown400,.spectrum-UIIcon-ChevronDown500{transform:rotate(90deg)}.spectrum-UIIcon-ChevronLeft75,.spectrum-UIIcon-ChevronLeft100,.spectrum-UIIcon-ChevronLeft200,.spectrum-UIIcon-ChevronLeft300,.spectrum-UIIcon-ChevronLeft400,.spectrum-UIIcon-ChevronLeft500{transform:rotate(180deg)}.spectrum-UIIcon-ChevronUp75,.spectrum-UIIcon-ChevronUp100,.spectrum-UIIcon-ChevronUp200,.spectrum-UIIcon-ChevronUp300,.spectrum-UIIcon-ChevronUp400,.spectrum-UIIcon-ChevronUp500{transform:rotate(270deg)}.spectrum-UIIcon-ChevronDown75,.spectrum-UIIcon-ChevronLeft75,.spectrum-UIIcon-ChevronRight75,.spectrum-UIIcon-ChevronUp75{width:var(--spectrum-alias-ui-icon-chevron-size-75);height:var(--spectrum-alias-ui-icon-chevron-size-75)}.spectrum-UIIcon-ChevronDown100,.spectrum-UIIcon-ChevronLeft100,.spectrum-UIIcon-ChevronRight100,.spectrum-UIIcon-ChevronUp100{width:var(--spectrum-alias-ui-icon-chevron-size-100);height:var(--spectrum-alias-ui-icon-chevron-size-100)}.spectrum-UIIcon-ChevronDown200,.spectrum-UIIcon-ChevronLeft200,.spectrum-UIIcon-ChevronRight200,.spectrum-UIIcon-ChevronUp200{width:var(--spectrum-alias-ui-icon-chevron-size-200);height:var(--spectrum-alias-ui-icon-chevron-size-200)}.spectrum-UIIcon-ChevronDown300,.spectrum-UIIcon-ChevronLeft300,.spectrum-UIIcon-ChevronRight300,.spectrum-UIIcon-ChevronUp300{width:var(--spectrum-alias-ui-icon-chevron-size-300);height:var(--spectrum-alias-ui-icon-chevron-size-300)}.spectrum-UIIcon-ChevronDown400,.spectrum-UIIcon-ChevronLeft400,.spectrum-UIIcon-ChevronRight400,.spectrum-UIIcon-ChevronUp400{width:var(--spectrum-alias-ui-icon-chevron-size-400);height:var(--spectrum-alias-ui-icon-chevron-size-400)}.spectrum-UIIcon-ChevronDown500,.spectrum-UIIcon-ChevronLeft500,.spectrum-UIIcon-ChevronRight500,.spectrum-UIIcon-ChevronUp500{width:var(--spectrum-alias-ui-icon-chevron-size-500);height:var(--spectrum-alias-ui-icon-chevron-size-500)}
+`;
+
+/*
+Copyright 2020 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+let customTemplateLiteralTag$1;
+const tag$1 = function (strings, ...values) {
+    if (customTemplateLiteralTag$1) {
+        return customTemplateLiteralTag$1(strings, ...values);
+    }
+    return values.reduce((acc, v, idx) => acc + v + strings[idx + 1], strings[0]);
+};
+const setCustomTemplateLiteralTag$1 = (tag) => {
+    customTemplateLiteralTag$1 = tag;
+};
+
+/*
+Copyright 2020 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+const AlertIcon = ({ width = 24, height = 24, hidden = false, title = 'Alert' } = {}) => {
+    return tag$1 `<svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="${height}"
+    viewBox="0 0 36 36"
+    width="${width}"
+    aria-hidden="${hidden ? 'true' : 'false'}"
+    role="img"
+    fill="currentColor"
+    aria-label="${title}"
+  >
+    <path
+      d="M17.127 2.579L.4 32.512A1 1 0 001.272 34h33.456a1 1 0 00.872-1.488L18.873 2.579a1 1 0 00-1.746 0zM20 29.5a.5.5 0 01-.5.5h-3a.5.5 0 01-.5-.5v-3a.5.5 0 01.5-.5h3a.5.5 0 01.5.5zm0-6a.5.5 0 01-.5.5h-3a.5.5 0 01-.5-.5v-12a.5.5 0 01.5-.5h3a.5.5 0 01.5.5z"
+    />
+  </svg>`;
+};
+
+/*
+Copyright 2020 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+setCustomTemplateLiteralTag$1(html);
+
+/*
+Copyright 2020 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+const styles$e = css `
+:host{visibility:hidden;opacity:0;transition:transform var(--spectrum-global-animation-duration-100,.13s) ease-in-out,opacity var(--spectrum-global-animation-duration-100,.13s) ease-in-out,visibility 0ms linear var(--spectrum-global-animation-duration-100,.13s);pointer-events:none}:host([open]){visibility:visible;opacity:1;transition-delay:0ms;pointer-events:auto}:host([placement*=bottom][open]){transform:translateY(var(--spectrum-picker-m-popover-offset-y,var(--spectrum-global-dimension-size-75)))}:host([placement*=top][open]){transform:translateY(calc(-1*var(--spectrum-picker-m-popover-offset-y, var(--spectrum-global-dimension-size-75))))}:host([placement*=right][open]){transform:translateX(var(--spectrum-picker-m-popover-offset-y,var(--spectrum-global-dimension-size-75)))}:host([placement*=left][open]){transform:translateX(calc(-1*var(--spectrum-picker-m-popover-offset-y, var(--spectrum-global-dimension-size-75))))}:host{display:inline-flex;flex-direction:column;min-width:var(--spectrum-global-dimension-size-400);min-height:var(--spectrum-global-dimension-size-400);border-style:solid;border-width:var(--spectrum-popover-border-size,var(--spectrum-alias-border-size-thin));border-radius:var(--spectrum-popover-border-radius,var(--spectrum-alias-border-radius-regular));outline:none;box-sizing:border-box}#tip,:host{position:absolute}#tip{-webkit-transform:translate(0)}#tip .triangle{stroke-linecap:square;stroke-linejoin:miter;stroke-width:var(--spectrum-popover-border-size,var(--spectrum-alias-border-size-thin))}:host([dialog]){min-width:270px;padding:30px 29px}:host([placement*=left][tip]){margin-right:13px}:host([placement*=left]) #tip{left:100%}:host([placement*=right][tip]){margin-left:13px}:host([placement*=right]) #tip{right:100%;transform:scaleX(-1)}:host([placement*=left]) #tip,:host([placement*=right]) #tip{top:50%;margin-top:calc(var(--spectrum-global-dimension-size-150)*-1)}:host([placement*=bottom][tip]){margin-top:13px}:host([placement*=bottom]) #tip{bottom:100%;transform:scaleY(-1)}:host([placement*=top][tip]){margin-bottom:13px}:host([placement*=top]) #tip{top:100%}:host([placement*=bottom]) #tip,:host([placement*=top]) #tip{left:50%;margin-left:calc(var(--spectrum-global-dimension-size-150)*-1)}:host{background-color:var(--spectrum-popover-background-color,var(--spectrum-global-color-gray-50));border-color:var(--spectrum-popover-border-color,var(--spectrum-alias-border-color-dark));filter:drop-shadow(0 1px 4px var(--spectrum-popover-shadow-color,var(--spectrum-alias-dropshadow-color)));-webkit-filter:drop-shadow(0 1px 4px var(--spectrum-popover-shadow-color,var(--spectrum-alias-dropshadow-color)));will-change:filter;-webkit-clip-path:inset(-30px -30px);clip-path:inset(-30px -30px)}#tip .triangle{fill:var(--spectrum-popover-background-color,var(--spectrum-global-color-gray-50));stroke:var(--spectrum-popover-border-color,var(--spectrum-alias-border-color-dark))}:host{--sp-popover-tip-size:24px}:host([placement*=bottom][open]),:host([placement*=top][open]){max-height:calc(100% - var(--spectrum-dropdown-flyout-menu-offset-y,
+var(--spectrum-global-dimension-size-75)))}:host([placement*=top][open]){margin-top:var(--spectrum-dropdown-flyout-menu-offset-y,var(--spectrum-global-dimension-size-75))}:host([placement*=left][open]),:host([placement*=right][open]){max-width:calc(100% - var(--spectrum-dropdown-flyout-menu-offset-y,
+var(--spectrum-global-dimension-size-75)))}:host([placement*=left][open]){margin-left:var(--spectrum-dropdown-flyout-menu-offset-y,var(--spectrum-global-dimension-size-75))}.tip{display:flex}:host([placement*=bottom]) .tip,:host([placement*=top]) .tip{width:var(--sp-popover-tip-size);height:calc(var(--sp-popover-tip-size)/2)}:host([placement*=left]) .tip,:host([placement*=right]) .tip{height:var(--sp-popover-tip-size);width:calc(var(--sp-popover-tip-size)/2)}:host([placement*=bottom]) .triangle-left-right,:host([placement*=left]) .triangle-top-bottom,:host([placement*=right]) .triangle-top-bottom,:host([placement*=top]) .triangle-left-right{display:none}
+`;
+
+/*
+Copyright 2020 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
 /**
- * @element sp-action-group
+ * @attr {Boolean} open - The open state of the popover
+ * @attr {Boolean} dialog - Adds some padding to the popover
  */
-class ActionGroup extends SpectrumElement {
+class Popover extends SpectrumElement {
     constructor() {
         super(...arguments);
-        this.compact = false;
-        this.emphasized = false;
-        this.justified = false;
-        this.label = '';
-        this.quiet = false;
-        this.vertical = false;
-        this._selected = EMPTY_SELECTION;
-        this.handleFocusin = () => {
-            this.addEventListener('focusout', this.handleFocusout);
-            this.addEventListener('keydown', this.handleKeydown);
-        };
-        this.handleKeydown = (event) => {
-            const { code } = event;
-            if (![
-                'ArrowUp',
-                'ArrowLeft',
-                'ArrowRight',
-                'ArrowDown',
-                'End',
-                'Home',
-                'PageUp',
-                'PageDown',
-            ].includes(code)) {
-                return;
-            }
-            const activeElement = this.getRootNode()
-                .activeElement;
-            /* c8 ignore next 3 */
-            if (!activeElement) {
-                return;
-            }
-            let nextIndex = this.buttons.indexOf(activeElement);
-            /* c8 ignore next 3 */
-            if (nextIndex === -1) {
-                return;
-            }
-            const circularIndexedElement = (list, index) => list[(list.length + index) % list.length];
-            const buttonFromDelta = (delta) => {
-                nextIndex += delta;
-                while (circularIndexedElement(this.buttons, nextIndex).disabled) {
-                    nextIndex += delta;
-                }
-            };
-            switch (code) {
-                case 'ArrowUp':
-                    buttonFromDelta(-1);
-                    break;
-                case 'ArrowLeft':
-                    buttonFromDelta(this.isLTR ? -1 : 1);
-                    break;
-                case 'ArrowRight':
-                    buttonFromDelta(this.isLTR ? 1 : -1);
-                    break;
-                case 'ArrowDown':
-                    buttonFromDelta(1);
-                    break;
-                case 'End':
-                    nextIndex = this.buttons.length;
-                    buttonFromDelta(-1);
-                    break;
-                case 'Home':
-                    nextIndex = -1;
-                    buttonFromDelta(1);
-                    break;
-                case 'PageUp':
-                case 'PageDown':
-                default:
-                    const tagsSiblings = [
-                        ...this.getRootNode().querySelectorAll('sp-action-group'),
-                    ];
-                    if (tagsSiblings.length < 2) {
-                        return;
-                    }
-                    event.preventDefault();
-                    const currentIndex = tagsSiblings.indexOf(this);
-                    const offset = code === 'PageUp' ? -1 : 1;
-                    let nextRadioGroupIndex = currentIndex + offset;
-                    let nextRadioGroup = circularIndexedElement(tagsSiblings, nextRadioGroupIndex);
-                    while (!nextRadioGroup.buttons.length) {
-                        nextRadioGroupIndex += offset;
-                        nextRadioGroup = circularIndexedElement(tagsSiblings, nextRadioGroupIndex);
-                    }
-                    nextRadioGroup.focus();
-                    return;
-            }
-            event.preventDefault();
-            const nextRadio = circularIndexedElement(this.buttons, nextIndex);
-            activeElement.tabIndex = -1;
-            nextRadio.tabIndex = 0;
-            nextRadio.focus();
-        };
-        this.handleFocusout = (event) => {
-            const { relatedTarget } = event;
-            if (!relatedTarget || !this.contains(relatedTarget)) {
-                const firstButtonNonDisabled = this.buttons.find((button) => {
-                    if (this.selected.length) {
-                        return button.selected;
-                    }
-                    return !button.disabled;
-                });
-                if (firstButtonNonDisabled) {
-                    firstButtonNonDisabled.tabIndex = 0;
-                }
-            }
-            this.removeEventListener('keydown', this.handleKeydown);
-            this.removeEventListener('focusout', this.handleFocusout);
-        };
+        /**
+         * @type {"auto" | "auto-start" | "auto-end" | "top" | "bottom" | "right" | "left" | "top-start" | "top-end" | "bottom-start" | "bottom-end" | "right-start" | "right-end" | "left-start" | "left-end" | "none"}
+         * @attr
+         */
+        this.placement = 'none';
+        this.tip = false;
     }
     static get styles() {
-        return [styles$c];
+        return [styles$e];
     }
-    get buttons() {
-        return this.defaultNodes.filter((node) => node.tagName === 'SP-ACTION-BUTTON');
+    renderTip() {
+        return html `
+            <div id="tip">
+                <svg
+                    xmlns="http://www.w3.org/svg/2000"
+                    class="tip triangle-top-bottom"
+                    viewBox="0 0 24 12"
+                >
+                    <path
+                        class="triangle"
+                        d="M 0.7071067811865476 0 L 11.414213562373096 10.707106781186548 L 22.121320343559645 0"
+                    ></path>
+                </svg>
+                <svg
+                    xmlns="http://www.w3.org/svg/2000"
+                    class="tip triangle-left-right"
+                    viewBox="0 0 12 24"
+                >
+                    <path
+                        class="triangle"
+                        d="M 0 0.7071067811865476 L 10.707106781186548 11.414213562373096 L 0 22.121320343559645"
+                    ></path>
+                </svg>
+            </div>
+        `;
     }
-    get selected() {
-        return this._selected;
+    connectedCallback() {
+        super.connectedCallback();
+        this.addEventListener('sp-overlay-query', this.onOverlayQuery);
     }
-    set selected(selected) {
-        if (selected === this.selected)
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        this.removeEventListener('sp-overlay-query', this.onOverlayQuery);
+    }
+    onOverlayQuery(event) {
+        /* c8 ignore next */
+        if (!event.target)
             return;
-        const old = this.selected;
-        this._selected = selected;
-        const applyDefault = this.dispatchEvent(new Event('change', {
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-        }));
-        if (!applyDefault) {
-            this._selected = old;
-            this.buttons.map((button) => {
-                button.selected = this.selected.includes(button.value);
-            });
-        }
-    }
-    handleClick(event) {
         const target = event.target;
-        if (typeof target.value === 'undefined') {
+        /* c8 ignore next */
+        if (!target.isSameNode(this))
             return;
-        }
-        switch (this.selects) {
-            case 'single': {
-                const selected = [
-                    ...this.querySelectorAll('[selected]'),
-                ];
-                selected.forEach((el) => {
-                    el.selected = false;
-                    el.tabIndex = -1;
-                    el.setAttribute('aria-checked', 'false');
-                });
-                target.selected = true;
-                target.tabIndex = 0;
-                target.setAttribute('aria-checked', 'true');
-                this.selected = [target.value];
-                target.focus();
-                break;
-            }
-            case 'multiple': {
-                const selected = [...this.selected];
-                target.selected = !target.selected;
-                target.setAttribute('aria-checked', target.selected ? 'true' : 'false');
-                if (target.selected) {
-                    selected.push(target.value);
-                }
-                else {
-                    selected.splice(this.selected.indexOf(target.value), 1);
-                }
-                this.selected = selected;
-                break;
-            }
-            default:
-                this.selected = EMPTY_SELECTION;
-                break;
-        }
-    }
-    async manageSelects() {
-        switch (this.selects) {
-            case 'single': {
-                this.setAttribute('role', 'radiogroup');
-                let selection;
-                const options = this.buttons;
-                const updates = options.map(async (option) => {
-                    await option.updateComplete;
-                    option.setAttribute('role', 'radio');
-                    option.setAttribute('aria-checked', option.selected ? 'true' : 'false');
-                    option.tabIndex = option.selected ? 0 : -1;
-                    if (option.selected) {
-                        selection = option;
-                    }
-                });
-                await Promise.all(updates);
-                (selection || options[0]).tabIndex = 0;
-                this.selected = selection ? [selection.value] : EMPTY_SELECTION;
-                break;
-            }
-            case 'multiple': {
-                this.setAttribute('role', 'group');
-                const selection = [];
-                const options = this.buttons;
-                const updates = options.map(async (option) => {
-                    await option.updateComplete;
-                    option.setAttribute('role', 'checkbox');
-                    option.setAttribute('aria-checked', option.selected ? 'true' : 'false');
-                    option.tabIndex = 0;
-                    if (option.selected) {
-                        selection.push(option.value);
-                    }
-                });
-                await Promise.all(updates);
-                this.selected = !!selection.length
-                    ? selection
-                    : EMPTY_SELECTION;
-                break;
-            }
-            default:
-                const options = [
-                    ...this.querySelectorAll('sp-action-button'),
-                ];
-                options.forEach((option) => {
-                    option.removeAttribute('role');
-                    option.tabIndex = 0;
-                });
-                this.removeAttribute('role');
-                this.selected = EMPTY_SELECTION;
-                break;
+        const tipElement = this.shadowRoot.querySelector('#tip');
+        if (tipElement) {
+            event.detail.overlayContentTipElement = tipElement;
         }
     }
     render() {
         return html `
-            <slot @slotchange=${this.manageSelects} role="presentation"></slot>
+            <slot></slot>
+            ${this.tip ? this.renderTip() : nothing}
+        `;
+    }
+}
+__decorate([
+    property({ reflect: true })
+], Popover.prototype, "placement", void 0);
+__decorate([
+    property({ type: Boolean, reflect: true })
+], Popover.prototype, "tip", void 0);
+
+/*
+Copyright 2020 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+customElements.define('sp-popover', Popover);
+
+/*
+Copyright 2020 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+const openOverlay = async (target, interaction, content, options) => {
+    const { Overlay } = await import('./overlay-7c4ee2f3.js');
+    return await Overlay.open(target, interaction, content, options);
+};
+
+/*
+Copyright 2020 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+/**
+ * @slot label - The placeholder content for the dropdown
+ * @slot {"sp-menu"} - The menu of options that will display when the dropdown is open
+ *
+ * @fires sp-open - Announces that the overlay has been opened
+ * @fires sp-close - Announces that the overlay has been closed
+ */
+class DropdownBase extends Focusable {
+    constructor() {
+        super();
+        this.disabled = false;
+        this.focused = false;
+        this.invalid = false;
+        this.open = false;
+        /**
+         * @type {"auto" | "auto-start" | "auto-end" | "top" | "bottom" | "right" | "left" | "top-start" | "top-end" | "bottom-start" | "bottom-end" | "right-start" | "right-end" | "left-start" | "left-end" | "none"}
+         * @attr
+         */
+        this.placement = 'bottom-start';
+        this.quiet = false;
+        this.value = '';
+        this.selectedItemText = '';
+        this.listRole = 'listbox';
+        this.itemRole = 'option';
+        this.onKeydown = (event) => {
+            if (event.code !== 'ArrowDown' && event.code !== 'ArrowUp') {
+                return;
+            }
+            event.preventDefault();
+            /* c8 ignore next 3 */
+            if (!this.optionsMenu) {
+                return;
+            }
+            this.open = true;
+        };
+        this.menuStatePromise = Promise.resolve();
+        this.onKeydown = this.onKeydown.bind(this);
+        this.addEventListener('sp-menu-item-query-role', (event) => {
+            event.stopPropagation();
+            event.detail.role = this.itemRole;
+        });
+        this.addEventListener('sp-menu-query-role', (event) => {
+            event.stopPropagation();
+            event.detail.role = this.listRole;
+        });
+    }
+    get target() {
+        return this.button;
+    }
+    get focusElement() {
+        if (this.open && this.optionsMenu) {
+            return this.optionsMenu;
+        }
+        return this.button;
+    }
+    forceFocusVisible() {
+        this.focused = true;
+    }
+    onButtonBlur() {
+        this.focused = false;
+        this.target.removeEventListener('keydown', this.onKeydown);
+    }
+    onButtonClick() {
+        this.toggle();
+    }
+    onButtonFocus() {
+        this.target.addEventListener('keydown', this.onKeydown);
+    }
+    onClick(event) {
+        const target = event.target;
+        /* c8 ignore 6 */
+        if (!target || target.disabled) {
+            if (target) {
+                this.focus();
+            }
+            return;
+        }
+        if (target.value) {
+            this.setValueFromItem(target);
+        }
+    }
+    async setValueFromItem(item) {
+        const oldSelectedItemText = this.selectedItemText;
+        const oldValue = this.value;
+        this.selectedItemText = item.itemText;
+        this.value = item.value;
+        this.open = false;
+        await this.updateComplete;
+        const applyDefault = this.dispatchEvent(new Event('change', {
+            cancelable: true,
+        }));
+        if (!applyDefault) {
+            this.selectedItemText = oldSelectedItemText;
+            this.value = oldValue;
+            this.open = true;
+            return;
+        }
+        const parentElement = item.parentElement;
+        const selectedItem = parentElement.querySelector('[selected]');
+        /* c8 ignore next 3 */
+        if (selectedItem) {
+            selectedItem.selected = false;
+        }
+        item.selected = true;
+    }
+    toggle() {
+        this.open = !this.open;
+    }
+    close() {
+        this.open = false;
+    }
+    onOverlayClosed() {
+        this.close();
+        if (this.optionsMenu && this.placeholder) {
+            const parentElement = this.placeholder.parentElement ||
+                this.placeholder.getRootNode();
+            if (parentElement) {
+                parentElement.replaceChild(this.optionsMenu, this.placeholder);
+            }
+        }
+        delete this.placeholder;
+        this.menuStateResolver();
+    }
+    async openMenu() {
+        /* c8 ignore next 9 */
+        if (!this.popover ||
+            !this.optionsMenu ||
+            this.optionsMenu.children.length === 0) {
+            this.menuStateResolver();
+            return;
+        }
+        this.placeholder = document.createComment('placeholder for optionsMenu');
+        const parentElement = this.optionsMenu.parentElement || this.optionsMenu.getRootNode();
+        if (parentElement) {
+            parentElement.replaceChild(this.placeholder, this.optionsMenu);
+        }
+        this.popover.append(this.optionsMenu);
+        this.sizePopover(this.popover);
+        const { popover } = this;
+        this.closeOverlay = await Dropdown.openOverlay(this, 'inline', popover, {
+            placement: this.placement,
+            receivesFocus: 'auto',
+        });
+        this.menuStateResolver();
+    }
+    sizePopover(popover) {
+        // only use `this.offsetWidth` when Standard variant
+        const menuWidth = !this.quiet && `${this.offsetWidth}px`;
+        if (menuWidth) {
+            popover.style.setProperty('width', menuWidth);
+        }
+    }
+    closeMenu() {
+        if (this.closeOverlay) {
+            this.closeOverlay();
+            delete this.closeOverlay;
+        }
+    }
+    get buttonContent() {
+        return [
+            html `
+                <span
+                    id="label"
+                    class=${ifDefined(this.value ? undefined : 'placeholder')}
+                >
+                    ${this.value
+                ? this.selectedItemText
+                : html `
+                              <slot name="label">${this.label}</slot>
+                          `}
+                </span>
+                ${this.invalid
+                ? html `
+                          <sp-icon class="validationIcon">
+                              ${AlertIcon({ hidden: true })}
+                          </sp-icon>
+                      `
+                : nothing}
+                <sp-icon class="icon dropdown spectrum-UIIcon-ChevronDown100">
+                    ${Chevron100Icon()}
+                </sp-icon>
+            `,
+        ];
+    }
+    get renderButton() {
+        return html `
+            <button
+                aria-haspopup="true"
+                aria-controls="popover"
+                aria-expanded=${this.open ? 'true' : 'false'}
+                aria-label=${ifDefined(this.label || undefined)}
+                id="button"
+                class="button"
+                @blur=${this.onButtonBlur}
+                @click=${this.onButtonClick}
+                @focus=${this.onButtonFocus}
+                ?disabled=${this.disabled}
+            >
+                ${this.buttonContent}
+            </button>
+        `;
+    }
+    render() {
+        return html `
+            ${this.renderButton}
+            <sp-popover
+                open
+                id="popover"
+                @click=${this.onClick}
+                @sp-overlay-closed=${this.onOverlayClosed}
+            ></sp-popover>
+        `;
+    }
+    firstUpdated(changedProperties) {
+        super.firstUpdated(changedProperties);
+        this.optionsMenu = this.querySelector('sp-menu');
+    }
+    updated(changedProperties) {
+        super.updated(changedProperties);
+        if (changedProperties.has('value') && this.optionsMenu) {
+            this.manageSelection();
+        }
+        if (changedProperties.has('disabled') && this.disabled) {
+            this.open = false;
+        }
+        if (changedProperties.has('open') &&
+            (this.open || typeof changedProperties.get('open') !== 'undefined')) {
+            this.menuStatePromise = new Promise((res) => (this.menuStateResolver = res));
+            if (this.open) {
+                this.openMenu();
+            }
+            else {
+                this.closeMenu();
+            }
+        }
+    }
+    async manageSelection() {
+        /* c8 ignore next 3 */
+        if (!this.optionsMenu) {
+            return;
+        }
+        if (this.optionsMenu.menuItems.length) {
+            let selectedItem;
+            this.optionsMenu.menuItems.map((item) => {
+                if (this.value === item.value && !item.disabled) {
+                    selectedItem = item;
+                }
+                else {
+                    item.selected = false;
+                }
+            });
+            if (selectedItem) {
+                selectedItem.selected = true;
+                this.selectedItemText = selectedItem.itemText;
+            }
+            else {
+                this.value = '';
+                this.selectedItemText = '';
+            }
+            this.optionsMenu.updateSelectedItemIndex();
+            return;
+        }
+        await this.optionsMenu.updateComplete;
+        if (this.optionsMenu.menuItems.length) {
+            this.manageSelection();
+        }
+    }
+    async _getUpdateComplete() {
+        await super._getUpdateComplete();
+        await this.menuStatePromise;
+    }
+    disconnectedCallback() {
+        this.open = false;
+        super.disconnectedCallback();
+    }
+}
+DropdownBase.openOverlay = async (target, interaction, content, options) => {
+    return await openOverlay(target, interaction, content, options);
+};
+__decorate([
+    query('#button')
+], DropdownBase.prototype, "button", void 0);
+__decorate([
+    property({ type: Boolean, reflect: true })
+], DropdownBase.prototype, "disabled", void 0);
+__decorate([
+    property({ type: Boolean, reflect: true })
+], DropdownBase.prototype, "focused", void 0);
+__decorate([
+    property({ type: Boolean, reflect: true })
+], DropdownBase.prototype, "invalid", void 0);
+__decorate([
+    property()
+], DropdownBase.prototype, "label", void 0);
+__decorate([
+    property({ type: Boolean, reflect: true })
+], DropdownBase.prototype, "open", void 0);
+__decorate([
+    property()
+], DropdownBase.prototype, "placement", void 0);
+__decorate([
+    property({ type: Boolean, reflect: true })
+], DropdownBase.prototype, "quiet", void 0);
+__decorate([
+    property({ type: String })
+], DropdownBase.prototype, "value", void 0);
+__decorate([
+    property({ type: String })
+], DropdownBase.prototype, "selectedItemText", void 0);
+__decorate([
+    query('sp-popover')
+], DropdownBase.prototype, "popover", void 0);
+class Dropdown extends DropdownBase {
+    static get styles() {
+        return [styles$c, styles$d];
+    }
+}
+
+/*
+Copyright 2020 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+customElements.define('sp-dropdown', Dropdown);
+
+/*
+Copyright 2020 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+const styles$f = css `
+:host{--spectrum-listitem-divider-size:var(--spectrum-alias-border-size-thick,var(--spectrum-global-dimension-static-size-25));--spectrum-listitem-divider-padding:3px;--spectrum-listitem-focus-indicator-size:var(--spectrum-alias-border-size-thick,var(--spectrum-global-dimension-static-size-25));--spectrum-listitem-text-font-weight:var(--spectrum-alias-body-text-font-weight,var(--spectrum-global-font-weight-regular));--spectrum-listitem-text-size:var(--spectrum-alias-item-text-size-m,var(--spectrum-global-dimension-font-size-100));--spectrum-listitem-height:var(--spectrum-alias-item-height-m,var(--spectrum-global-dimension-size-400));--spectrum-listitem-icon-gap:var(--spectrum-alias-item-workflow-icon-gap-m,var(--spectrum-global-dimension-size-100));--spectrum-listitem-padding-left:var(--spectrum-alias-item-workflow-padding-left-m);--spectrum-listitem-padding-right:var(--spectrum-alias-item-padding-m,var(--spectrum-global-dimension-size-150));--spectrum-listitem-thumbnail-padding-left:var(--spectrum-alias-item-padding-m,var(--spectrum-global-dimension-size-150));box-sizing:border-box;margin-top:var(--spectrum-popover-padding-y,var(--spectrum-global-dimension-size-50));margin-bottom:var(--spectrum-popover-padding-y,var(--spectrum-global-dimension-size-50));margin-left:0;margin-right:0;padding:0;list-style-type:none;overflow:auto}::slotted(sp-menu){display:block}:host{background-color:var(--spectrum-alias-background-color-transparent,transparent);display:inline-block}:host(:focus){outline:none}:host sp-menu{display:block}
+`;
+
+/*
+Copyright 2020 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+/**
+ * Spectrum Menu Component
+ * @element sp-menu
+ *
+ */
+class Menu extends SpectrumElement {
+    constructor() {
+        super();
+        this.menuItems = [];
+        this.focusedItemIndex = 0;
+        this.focusInItemIndex = 0;
+        this.prepItems = () => {
+            this.menuItems = [
+                ...this.querySelectorAll(`[role="${this.childRole}"]`),
+            ];
+            if (!this.menuItems || this.menuItems.length === 0) {
+                return;
+            }
+            this.updateSelectedItemIndex();
+            const focusInItem = this.menuItems[this.focusInItemIndex];
+            focusInItem.tabIndex = 0;
+            if (this.getRootNode().activeElement === this) {
+                focusInItem.focused = true;
+            }
+        };
+        this.handleKeydown = this.handleKeydown.bind(this);
+        this.startListeningToKeyboard = this.startListeningToKeyboard.bind(this);
+        this.stopListeningToKeyboard = this.stopListeningToKeyboard.bind(this);
+        this.onClick = this.onClick.bind(this);
+        this.addEventListener('click', this.onClick);
+        this.addEventListener('focusin', this.startListeningToKeyboard);
+    }
+    static get styles() {
+        return [styles$f];
+    }
+    /**
+     * Hide this getter from web-component-analyzer until
+     * https://github.com/runem/web-component-analyzer/issues/131
+     * has been addressed.
+     *
+     * @private
+     */
+    get childRole() {
+        return this.getAttribute('role') === 'menu' ? 'menuitem' : 'option';
+    }
+    focus() {
+        if (!this.menuItems.length ||
+            this.menuItems.every((item) => item.disabled)) {
+            return;
+        }
+        this.focusMenuItemByOffset(0);
+        super.focus();
+    }
+    onClick(event) {
+        const path = event.composedPath();
+        const target = path.find((el) => {
+            /* c8 ignore next 3 */
+            if (!(el instanceof Element)) {
+                return false;
+            }
+            return el.getAttribute('role') === this.childRole;
+        });
+        /* c8 ignore next 3 */
+        if (!target) {
+            return;
+        }
+        this.prepareToCleanUp();
+    }
+    startListeningToKeyboard() {
+        this.addEventListener('keydown', this.handleKeydown);
+        this.addEventListener('focusout', this.handleFocusout);
+    }
+    handleFocusout() {
+        this.stopListeningToKeyboard();
+        const focusedItem = this.menuItems[this.focusedItemIndex];
+        if (focusedItem) {
+            focusedItem.focused = false;
+        }
+    }
+    stopListeningToKeyboard() {
+        this.removeEventListener('keydown', this.handleKeydown);
+    }
+    handleKeydown(event) {
+        const { code } = event;
+        if (code === 'Tab') {
+            this.prepareToCleanUp();
+            return;
+        }
+        if (code === 'Space' || code === 'Enter') {
+            this.menuItems[this.focusedItemIndex].click();
+            return;
+        }
+        if (code !== 'ArrowDown' && code !== 'ArrowUp') {
+            return;
+        }
+        event.preventDefault();
+        const direction = code === 'ArrowDown' ? 1 : -1;
+        this.focusMenuItemByOffset(direction);
+    }
+    focusMenuItemByOffset(offset) {
+        const step = offset || 1;
+        const focusedItem = this.menuItems[this.focusedItemIndex];
+        focusedItem.focused = false;
+        this.focusedItemIndex =
+            (this.menuItems.length + this.focusedItemIndex + offset) %
+                this.menuItems.length;
+        let itemToFocus = this.menuItems[this.focusedItemIndex];
+        let availableItems = this.menuItems.length;
+        // cycle through the available items in the directions of the offset to find the next non-disabled item
+        while (itemToFocus.disabled && availableItems) {
+            availableItems -= 1;
+            this.focusedItemIndex =
+                (this.menuItems.length + this.focusedItemIndex + step) %
+                    this.menuItems.length;
+            itemToFocus = this.menuItems[this.focusedItemIndex];
+        }
+        // if there are no non-disabled items, skip the work to focus a child
+        if (itemToFocus.disabled) {
+            return;
+        }
+        itemToFocus.focused = true;
+        this.setAttribute('aria-activedescendant', itemToFocus.id);
+        focusedItem.tabIndex = -1;
+    }
+    prepareToCleanUp() {
+        document.addEventListener('focusout', () => {
+            requestAnimationFrame(() => {
+                /* c8 ignore next 3 */
+                if (this.menuItems.length === 0) {
+                    return;
+                }
+                const focusedItem = this.menuItems[this.focusedItemIndex];
+                focusedItem.focused = false;
+                if (this.querySelector('[selected]')) {
+                    const itemToBlur = this.menuItems[this.focusInItemIndex];
+                    itemToBlur.tabIndex = -1;
+                }
+                this.updateSelectedItemIndex();
+                const itemToFocus = this.menuItems[this.focusInItemIndex];
+                itemToFocus.tabIndex = 0;
+            });
+        }, { once: true });
+    }
+    updateSelectedItemIndex() {
+        let index = this.menuItems.length - 1;
+        let item = this.menuItems[index];
+        while (index && item && !item.selected) {
+            index -= 1;
+            item = this.menuItems[index];
+        }
+        index = Math.max(index, 0);
+        this.menuItems.forEach((item, i) => {
+            if (i !== index) {
+                item.focused = false;
+            }
+        });
+        this.focusedItemIndex = index;
+        this.focusInItemIndex = index;
+    }
+    render() {
+        return html `
+            <slot></slot>
+        `;
+    }
+    firstUpdated() {
+        this.tabIndex = 0;
+    }
+    connectedCallback() {
+        super.connectedCallback();
+        if (!this.hasAttribute('role')) {
+            const queryRoleEvent = new CustomEvent('sp-menu-query-role', {
+                bubbles: true,
+                composed: true,
+                detail: {
+                    role: '',
+                },
+            });
+            this.dispatchEvent(queryRoleEvent);
+            this.setAttribute('role', queryRoleEvent.detail.role || 'menu');
+        }
+        if (!this.observer) {
+            this.observer = new MutationObserver(this.prepItems);
+        }
+        this.observer.observe(this, { childList: true, subtree: true });
+        this.updateComplete.then(() => this.prepItems());
+    }
+    disconnectedCallback() {
+        this.observer.disconnect();
+        super.disconnectedCallback();
+    }
+}
+
+/*
+Copyright 2020 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+customElements.define('sp-menu', Menu);
+
+/*
+Copyright 2020 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+const styles$g = css `
+:host([dir=ltr]) .spectrum-Menu.is-selectable #button{padding-right:calc(var(--spectrum-global-dimension-size-100) + var(--spectrum-icon-checkmark-medium-width) + var(--spectrum-listitem-icon-gap))}:host([dir=rtl]) .spectrum-Menu.is-selectable #button{padding-left:calc(var(--spectrum-global-dimension-size-100) + var(--spectrum-icon-checkmark-medium-width) + var(--spectrum-listitem-icon-gap))}:host([dir=ltr][selected]) .spectrum-Menu.is-selectable #button{padding-right:calc(var(--spectrum-listitem-padding-right) - var(--spectrum-popover-border-size,
+var(--spectrum-alias-border-size-thin)))}:host([dir=rtl][selected]) .spectrum-Menu.is-selectable #button{padding-left:calc(var(--spectrum-listitem-padding-right) - var(--spectrum-popover-border-size,
+var(--spectrum-alias-border-size-thin)))}#selected{transform:scale(1);opacity:1}:host([dir=ltr]) #button{border-left:var(--spectrum-listitem-focus-indicator-size) solid transparent}:host([dir=rtl]) #button{border-right:var(--spectrum-listitem-focus-indicator-size) solid transparent}#button{cursor:pointer;position:relative;display:flex;align-items:center;box-sizing:border-box;padding:var(--spectrum-global-dimension-size-85) var(--spectrum-listitem-padding-right) var(--spectrum-global-dimension-size-85) var(--spectrum-listitem-padding-left);margin:0;min-height:var(--spectrum-listitem-height);font-size:var(--spectrum-listitem-text-size);font-weight:var(--spectrum-listitem-text-font-weight);font-style:normal;text-decoration:none}#button:focus{outline:none}:host([dir=ltr][selected]) #button{padding-right:calc(var(--spectrum-listitem-padding-right) - var(--spectrum-popover-border-size,
+var(--spectrum-alias-border-size-thin)))}:host([dir=rtl][selected]) #button{padding-left:calc(var(--spectrum-listitem-padding-right) - var(--spectrum-popover-border-size,
+var(--spectrum-alias-border-size-thin)))}:host([selected]) #button #selected{display:block}.spectrum-Menu-itemIcon,::slotted([slot=icon]){flex-shrink:0;align-self:flex-start}:host([dir=ltr]) #button .spectrum-Menu-itemIcon+#label,:host([dir=ltr]) #button slot[name=icon]+#label{margin-left:var(--spectrum-listitem-icon-gap)}:host([dir=rtl]) #button .spectrum-Menu-itemIcon+#label,:host([dir=rtl]) #button slot[name=icon]+#label{margin-right:var(--spectrum-listitem-icon-gap)}.spectrum-Menu-itemIcon+#label,slot[name=icon]+#label{width:calc(100% - var(--spectrum-icon-checkmark-medium-width) - var(--spectrum-listitem-icon-gap) - var(--spectrum-listitem-thumbnail-padding-left) - var(--spectrum-alias-workflow-icon-size-m,
+var(--spectrum-global-dimension-size-225)))}#label{flex:1 1 auto;line-height:1.3;-webkit-hyphens:auto;hyphens:auto;overflow-wrap:break-word;width:calc(100% - var(--spectrum-icon-checkmark-medium-width) - var(--spectrum-listitem-icon-gap))}.spectrum-Menu-itemLabel--wrapping{text-overflow:ellipsis;white-space:nowrap;overflow:hidden}#selected{display:none;align-self:flex-start}:host([dir=ltr]) #selected,:host([dir=ltr]) .spectrum-Menu-chevron{margin-left:var(--spectrum-listitem-icon-gap)}:host([dir=rtl]) #selected,:host([dir=rtl]) .spectrum-Menu-chevron{margin-right:var(--spectrum-listitem-icon-gap)}#selected{flex-grow:0;margin-top:var(--spectrum-global-dimension-size-50)}:host([dir=rtl]) .spectrum-Menu-chevron{transform:matrix(-1,0,0,1,0,0)}#button{background-color:var(--spectrum-alias-background-color-transparent,transparent);color:var(--spectrum-alias-text-color,var(--spectrum-global-color-gray-800))}:host([dir=ltr]) #button.focus-visible,:host([dir=ltr]) #button.focus-visible,:host([dir=ltr][focused]) #button{border-left-color:var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400))}:host([dir=ltr]) #button.focus-visible,:host([dir=ltr]) #button:focus-visible,:host([dir=ltr][focused]) #button{border-left-color:var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400))}:host([dir=rtl]) #button.focus-visible,:host([dir=rtl]) #button.focus-visible,:host([dir=rtl][focused]) #button{border-right-color:var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400))}:host([dir=rtl]) #button.focus-visible,:host([dir=rtl]) #button:focus-visible,:host([dir=rtl][focused]) #button{border-right-color:var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400))}#button.focus-visible,#button.is-highlighted,#button.is-open,#button:focus,#button.focus-visible,#button:hover,:host([focused]) #button{background-color:var(--spectrum-alias-background-color-hover-overlay);color:var(--spectrum-alias-text-color,var(--spectrum-global-color-gray-800))}#button.focus-visible,#button.is-highlighted,#button.is-open,#button:focus,#button:focus-visible,#button:hover,:host([focused]) #button{background-color:var(--spectrum-alias-background-color-hover-overlay);color:var(--spectrum-alias-text-color,var(--spectrum-global-color-gray-800))}:host([selected]) #button{color:var(--spectrum-alias-text-color,var(--spectrum-global-color-gray-800))}:host([selected]) #button #selected{color:var(--spectrum-alias-icon-color-selected,var(--spectrum-global-color-blue-500))}#button:active,.is-active{background-color:var(--spectrum-alias-background-color-hover-overlay)}:host([disabled]) #button{background-color:var(--spectrum-alias-background-color-transparent,transparent);background-image:none;color:var(--spectrum-alias-text-color-disabled,var(--spectrum-global-color-gray-500));cursor:default}:host{display:block}#selected{flex-shrink:0}::slotted(sp-menu){display:block}
+`;
+
+/*
+Copyright 2020 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+const styles$h = css `
+.spectrum-UIIcon-Checkmark50{width:var(--spectrum-alias-ui-icon-checkmark-size-50);height:var(--spectrum-alias-ui-icon-checkmark-size-50)}.spectrum-UIIcon-Checkmark75{width:var(--spectrum-alias-ui-icon-checkmark-size-75);height:var(--spectrum-alias-ui-icon-checkmark-size-75)}.spectrum-UIIcon-Checkmark100{width:var(--spectrum-alias-ui-icon-checkmark-size-100);height:var(--spectrum-alias-ui-icon-checkmark-size-100)}.spectrum-UIIcon-Checkmark200{width:var(--spectrum-alias-ui-icon-checkmark-size-200);height:var(--spectrum-alias-ui-icon-checkmark-size-200)}.spectrum-UIIcon-Checkmark300{width:var(--spectrum-alias-ui-icon-checkmark-size-300);height:var(--spectrum-alias-ui-icon-checkmark-size-300)}.spectrum-UIIcon-Checkmark400{width:var(--spectrum-alias-ui-icon-checkmark-size-400);height:var(--spectrum-alias-ui-icon-checkmark-size-400)}.spectrum-UIIcon-Checkmark500{width:var(--spectrum-alias-ui-icon-checkmark-size-500);height:var(--spectrum-alias-ui-icon-checkmark-size-500)}.spectrum-UIIcon-Checkmark600{width:var(--spectrum-alias-ui-icon-checkmark-size-600);height:var(--spectrum-alias-ui-icon-checkmark-size-600)}
+`;
+
+/*
+Copyright 2020 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
+/**
+ * Spectrum Menu Item Component
+ * @element sp-menu-item
+ */
+class MenuItem extends ActionButton {
+    constructor() {
+        super(...arguments);
+        this.focused = false;
+    }
+    static get styles() {
+        return [styles$g, styles$h];
+    }
+    /**
+     * Hide this getter from web-component-analyzer until
+     * https://github.com/runem/web-component-analyzer/issues/131
+     * has been addressed.
+     *
+     * @private
+     */
+    get itemText() {
+        return (this.textContent || /* c8 ignore next */ '').trim();
+    }
+    get buttonContent() {
+        const content = super.buttonContent;
+        if (this.selected) {
+            content.push(html `
+                <sp-icon
+                    id="selected"
+                    slot="icon"
+                    class="spectrum-UIIcon-Checkmark100"
+                >
+                    ${Checkmark100Icon()}
+                </sp-icon>
+            `);
+        }
+        return content;
+    }
+    renderButton() {
+        return html `
+            <div id="button" class="button" aria-label=${ifDefined(this.label)}>
+                ${this.buttonContent}
+            </div>
         `;
     }
     firstUpdated(changes) {
         super.firstUpdated(changes);
-        this.addEventListener('click', this.handleClick);
-        this.addEventListener('focusin', this.handleFocusin);
+        if (!this.hasAttribute('id')) {
+            this.id = `sp-menu-item-${MenuItem.instanceCount++}`;
+        }
     }
     updated(changes) {
         super.updated(changes);
-        if (changes.has('selects')) {
-            this.manageSelects();
+        if (this.getAttribute('role') === 'option' && changes.has('selected')) {
+            this.setAttribute('aria-selected', this.selected ? 'true' : 'false');
         }
-        if ((changes.has('quiet') && this.quiet) ||
-            (changes.has('emphasized') && this.emphasized)) {
-            [...this.children].forEach((button) => {
-                if (changes.has('quiet')) {
-                    button.quiet = this.quiet;
-                }
-                if (changes.has('emphasized')) {
-                    button.emphasized = this.emphasized;
-                }
+    }
+    connectedCallback() {
+        super.connectedCallback();
+        if (!this.hasAttribute('role')) {
+            const queryRoleEvent = new CustomEvent('sp-menu-item-query-role', {
+                bubbles: true,
+                composed: true,
+                detail: {
+                    role: '',
+                },
             });
-        }
-        if (changes.has('label')) {
-            if (this.label.length) {
-                this.setAttribute('aria-label', this.label);
-            }
-            else {
-                this.removeAttribute('aria-label');
-            }
+            this.dispatchEvent(queryRoleEvent);
+            this.setAttribute('role', queryRoleEvent.detail.role || 'menuitem');
         }
     }
 }
-__decorate([
-    queryAssignedNodes('', true)
-], ActionGroup.prototype, "defaultNodes", void 0);
+MenuItem.instanceCount = 0;
 __decorate([
     property({ type: Boolean, reflect: true })
-], ActionGroup.prototype, "compact", void 0);
-__decorate([
-    property({ type: Boolean, reflect: true })
-], ActionGroup.prototype, "emphasized", void 0);
-__decorate([
-    property({ type: Boolean, reflect: true })
-], ActionGroup.prototype, "justified", void 0);
-__decorate([
-    property({ type: String })
-], ActionGroup.prototype, "label", void 0);
-__decorate([
-    property({ type: Boolean, reflect: true })
-], ActionGroup.prototype, "quiet", void 0);
-__decorate([
-    property({ type: String })
-], ActionGroup.prototype, "selects", void 0);
-__decorate([
-    property({ type: Boolean, reflect: true })
-], ActionGroup.prototype, "vertical", void 0);
-__decorate([
-    property({ type: Array })
-], ActionGroup.prototype, "selected", null);
+], MenuItem.prototype, "focused", void 0);
 
 /*
 Copyright 2020 Adobe. All rights reserved.
@@ -7739,7 +8095,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-customElements.define('sp-action-group', ActionGroup);
+customElements.define('sp-menu-item', MenuItem);
 
 /*
 Copyright 2020 Adobe. All rights reserved.
@@ -7752,7 +8108,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-const styles$d = css `
+const styles$i = css `
 :host{--spectrum-slider-handle-border-size:var(--spectrum-alias-border-size-thick,var(--spectrum-global-dimension-static-size-25));--spectrum-slider-handle-border-size-down:var(--spectrum-global-dimension-size-75);--spectrum-slider-track-border-radius:var(--spectrum-global-dimension-static-size-10,1px);--spectrum-slider-track-height:var(--spectrum-alias-border-size-thick,var(--spectrum-global-dimension-static-size-25));--spectrum-slider-handle-gap:var(--spectrum-alias-border-size-thicker,var(--spectrum-global-dimension-static-size-50));--spectrum-slider-animation-duration:var(--spectrum-global-animation-duration-100,130ms);--spectrum-slider-height:var(--spectrum-alias-item-height-m,var(--spectrum-global-dimension-size-400));--spectrum-slider-min-width:var(--spectrum-global-dimension-size-1250);--spectrum-slider-handle-width:var(--spectrum-alias-item-control-2-size-l,var(--spectrum-global-dimension-size-200));--spectrum-slider-handle-height:var(--spectrum-alias-item-control-2-size-l,var(--spectrum-global-dimension-size-200));--spectrum-slider-handle-border-radius:var(--spectrum-global-dimension-size-100);--spectrum-slider-label-gap-x:var(--spectrum-alias-item-control-gap-m,var(--spectrum-global-dimension-size-125));--spectrum-slider-tick-mark-width:var(--spectrum-alias-border-size-thick,var(--spectrum-global-dimension-static-size-25));--spectrum-slider-tick-mark-border-radius:var(--spectrum-alias-border-radius-xsmall,var(--spectrum-global-dimension-size-10));--spectrum-slider-tick-mark-height:var(--spectrum-global-dimension-size-125);--spectrum-slider-label-gap-y:var(--spectrum-global-dimension-size-85);--spectrum-slider-controls-margin:calc(var(--spectrum-slider-handle-width)/2);--spectrum-slider-track-margin-offset:calc(var(--spectrum-slider-controls-margin)*-1);--spectrum-slider-handle-margin-top:calc(var(--spectrum-slider-handle-width)/-2);--spectrum-slider-handle-margin-left:calc(var(--spectrum-slider-handle-width)/-2);--spectrum-slider-track-handleoffset:var(--spectrum-slider-handle-gap);--spectrum-slider-track-middle-handleoffset:calc(var(--spectrum-slider-handle-gap) + var(--spectrum-slider-handle-width)/2);--spectrum-slider-input-top:calc(var(--spectrum-slider-handle-margin-top)/4);--spectrum-slider-input-left:calc(var(--spectrum-slider-handle-margin-left)/4);--spectrum-slider-ramp-margin-top:0;--spectrum-slider-range-track-reset:0;--spectrum-label-text-size:var(--spectrum-global-dimension-font-size-75);--spectrum-label-text-line-height:var(--spectrum-global-font-line-height-small,1.3);position:relative;z-index:1;display:block;min-height:var(--spectrum-slider-height);min-width:var(--spectrum-slider-min-width);-webkit-user-select:none;-moz-user-select:none;user-select:none}:host([dir=ltr]) #controls{margin-left:var(--spectrum-slider-controls-margin)}:host([dir=rtl]) #controls{margin-right:var(--spectrum-slider-controls-margin)}#controls{display:inline-block;box-sizing:border-box;position:relative;z-index:auto;width:calc(100% - var(--spectrum-slider-controls-margin)*2);min-height:var(--spectrum-slider-height);vertical-align:top}:host([dir=ltr]) #fill,:host([dir=ltr]) .track{left:0}:host([dir=rtl]) #fill,:host([dir=rtl]) .track{right:0}:host([dir=ltr]) #fill,:host([dir=ltr]) .track{right:auto}:host([dir=rtl]) #fill,:host([dir=rtl]) .track{left:auto}#fill,.track{height:var(--spectrum-slider-track-height);box-sizing:border-box;position:absolute;z-index:1;top:calc(var(--spectrum-slider-height)/2);margin-top:calc(var(--spectrum-slider-track-height)/-2);pointer-events:none}:host([dir=ltr]) #fill,:host([dir=ltr]) .track{padding-left:0;padding-right:var(--spectrum-slider-track-handleoffset)}:host([dir=rtl]) #fill,:host([dir=rtl]) .track{padding-right:0;padding-left:var(--spectrum-slider-track-handleoffset)}:host([dir=ltr]) #fill,:host([dir=ltr]) .track{margin-left:var(--spectrum-slider-track-margin-offset)}:host([dir=rtl]) #fill,:host([dir=rtl]) .track{margin-right:var(--spectrum-slider-track-margin-offset)}#fill,.track{padding-top:0;padding-bottom:0}#fill:before,.track:before{content:"";display:block;height:100%;border-radius:var(--spectrum-slider-track-border-radius)}:host([dir=ltr]) #fill{margin-left:0}:host([dir=rtl]) #fill{margin-right:0}:host([dir=ltr]) #fill{padding-left:calc(var(--spectrum-slider-controls-margin) + var(--spectrum-slider-track-handleoffset));padding-right:0}:host([dir=rtl]) #fill{padding-right:calc(var(--spectrum-slider-controls-margin) + var(--spectrum-slider-track-handleoffset));padding-left:0}#fill{padding-top:0;padding-bottom:0}:host([dir=ltr]) .spectrum-Slider-fill--right{padding-left:0;padding-right:calc(var(--spectrum-slider-controls-margin) + var(--spectrum-slider-track-handleoffset))}:host([dir=rtl]) .spectrum-Slider-fill--right{padding-right:0;padding-left:calc(var(--spectrum-slider-controls-margin) + var(--spectrum-slider-track-handleoffset))}.spectrum-Slider-fill--right{padding-top:0;padding-bottom:0}:host([dir=ltr]) .track~.track{left:auto}:host([dir=rtl]) .track~.track{right:auto}:host([dir=ltr]) .track~.track{right:var(--spectrum-slider-range-track-reset)}:host([dir=rtl]) .track~.track{left:var(--spectrum-slider-range-track-reset)}:host([dir=ltr]) .track~.track{padding-left:var(--spectrum-slider-track-handleoffset);padding-right:0}:host([dir=rtl]) .track~.track{padding-right:var(--spectrum-slider-track-handleoffset);padding-left:0}:host([dir=ltr]) .track~.track{margin-left:var(--spectrum-slider-range-track-reset)}:host([dir=rtl]) .track~.track{margin-right:var(--spectrum-slider-range-track-reset)}:host([dir=ltr]) .track~.track{margin-right:var(--spectrum-slider-track-margin-offset)}:host([dir=rtl]) .track~.track{margin-left:var(--spectrum-slider-track-margin-offset)}.track~.track{padding-top:0;padding-bottom:0}:host([variant=range]) #value{-webkit-user-select:text;-moz-user-select:text;user-select:text}:host([dir=ltr][variant=range]) .track:first-of-type{padding-left:0;padding-right:var(--spectrum-slider-track-handleoffset)}:host([dir=rtl][variant=range]) .track:first-of-type{padding-right:0;padding-left:var(--spectrum-slider-track-handleoffset)}:host([dir=ltr][variant=range]) .track:first-of-type{left:var(--spectrum-slider-range-track-reset)}:host([dir=rtl][variant=range]) .track:first-of-type{right:var(--spectrum-slider-range-track-reset)}:host([dir=ltr][variant=range]) .track:first-of-type{right:auto}:host([dir=rtl][variant=range]) .track:first-of-type{left:auto}:host([dir=ltr][variant=range]) .track:first-of-type{margin-left:var(--spectrum-slider-track-margin-offset)}:host([dir=rtl][variant=range]) .track:first-of-type{margin-right:var(--spectrum-slider-track-margin-offset)}:host([variant=range]) .track:first-of-type{padding-top:0;padding-bottom:0}:host([dir=ltr][variant=range]) [dir=ltr] .track,:host([dir=ltr][variant=range]) [dir=rtl] .track{left:auto}:host([dir=ltr][variant=range]) [dir=ltr] .track,:host([dir=ltr][variant=range]) [dir=rtl] .track,:host([dir=rtl][variant=range]) [dir=rtl] .track{right:auto}:host([dir=ltr][variant=range]) [dir=rtl] .track,:host([dir=rtl][variant=range]) [dir=rtl] .track{left:auto}:host([dir=ltr][variant=range]) .track,:host([dir=rtl][variant=range]) .track{padding-top:0;padding-bottom:0;padding-left:var(--spectrum-slider-track-middle-handleoffset);padding-right:var(--spectrum-slider-track-middle-handleoffset);margin:var(--spectrum-slider-range-track-reset)}:host([dir=ltr][variant=range]) .track:last-of-type{padding-left:var(--spectrum-slider-track-handleoffset);padding-right:0}:host([dir=rtl][variant=range]) .track:last-of-type{padding-right:var(--spectrum-slider-track-handleoffset);padding-left:0}:host([dir=ltr][variant=range]) .track:last-of-type{left:auto}:host([dir=rtl][variant=range]) .track:last-of-type{right:auto}:host([dir=ltr][variant=range]) .track:last-of-type{right:var(--spectrum-slider-range-track-reset)}:host([dir=rtl][variant=range]) .track:last-of-type{left:var(--spectrum-slider-range-track-reset)}:host([dir=ltr][variant=range]) .track:last-of-type{margin-right:var(--spectrum-slider-track-margin-offset)}:host([dir=rtl][variant=range]) .track:last-of-type{margin-left:var(--spectrum-slider-track-margin-offset)}:host([variant=range]) .track:last-of-type{padding-top:0;padding-bottom:0}:host([dir=ltr]) #ramp{left:var(--spectrum-slider-track-margin-offset)}:host([dir=ltr]) #ramp,:host([dir=rtl]) #ramp{right:var(--spectrum-slider-track-margin-offset)}:host([dir=rtl]) #ramp{left:var(--spectrum-slider-track-margin-offset)}#ramp{margin-top:var(--spectrum-slider-ramp-margin-top);height:var(--spectrum-global-dimension-static-size-200,16px);position:absolute;top:calc(var(--spectrum-global-dimension-static-size-200, 16px)/2)}:host([dir=rtl]) #ramp svg{transform:matrix(-1,0,0,1,0,0)}#ramp svg{width:100%;height:100%}:host([dir=ltr]) #handle{left:0}:host([dir=rtl]) #handle{right:0}:host([dir=ltr]) #handle{margin-left:calc(var(--spectrum-slider-handle-width)/-2);margin-right:0}:host([dir=rtl]) #handle{margin-right:calc(var(--spectrum-slider-handle-width)/-2);margin-left:0}#handle{position:absolute;top:calc(var(--spectrum-slider-height)/2);z-index:2;display:inline-block;box-sizing:border-box;width:var(--spectrum-slider-handle-width);height:var(--spectrum-slider-handle-height);margin-top:var(--spectrum-slider-handle-margin-top);margin-bottom:0;border-width:var(--spectrum-slider-handle-border-size);border-style:solid;border-radius:var(--spectrum-slider-handle-border-radius);transition:border-width var(--spectrum-slider-animation-duration) ease-in-out;outline:none}#handle:active,:host([dragging]) #handle,:host([handle-highlight]) #handle{border-width:var(--spectrum-slider-handle-border-size-down)}#handle.is-tophandle,#handle:active,:host([dragging]) #handle,:host([handle-highlight]) #handle{z-index:3}#handle:before{content:" ";display:block;position:absolute;left:50%;top:50%;transition:box-shadow var(--spectrum-global-animation-duration-100,.13s) ease-out,width var(--spectrum-global-animation-duration-100,.13s) ease-out,height var(--spectrum-global-animation-duration-100,.13s) ease-out;width:var(--spectrum-slider-handle-width);height:var(--spectrum-slider-handle-height);transform:translate(-50%,-50%);border-radius:100%}:host([handle-highlight]) #handle:before{width:calc(var(--spectrum-slider-handle-width) + var(--spectrum-alias-focus-ring-gap,
 var(--spectrum-global-dimension-static-size-25))*2);height:calc(var(--spectrum-slider-handle-height) + var(--spectrum-alias-focus-ring-gap,
 var(--spectrum-global-dimension-static-size-25))*2)}:host([dir=ltr]) #input{left:var(--spectrum-slider-input-left)}:host([dir=rtl]) #input{right:var(--spectrum-slider-input-left)}#input{margin:0;width:var(--spectrum-slider-handle-width);height:var(--spectrum-slider-handle-height);padding:0;position:absolute;top:var(--spectrum-slider-input-top);overflow:hidden;opacity:.000001;cursor:default;-webkit-appearance:none;border:0;pointer-events:none}#input:focus{outline:none}#labelContainer{display:flex;position:relative;width:auto;padding-top:var(--spectrum-fieldlabel-m-padding-top,var(--spectrum-global-dimension-size-50));font-size:var(--spectrum-label-text-size);line-height:var(--spectrum-label-text-line-height)}:host([dir=ltr]) #label{padding-left:0}:host([dir=rtl]) #label{padding-right:0}#label{flex-grow:1}:host([dir=ltr]) #value{padding-right:0}:host([dir=rtl]) #value{padding-left:0}:host([dir=ltr]) #value{text-align:right}:host([dir=rtl]) #value{text-align:left}#value{flex-grow:0;cursor:default;font-feature-settings:"tnum"}:host([dir=ltr]) #value{margin-left:var(--spectrum-slider-label-gap-x)}:host([dir=rtl]) #value{margin-right:var(--spectrum-slider-label-gap-x)}.ticks{display:flex;justify-content:space-between;z-index:0;margin:0 var(--spectrum-slider-track-margin-offset);margin-top:calc(var(--spectrum-slider-tick-mark-height) + var(--spectrum-slider-track-height)/2)}.tick{position:relative;width:var(--spectrum-slider-tick-mark-width)}:host([dir=ltr]) .tick:after{left:calc(50% - var(--spectrum-slider-tick-mark-width)/2)}:host([dir=rtl]) .tick:after{right:calc(50% - var(--spectrum-slider-tick-mark-width)/2)}.tick:after{display:block;position:absolute;top:0;content:"";width:var(--spectrum-slider-tick-mark-width);height:var(--spectrum-slider-tick-mark-height);border-radius:var(--spectrum-slider-tick-mark-border-radius)}.tick .tickLabel{display:flex;align-items:center;justify-content:center;margin-top:calc(var(--spectrum-slider-label-gap-y) + var(--spectrum-slider-tick-mark-height));margin-bottom:0;margin-left:calc(var(--spectrum-slider-label-gap-x)*-1);margin-right:calc(var(--spectrum-slider-label-gap-x)*-1);font-size:var(--spectrum-label-text-size);line-height:var(--spectrum-label-text-line-height)}.tick:first-of-type .tickLabel,.tick:last-of-type .tickLabel{display:block;position:absolute;margin-left:0;margin-right:0}:host([dir=ltr]) .tick:first-of-type .tickLabel{left:0}:host([dir=ltr]) .tick:last-of-type .tickLabel,:host([dir=rtl]) .tick:first-of-type .tickLabel{right:0}:host([dir=rtl]) .tick:last-of-type .tickLabel{left:0}:host([disabled]){cursor:default}:host([disabled]) #handle{cursor:default;pointer-events:none}.track:before{background:var(--spectrum-global-color-gray-400)}#labelContainer{color:var(--spectrum-alias-label-text-color,var(--spectrum-global-color-gray-700))}#fill:before,:host([variant=filled]) .track:first-child:before{background:var(--spectrum-global-color-gray-700)}#ramp path{fill:var(--spectrum-global-color-gray-400)}#handle{border-color:var(--spectrum-global-color-gray-700);background:var(--spectrum-alias-background-color-transparent,transparent)}#handle:hover,:host([handle-highlight]) #handle{border-color:var(--spectrum-global-color-gray-800)}:host([handle-highlight]) #handle:before{box-shadow:0 0 0 var(--spectrum-alias-focus-ring-size,var(--spectrum-global-dimension-static-size-25)) var(--spectrum-alias-focus-color,var(--spectrum-global-color-blue-400))}#handle:active,:host([dragging]) #handle{border-color:var(--spectrum-global-color-gray-800)}:host([variant=ramp]) #handle{box-shadow:0 0 0 4px var(--spectrum-alias-background-color-default,var(--spectrum-global-color-gray-100))}#input{background:transparent}.tick:after{background-color:var(--spectrum-alias-track-color-default,var(--spectrum-global-color-gray-300))}:host([dragging]) #handle{border-color:var(--spectrum-global-color-gray-800);background:var(--spectrum-alias-background-color-transparent,transparent)}:host([variant=range]) .track:not(:first-of-type):not(:last-of-type):before{background:var(--spectrum-global-color-gray-700)}:host([disabled]) #labelContainer{color:var(--spectrum-alias-text-color-disabled,var(--spectrum-global-color-gray-500))}:host([disabled]) #handle{border-color:var(--spectrum-global-color-gray-400);background:var(--spectrum-alias-background-color-default,var(--spectrum-global-color-gray-100))}:host([disabled]) #handle:active,:host([disabled]) #handle:hover{border-color:var(--spectrum-global-color-gray-400);background:var(--spectrum-alias-background-color-transparent,transparent)}:host([disabled]) #fill:before,:host([disabled]) .track:before,:host([disabled][variant=filled]) .track:first-child:before{background:var(--spectrum-global-color-gray-300)}:host([disabled]) #ramp path{fill:var(--spectrum-global-color-gray-200)}:host([disabled][variant=range]) .track:not(:first-of-type):not(:last-of-type):before{background:var(--spectrum-global-color-gray-300)}:host(:focus){outline-width:0}#handle{touch-action:none}.not-exact.ticks{justify-content:start}:host([dir=ltr]) .not-exact .tick{padding-right:var(--sp-slider-tick-offset)}:host([dir=rtl]) .not-exact .tick{padding-left:var(--sp-slider-tick-offset)}:host([dir=ltr]) .not-exact .tick:after{left:auto;transform:translate(-50%)}:host([dir=rtl]) .not-exact .tick:after{right:auto;transform:translate(50%)}.track:before{background-size:var(--spectrum-slider-track-background-size)!important}:host([dir=ltr]) #track-right:before,:host([dir=rtl]) #track-left:before{background-position:100%}:host([dir=ltr]) .track:before{background:var(--spectrum-slider-track-color,var(--spectrum-global-color-gray-300))}:host([dir=rtl]) .track:before{background:var(--spectrum-slider-track-color-rtl,var(--spectrum-slider-track-color,var(--spectrum-global-color-gray-300)))}
@@ -7805,7 +8161,7 @@ class Slider extends Focusable {
         };
     }
     static get styles() {
-        return [styles$d];
+        return [styles$i];
     }
     get value() {
         return this._value;
@@ -8214,257 +8570,105 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-customElements.define('sp-slider', Slider);
-
-/*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-const styles$e = css `
-.spectrum-UIIcon-Asterisk75{width:var(--spectrum-alias-ui-icon-asterisk-size-75,var(--spectrum-global-dimension-static-size-100));height:var(--spectrum-alias-ui-icon-asterisk-size-300)}.spectrum-UIIcon-Asterisk100{width:var(--spectrum-alias-ui-icon-asterisk-size-100,var(--spectrum-global-dimension-size-100));height:var(--spectrum-alias-ui-icon-asterisk-size-100,var(--spectrum-global-dimension-size-100))}.spectrum-UIIcon-Asterisk200{width:var(--spectrum-alias-ui-icon-asterisk-size-200);height:var(--spectrum-alias-ui-icon-asterisk-size-200)}.spectrum-UIIcon-Asterisk300{width:var(--spectrum-alias-ui-icon-asterisk-size-300);height:var(--spectrum-alias-ui-icon-asterisk-size-300)}
-`;
-
-/*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-const styles$f = css `
-:host([size=m]),:host([size=s]){--spectrum-fieldlabel-text-font-weight:var(--spectrum-alias-body-text-font-weight,var(--spectrum-global-font-weight-regular));--spectrum-fieldlabel-text-line-height:var(--spectrum-alias-component-text-line-height,var(--spectrum-global-font-line-height-small));--spectrum-fieldlabel-text-size:var(--spectrum-global-dimension-font-size-75);--spectrum-fieldlabel-asterisk-gap:var(--spectrum-global-dimension-size-25);--spectrum-fieldlabel-asterisk-margin-y:var(--spectrum-global-dimension-size-50);--spectrum-fieldlabel-padding-top:var(--spectrum-global-dimension-size-50);--spectrum-fieldlabel-padding-bottom:var(--spectrum-global-dimension-size-65)}:host([size=l]){--spectrum-fieldlabel-text-font-weight:var(--spectrum-alias-body-text-font-weight,var(--spectrum-global-font-weight-regular));--spectrum-fieldlabel-text-line-height:var(--spectrum-alias-component-text-line-height,var(--spectrum-global-font-line-height-small));--spectrum-fieldlabel-text-size:var(--spectrum-global-dimension-font-size-100);--spectrum-fieldlabel-asterisk-gap:var(--spectrum-global-dimension-size-25);--spectrum-fieldlabel-asterisk-margin-y:var(--spectrum-global-dimension-size-50);--spectrum-fieldlabel-padding-top:var(--spectrum-global-dimension-size-75);--spectrum-fieldlabel-padding-bottom:var(--spectrum-global-dimension-size-115)}:host([size=xl]){--spectrum-fieldlabel-text-font-weight:var(--spectrum-alias-body-text-font-weight,var(--spectrum-global-font-weight-regular));--spectrum-fieldlabel-text-line-height:var(--spectrum-alias-component-text-line-height,var(--spectrum-global-font-line-height-small));--spectrum-fieldlabel-text-size:var(--spectrum-global-dimension-font-size-200);--spectrum-fieldlabel-asterisk-gap:var(--spectrum-global-dimension-size-25);--spectrum-fieldlabel-asterisk-margin-y:var(--spectrum-global-dimension-size-50);--spectrum-fieldlabel-padding-top:var(--spectrum-global-dimension-size-115);--spectrum-fieldlabel-padding-bottom:var(--spectrum-global-dimension-size-130)}:host{display:block;box-sizing:border-box;padding-top:var(--spectrum-fieldlabel-padding-top);padding-bottom:var(--spectrum-fieldlabel-padding-bottom);padding-left:0;padding-right:0;font-size:var(--spectrum-fieldlabel-text-size);font-weight:var(--spectrum-fieldlabel-text-font-weight);line-height:var(--spectrum-fieldlabel-text-line-height);vertical-align:top;-webkit-font-smoothing:subpixel-antialiased;-moz-osx-font-smoothing:auto;font-smoothing:subpixel-antialiased}:host([dir=ltr]) .requiredIcon{margin-left:var(--spectrum-fieldlabel-asterisk-gap);margin-right:0}:host([dir=rtl]) .requiredIcon{margin-right:var(--spectrum-fieldlabel-asterisk-gap);margin-left:0}.requiredIcon{margin-top:var(--spectrum-fieldlabel-asterisk-margin-y);margin-bottom:0}:host([dir=ltr][side-aligned=start]){padding-left:0;padding-right:var(--spectrum-global-dimension-size-100)}:host([dir=rtl][side-aligned=start]){padding-right:0;padding-left:var(--spectrum-global-dimension-size-100)}:host([side-aligned=start]){display:inline-block;padding-top:var(--spectrum-global-dimension-size-100);padding-bottom:0}:host([dir=ltr][side-aligned=start]) .requiredIcon{margin-left:var(--spectrum-fieldlabel-asterisk-gap);margin-right:0}:host([dir=rtl][side-aligned=start]) .requiredIcon{margin-right:var(--spectrum-fieldlabel-asterisk-gap);margin-left:0}:host([side-aligned=start]) .requiredIcon{margin-top:var(--spectrum-global-dimension-size-50);margin-bottom:0}:host([dir=ltr][side-aligned=end]){text-align:right}:host([dir=rtl][side-aligned=end]){text-align:left}:host([dir=ltr][side-aligned=end]){padding-left:0;padding-right:var(--spectrum-global-dimension-size-100)}:host([dir=rtl][side-aligned=end]){padding-right:0;padding-left:var(--spectrum-global-dimension-size-100)}:host([side-aligned=end]){display:inline-block;padding-top:var(--spectrum-global-dimension-size-100);padding-bottom:0}:host{color:var(--spectrum-alias-label-text-color,var(--spectrum-global-color-gray-700))}:host([disabled]),:host([disabled]) .requiredIcon{color:var(--spectrum-alias-text-color-disabled,var(--spectrum-global-color-gray-500))}.requiredIcon{color:var(--spectrum-global-color-gray-600)}
-`;
-
-/*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-/**
- * @element sp-field-label
- */
-class FieldLabel extends SpectrumElement {
-    constructor() {
-        super(...arguments);
-        this.disabled = false;
-        this.id = '';
-        this.for = '';
-        this.required = false;
-        this.size = 'm';
-    }
-    static get styles() {
-        return [styles$f, styles$e];
-    }
-    handleClick() {
-        if (!this.target || this.disabled)
-            return;
-        this.target.focus();
-        const parent = this.getRootNode();
-        const target = this.target;
-        const targetParent = target.getRootNode();
-        const targetHost = targetParent.host;
-        if (targetParent.isSameNode(parent) && target.forceFocusVisible) {
-            target.forceFocusVisible();
-        }
-        else if (targetHost && targetHost.forceFocusVisible) {
-            targetHost.forceFocusVisible();
-        }
-    }
-    async manageFor() {
-        if (!this.for) {
-            return;
-        }
-        const parent = this.getRootNode();
-        const target = parent.querySelector(`#${this.for}`);
-        if (typeof target.updateComplete !== 'undefined') {
-            await target.updateComplete;
-        }
-        this.target = target.focusElement || target;
-        if (this.target) {
-            const targetParent = this.target.getRootNode();
-            if (targetParent.isSameNode(parent)) {
-                this.target.setAttribute('aria-labelledby', this.id);
-            }
-            else {
-                this.target.setAttribute('aria-label', (this.textContent || /* c8 ignore next */ '').trim());
-            }
-        }
-    }
-    render() {
-        return html `
-            <label>
-                <slot></slot>
-                ${this.required
-            ? html `
-                          <sp-icon
-                              class="requiredIcon spectrum-UIIcon-Asterisk100"
-                          >
-                              ${Asterisk100Icon()}
-                          </sp-icon>
-                      `
-            : html ``}
-            </label>
-        `;
-    }
-    firstUpdated(changes) {
-        super.firstUpdated(changes);
-        if (!this.hasAttribute('id')) {
-            this.setAttribute('id', `${this.tagName.toLowerCase()}-${FieldLabel.instanceCount++}`);
-        }
-        this.addEventListener('click', this.handleClick);
-    }
-    updated(changes) {
-        super.updated(changes);
-        if (changes.has('for') || changes.has('id')) {
-            this.manageFor();
-        }
-    }
-}
-FieldLabel.instanceCount = 0;
-__decorate([
-    property({ type: Boolean, reflect: true })
-], FieldLabel.prototype, "disabled", void 0);
-__decorate([
-    property({ type: String })
-], FieldLabel.prototype, "id", void 0);
-__decorate([
-    property({ type: String })
-], FieldLabel.prototype, "for", void 0);
-__decorate([
-    property({ type: Boolean, reflect: true })
-], FieldLabel.prototype, "required", void 0);
-__decorate([
-    property({ type: String, reflect: true, attribute: 'side-aligned' })
-], FieldLabel.prototype, "sideAligned", void 0);
-__decorate([
-    property({ type: String, reflect: true })
-], FieldLabel.prototype, "size", void 0);
-
-/*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-customElements.define('sp-field-label', FieldLabel);
-
-/*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-const styles$g = css `
+const styles$j = css `
 :host{--spectrum-slider-handle-border-size:var(--spectrum-alias-border-size-thick,var(--spectrum-global-dimension-static-size-25));--spectrum-slider-handle-border-size-down:var(--spectrum-global-dimension-size-75);--spectrum-slider-track-border-radius:var(--spectrum-global-dimension-static-size-10,1px);--spectrum-slider-track-height:var(--spectrum-alias-border-size-thick,var(--spectrum-global-dimension-static-size-25));--spectrum-slider-handle-gap:var(--spectrum-alias-border-size-thicker,var(--spectrum-global-dimension-static-size-50));--spectrum-slider-animation-duration:var(--spectrum-global-animation-duration-100,130ms);--spectrum-slider-height:var(--spectrum-alias-item-height-m,var(--spectrum-global-dimension-size-400));--spectrum-slider-min-width:var(--spectrum-global-dimension-size-1250);--spectrum-slider-handle-width:var(--spectrum-alias-item-control-2-size-l,var(--spectrum-global-dimension-size-200));--spectrum-slider-handle-height:var(--spectrum-alias-item-control-2-size-l,var(--spectrum-global-dimension-size-200));--spectrum-slider-handle-border-radius:var(--spectrum-global-dimension-size-100);--spectrum-slider-label-gap-x:var(--spectrum-alias-item-control-gap-m,var(--spectrum-global-dimension-size-125));--spectrum-slider-tick-mark-width:var(--spectrum-alias-border-size-thick,var(--spectrum-global-dimension-static-size-25));--spectrum-slider-tick-mark-border-radius:var(--spectrum-alias-border-radius-xsmall,var(--spectrum-global-dimension-size-10));--spectrum-slider-tick-mark-height:var(--spectrum-global-dimension-size-125);--spectrum-slider-label-gap-y:var(--spectrum-global-dimension-size-85);--spectrum-slider-controls-margin:calc(var(--spectrum-slider-handle-width)/2);--spectrum-slider-track-margin-offset:calc(var(--spectrum-slider-controls-margin)*-1);--spectrum-slider-handle-margin-top:calc(var(--spectrum-slider-handle-width)/-2);--spectrum-slider-handle-margin-left:calc(var(--spectrum-slider-handle-width)/-2);--spectrum-slider-track-handleoffset:var(--spectrum-slider-handle-gap);--spectrum-slider-track-middle-handleoffset:calc(var(--spectrum-slider-handle-gap) + var(--spectrum-slider-handle-width)/2);--spectrum-slider-input-top:calc(var(--spectrum-slider-handle-margin-top)/4);--spectrum-slider-input-left:calc(var(--spectrum-slider-handle-margin-left)/4);--spectrum-slider-ramp-margin-top:0;--spectrum-slider-range-track-reset:0;--spectrum-label-text-size:var(--spectrum-global-dimension-font-size-75);--spectrum-label-text-line-height:var(--spectrum-global-font-line-height-small,1.3);position:relative;z-index:1;display:block;min-height:var(--spectrum-slider-height);min-width:var(--spectrum-slider-min-width);-webkit-user-select:none;-moz-user-select:none;user-select:none}:host([dir=ltr]) #controls{margin-left:var(--spectrum-slider-controls-margin)}:host([dir=rtl]) #controls{margin-right:var(--spectrum-slider-controls-margin)}#controls{display:inline-block;box-sizing:border-box;position:relative;z-index:auto;width:calc(100% - var(--spectrum-slider-controls-margin)*2);min-height:var(--spectrum-slider-height);vertical-align:top}:host([dir=ltr]) #fill,:host([dir=ltr]) .track{left:0}:host([dir=rtl]) #fill,:host([dir=rtl]) .track{right:0}:host([dir=ltr]) #fill,:host([dir=ltr]) .track{right:auto}:host([dir=rtl]) #fill,:host([dir=rtl]) .track{left:auto}#fill,.track{height:var(--spectrum-slider-track-height);box-sizing:border-box;position:absolute;z-index:1;top:calc(var(--spectrum-slider-height)/2);margin-top:calc(var(--spectrum-slider-track-height)/-2);pointer-events:none}:host([dir=ltr]) #fill,:host([dir=ltr]) .track{padding-left:0;padding-right:var(--spectrum-slider-track-handleoffset)}:host([dir=rtl]) #fill,:host([dir=rtl]) .track{padding-right:0;padding-left:var(--spectrum-slider-track-handleoffset)}:host([dir=ltr]) #fill,:host([dir=ltr]) .track{margin-left:var(--spectrum-slider-track-margin-offset)}:host([dir=rtl]) #fill,:host([dir=rtl]) .track{margin-right:var(--spectrum-slider-track-margin-offset)}#fill,.track{padding-top:0;padding-bottom:0}#fill:before,.track:before{content:"";display:block;height:100%;border-radius:var(--spectrum-slider-track-border-radius)}:host([dir=ltr]) #fill{margin-left:0}:host([dir=rtl]) #fill{margin-right:0}:host([dir=ltr]) #fill{padding-left:calc(var(--spectrum-slider-controls-margin) + var(--spectrum-slider-track-handleoffset));padding-right:0}:host([dir=rtl]) #fill{padding-right:calc(var(--spectrum-slider-controls-margin) + var(--spectrum-slider-track-handleoffset));padding-left:0}#fill{padding-top:0;padding-bottom:0}:host([dir=ltr]) .spectrum-Slider-fill--right{padding-left:0;padding-right:calc(var(--spectrum-slider-controls-margin) + var(--spectrum-slider-track-handleoffset))}:host([dir=rtl]) .spectrum-Slider-fill--right{padding-right:0;padding-left:calc(var(--spectrum-slider-controls-margin) + var(--spectrum-slider-track-handleoffset))}.spectrum-Slider-fill--right{padding-top:0;padding-bottom:0}:host([dir=ltr]) .track~.track{left:auto}:host([dir=rtl]) .track~.track{right:auto}:host([dir=ltr]) .track~.track{right:var(--spectrum-slider-range-track-reset)}:host([dir=rtl]) .track~.track{left:var(--spectrum-slider-range-track-reset)}:host([dir=ltr]) .track~.track{padding-left:var(--spectrum-slider-track-handleoffset);padding-right:0}:host([dir=rtl]) .track~.track{padding-right:var(--spectrum-slider-track-handleoffset);padding-left:0}:host([dir=ltr]) .track~.track{margin-left:var(--spectrum-slider-range-track-reset)}:host([dir=rtl]) .track~.track{margin-right:var(--spectrum-slider-range-track-reset)}:host([dir=ltr]) .track~.track{margin-right:var(--spectrum-slider-track-margin-offset)}:host([dir=rtl]) .track~.track{margin-left:var(--spectrum-slider-track-margin-offset)}.track~.track{padding-top:0;padding-bottom:0}:host([variant=range]) #value{-webkit-user-select:text;-moz-user-select:text;user-select:text}:host([dir=ltr][variant=range]) .track:first-of-type{padding-left:0;padding-right:var(--spectrum-slider-track-handleoffset)}:host([dir=rtl][variant=range]) .track:first-of-type{padding-right:0;padding-left:var(--spectrum-slider-track-handleoffset)}:host([dir=ltr][variant=range]) .track:first-of-type{left:var(--spectrum-slider-range-track-reset)}:host([dir=rtl][variant=range]) .track:first-of-type{right:var(--spectrum-slider-range-track-reset)}:host([dir=ltr][variant=range]) .track:first-of-type{right:auto}:host([dir=rtl][variant=range]) .track:first-of-type{left:auto}:host([dir=ltr][variant=range]) .track:first-of-type{margin-left:var(--spectrum-slider-track-margin-offset)}:host([dir=rtl][variant=range]) .track:first-of-type{margin-right:var(--spectrum-slider-track-margin-offset)}:host([variant=range]) .track:first-of-type{padding-top:0;padding-bottom:0}:host([dir=ltr][variant=range]) [dir=ltr] .track,:host([dir=ltr][variant=range]) [dir=rtl] .track{left:auto}:host([dir=ltr][variant=range]) [dir=ltr] .track,:host([dir=ltr][variant=range]) [dir=rtl] .track,:host([dir=rtl][variant=range]) [dir=rtl] .track{right:auto}:host([dir=ltr][variant=range]) [dir=rtl] .track,:host([dir=rtl][variant=range]) [dir=rtl] .track{left:auto}:host([dir=ltr][variant=range]) .track,:host([dir=rtl][variant=range]) .track{padding-top:0;padding-bottom:0;padding-left:var(--spectrum-slider-track-middle-handleoffset);padding-right:var(--spectrum-slider-track-middle-handleoffset);margin:var(--spectrum-slider-range-track-reset)}:host([dir=ltr][variant=range]) .track:last-of-type{padding-left:var(--spectrum-slider-track-handleoffset);padding-right:0}:host([dir=rtl][variant=range]) .track:last-of-type{padding-right:var(--spectrum-slider-track-handleoffset);padding-left:0}:host([dir=ltr][variant=range]) .track:last-of-type{left:auto}:host([dir=rtl][variant=range]) .track:last-of-type{right:auto}:host([dir=ltr][variant=range]) .track:last-of-type{right:var(--spectrum-slider-range-track-reset)}:host([dir=rtl][variant=range]) .track:last-of-type{left:var(--spectrum-slider-range-track-reset)}:host([dir=ltr][variant=range]) .track:last-of-type{margin-right:var(--spectrum-slider-track-margin-offset)}:host([dir=rtl][variant=range]) .track:last-of-type{margin-left:var(--spectrum-slider-track-margin-offset)}:host([variant=range]) .track:last-of-type{padding-top:0;padding-bottom:0}:host([dir=ltr]) #ramp{left:var(--spectrum-slider-track-margin-offset)}:host([dir=ltr]) #ramp,:host([dir=rtl]) #ramp{right:var(--spectrum-slider-track-margin-offset)}:host([dir=rtl]) #ramp{left:var(--spectrum-slider-track-margin-offset)}#ramp{margin-top:var(--spectrum-slider-ramp-margin-top);height:var(--spectrum-global-dimension-static-size-200,16px);position:absolute;top:calc(var(--spectrum-global-dimension-static-size-200, 16px)/2)}:host([dir=rtl]) #ramp svg{transform:matrix(-1,0,0,1,0,0)}#ramp svg{width:100%;height:100%}:host([dir=ltr]) #handle{left:0}:host([dir=rtl]) #handle{right:0}:host([dir=ltr]) #handle{margin-left:calc(var(--spectrum-slider-handle-width)/-2);margin-right:0}:host([dir=rtl]) #handle{margin-right:calc(var(--spectrum-slider-handle-width)/-2);margin-left:0}#handle{position:absolute;top:calc(var(--spectrum-slider-height)/2);z-index:2;display:inline-block;box-sizing:border-box;width:var(--spectrum-slider-handle-width);height:var(--spectrum-slider-handle-height);margin-top:var(--spectrum-slider-handle-margin-top);margin-bottom:0;border-width:var(--spectrum-slider-handle-border-size);border-style:solid;border-radius:var(--spectrum-slider-handle-border-radius);transition:border-width var(--spectrum-slider-animation-duration) ease-in-out;outline:none}#handle:active,:host([dragging]) #handle,:host([handle-highlight]) #handle{border-width:var(--spectrum-slider-handle-border-size-down)}#handle.is-tophandle,#handle:active,:host([dragging]) #handle,:host([handle-highlight]) #handle{z-index:3}#handle:before{content:" ";display:block;position:absolute;left:50%;top:50%;transition:box-shadow var(--spectrum-global-animation-duration-100,.13s) ease-out,width var(--spectrum-global-animation-duration-100,.13s) ease-out,height var(--spectrum-global-animation-duration-100,.13s) ease-out;width:var(--spectrum-slider-handle-width);height:var(--spectrum-slider-handle-height);transform:translate(-50%,-50%);border-radius:100%}:host([handle-highlight]) #handle:before{width:calc(var(--spectrum-slider-handle-width) + var(--spectrum-alias-focus-ring-gap,
 var(--spectrum-global-dimension-static-size-25))*2);height:calc(var(--spectrum-slider-handle-height) + var(--spectrum-alias-focus-ring-gap,
 var(--spectrum-global-dimension-static-size-25))*2)}:host([dir=ltr]) #input{left:var(--spectrum-slider-input-left)}:host([dir=rtl]) #input{right:var(--spectrum-slider-input-left)}#input{margin:0;width:var(--spectrum-slider-handle-width);height:var(--spectrum-slider-handle-height);padding:0;position:absolute;top:var(--spectrum-slider-input-top);overflow:hidden;opacity:.000001;cursor:default;-webkit-appearance:none;border:0;pointer-events:none}#input:focus{outline:none}#labelContainer{display:flex;position:relative;width:auto;padding-top:var(--spectrum-fieldlabel-m-padding-top,var(--spectrum-global-dimension-size-50));font-size:var(--spectrum-label-text-size);line-height:var(--spectrum-label-text-line-height)}:host([dir=ltr]) #label{padding-left:0}:host([dir=rtl]) #label{padding-right:0}#label{flex-grow:1}:host([dir=ltr]) #value{padding-right:0}:host([dir=rtl]) #value{padding-left:0}:host([dir=ltr]) #value{text-align:right}:host([dir=rtl]) #value{text-align:left}#value{flex-grow:0;cursor:default;font-feature-settings:"tnum"}:host([dir=ltr]) #value{margin-left:var(--spectrum-slider-label-gap-x)}:host([dir=rtl]) #value{margin-right:var(--spectrum-slider-label-gap-x)}.ticks{display:flex;justify-content:space-between;z-index:0;margin:0 var(--spectrum-slider-track-margin-offset);margin-top:calc(var(--spectrum-slider-tick-mark-height) + var(--spectrum-slider-track-height)/2)}.tick{position:relative;width:var(--spectrum-slider-tick-mark-width)}:host([dir=ltr]) .tick:after{left:calc(50% - var(--spectrum-slider-tick-mark-width)/2)}:host([dir=rtl]) .tick:after{right:calc(50% - var(--spectrum-slider-tick-mark-width)/2)}.tick:after{display:block;position:absolute;top:0;content:"";width:var(--spectrum-slider-tick-mark-width);height:var(--spectrum-slider-tick-mark-height);border-radius:var(--spectrum-slider-tick-mark-border-radius)}.tick .tickLabel{display:flex;align-items:center;justify-content:center;margin-top:calc(var(--spectrum-slider-label-gap-y) + var(--spectrum-slider-tick-mark-height));margin-bottom:0;margin-left:calc(var(--spectrum-slider-label-gap-x)*-1);margin-right:calc(var(--spectrum-slider-label-gap-x)*-1);font-size:var(--spectrum-label-text-size);line-height:var(--spectrum-label-text-line-height)}.tick:first-of-type .tickLabel,.tick:last-of-type .tickLabel{display:block;position:absolute;margin-left:0;margin-right:0}:host([dir=ltr]) .tick:first-of-type .tickLabel{left:0}:host([dir=ltr]) .tick:last-of-type .tickLabel,:host([dir=rtl]) .tick:first-of-type .tickLabel{right:0}:host([dir=rtl]) .tick:last-of-type .tickLabel{left:0}:host([disabled]){cursor:default}:host([disabled]) #handle{cursor:default;pointer-events:none}.track:before{background:var(--spectrum-global-color-gray-400)}#labelContainer{color:var(--spectrum-alias-label-text-color,var(--spectrum-global-color-gray-700))}#fill:before,:host([variant=filled]) .track:first-child:before{background:var(--spectrum-global-color-gray-700)}#ramp path{fill:var(--spectrum-global-color-gray-400)}#handle{border-color:var(--spectrum-global-color-gray-700);background:var(--spectrum-alias-background-color-transparent,transparent)}#handle:hover,:host([handle-highlight]) #handle{border-color:var(--spectrum-global-color-gray-800)}:host([handle-highlight]) #handle:before{box-shadow:0 0 0 var(--spectrum-alias-focus-ring-size,var(--spectrum-global-dimension-static-size-25)) var(--spectrum-alias-focus-color,var(--spectrum-global-color-blue-400))}#handle:active,:host([dragging]) #handle{border-color:var(--spectrum-global-color-gray-800)}:host([variant=ramp]) #handle{box-shadow:0 0 0 4px var(--spectrum-alias-background-color-default,var(--spectrum-global-color-gray-100))}#input{background:transparent}.tick:after{background-color:var(--spectrum-alias-track-color-default,var(--spectrum-global-color-gray-300))}:host([dragging]) #handle{border-color:var(--spectrum-global-color-gray-800);background:var(--spectrum-alias-background-color-transparent,transparent)}:host([variant=range]) .track:not(:first-of-type):not(:last-of-type):before{background:var(--spectrum-global-color-gray-700)}:host([disabled]) #labelContainer{color:var(--spectrum-alias-text-color-disabled,var(--spectrum-global-color-gray-500))}:host([disabled]) #handle{border-color:var(--spectrum-global-color-gray-400);background:var(--spectrum-alias-background-color-default,var(--spectrum-global-color-gray-100))}:host([disabled]) #handle:active,:host([disabled]) #handle:hover{border-color:var(--spectrum-global-color-gray-400);background:var(--spectrum-alias-background-color-transparent,transparent)}:host([disabled]) #fill:before,:host([disabled]) .track:before,:host([disabled][variant=filled]) .track:first-child:before{background:var(--spectrum-global-color-gray-300)}:host([disabled]) #ramp path{fill:var(--spectrum-global-color-gray-200)}:host([disabled][variant=range]) .track:not(:first-of-type):not(:last-of-type):before{background:var(--spectrum-global-color-gray-300)}
 `;
 
 /**
- * slider is patched for a color picker. No label and solid fill colored thumb
+ * slider is patched just to put the label on the right side instead of on top the slider
  */
 class PatchedSlider extends Slider {
     static get styles() {
-        return [styles$d, styles$g, css`
-          #handle {
-            border-color: white;
-            background-color: #1473E6;
-          }
-          
-          :host([dragging]) #handle {
-            border-color: #1473E6;
-            background-color: white;
-          }  
-          
-          .track {
-            display: none;
-          }`];
+        return [styles$i, styles$j, css`
+        :host {
+          display: flex;
+          justify-content: center;
+        }
+        
+        #labelContainer {
+          line-height: 22px;
+        }`];
     }
 
     render() {
+        return html`                
+            ${this.variant === 'color'
+            ? this.renderColorTrack()
+            : this.renderTrack()}
+            ${this.renderLabel()}
+        `;
+    }
+
+    renderLabel() {
         return html`
-            ${this.renderTrack()}
+            <div id="labelContainer">
+                <div
+                    id="value"
+                    role="textbox"
+                    aria-readonly="true"
+                    aria-labelledby="label"
+                >
+                    ${this.ariaValueText}
+                </div>
+            </div>
         `;
     }
 }
 
 customElements.define('sp-patched-slider', PatchedSlider);
 
-const template$2 = function(scope) { return html`            
+const template$2 = function(scope) { return html`
+
 <div class="header">
-    <div class="preview illustrated">${PaintPalette}</div>
-    <div>
-        <h2>Step 3</h2>
-        <span>Customize the final look!</span>
-    </div>
-</div>
-
-<sp-field-label size="l">Choose a pattern</sp-field-label>
-<div class="button-row shapes">
-    <button class="shape" ?selected="${scope.shapeType === 'circles'}" data-shape="circles" @click="${(e) => scope.chooseShape(e)}">${ShapeCircle}</button>
-    <button class="shape" ?selected="${scope.shapeType === 'altcircles'}" data-shape="altcircles" @click="${(e) => scope.chooseShape(e)}">${ShapeTwoCircles}</button>
-    <button class="shape" ?selected="${scope.shapeType === 'hexagons'}" data-shape="hexagons" @click="${(e) => scope.chooseShape(e)}">${ShapeHexagon}</button>
-    <button class="shape" ?selected="${scope.shapeType === 'circulardots'}" data-shape="circulardots" @click="${(e) => scope.chooseShape(e)}">${ShapeSpiral}</button>
-    <button class="shape" ?selected="${scope.shapeType === 'sunflowerdots'}" data-shape="sunflowerdots" @click="${(e) => scope.chooseShape(e)}">${ShapeSunflower}</button>
-    <button class="shape" ?selected="${scope.shapeType === 'squares'}" data-shape="squares" @click="${(e) => scope.chooseShape(e)}">${ShapeSquare}</button>
-    <button class="shape" ?selected="${scope.shapeType === 'crosses'}" data-shape="crosses" @click="${(e) => scope.chooseShape(e)}">${ShapeCross}</button>
-    <button class="shape" ?selected="${scope.shapeType === 'triangles'}" data-shape="triangles" @click="${(e) => scope.chooseShape(e)}">${ShapeTriangle}</button>
-    <button class="shape" ?selected="${scope.shapeType === 'alttriangles'}" data-shape="alttriangles" @click="${(e) => scope.chooseShape(e)}">${ShapeTwoTriangles}</button>
-    <button class="shape" ?selected="${scope.shapeType === 'diamonds'}" data-shape="diamonds" @click="${(e) => scope.chooseShape(e)}">${ShapeDiamond}</button>
-    <button class="shape" ?selected="${scope.shapeType === 'waves'}" data-shape="waves" @click="${(e) => scope.chooseShape(e)}">${ShapeWaves}</button>
-    <button class="shape" ?selected="${scope.shapeType === 'altsquares'}" data-shape="altsquares" @click="${(e) => scope.chooseShape(e)}">${ShapeTwoSquares}</button>
+    <h2>Step 2</h2>
+    <span>Tweak it</span>
 </div>
 
 <div class="button-row">
-    <sp-slider
-            @input=${(e) => scope.chooseDistance(e)}
-            min="5" max="20" step="1"
-            value=${scope.shapeDistance}><sp-field-label size="l">Choose pattern size</sp-field-label></sp-slider>
+    <label>Choose a shape</label>
+    <sp-dropdown @change=${(e) => scope.chooseShape(e)} value=${scope.shapeType} label="Choose a shape">
+        <sp-menu>
+            <sp-menu-item value="hexagons">Hexagon</sp-menu-item>
+            <sp-menu-item value="circles">Circle</sp-menu-item>
+            <sp-menu-item value="circulardots">Circular Dot</sp-menu-item>
+            <sp-menu-item value="sunflowerdots">Sunflower Dot</sp-menu-item>
+            <sp-menu-item value="altcircles">Circle 2</sp-menu-item>
+            <sp-menu-item value="squares">Square</sp-menu-item>
+            <sp-menu-item value="crosses">Cross</sp-menu-item>
+            <sp-menu-item value="triangles">Triangle</sp-menu-item>
+            <sp-menu-item value="alttriangles">Triangle 2</sp-menu-item>
+            <sp-menu-item value="diamonds">Diamond</sp-menu-item>
+            <sp-menu-item value="waves">Wave</sp-menu-item>
+            <sp-menu-item value="altsquares">Square 2</sp-menu-item>
+        </sp-menu>
+    </sp-dropdown>
 </div>
 
-<sp-field-label size="l">Choose pattern color</sp-field-label>
 <div class="button-row">
-    <sp-patched-slider
-        @input=${(e) => scope.chooseColor(e)}
-        min="0" max="100" step=".1"
-        value=${scope.shapeColorSliderValue}></sp-patched-slider>
+    <label>Choose a shape color</label>
+    <input type="color" @input=${(e) => scope.chooseColor(e)} />
 </div>
 
-<sp-field-label size="l">Select a style</sp-field-label>
+<div class="button-row">
+    <label>Choose a shape distance</label>
+    <sp-patched-slider 
+        @input=${(e) => scope.chooseDistance(e)} 
+        min="5" max="20" step="1" 
+        value=${scope.shapeDistance}>
+    </sp-patched-slider>
+</div>
+
+<label>Blend mode</label>
 <div class="button-row" id="blend-modes">
-    <sp-action-group emphasized selects="single" @change=${(e) => scope.chooseBlendMode(e)} >
-${SettingsStep.BlendModes.map((blendmode, index) =>
+${SettingsStep.BlendModes.map((blendmode) =>
     html`<sp-action-button 
-            value=${blendmode.value}
-            ?selected=${blendmode.value === scope.blendMode}>${index+1}</sp-action-button>`)}
-    </sp-action-group>
+            data-blend=${blendmode.value} 
+            ?selected=${blendmode.value === scope.blendMode}
+            @change=${(e) => scope.chooseBlendMode(e)} 
+            toggles>${blendmode.label}
+    </sp-action-button>`)}
 </div>
 
 <div class="navigation-row">
@@ -8476,182 +8680,26 @@ ${SettingsStep.BlendModes.map((blendmode, index) =>
 const style$3 = css`
     :host {
       display: inline-block;
-    }
-  
-    sp-slider {
-      width: 100%;
+      --spectrum-actionbutton-background-color-selected: var(--spectrum-global-color-blue-500);
+      --spectrum-actionbutton-background-color-selected-hover: var(--spectrum-global-color-blue-500);
+      --spectrum-actionbutton-emphasized-background-color-selected-hover: var(--spectrum-global-color-blue-500);
+      --spectrum-actionbutton-text-color-selected: white;
+      --spectrum-actionbutton-text-color-selected-hover: white;
     }
   
     sp-patched-slider {
-      background: linear-gradient(to right, red 0%, #ff0 17%, lime 33%, cyan 50%, blue 66%, #f0f 83%, red 100%);
-      width: 100%;
+      width: 70%;
     }
 
     #blend-modes sp-action-button {
-      margin-right: 20px;
+      margin-right: 5px;
       margin-bottom: 5px;
     }
 
     #blend-modes {
       flex-wrap: wrap;
     }
-
-    .button-row.shapes {
-      display: flex;
-      flex-wrap: wrap;
-    }
-  
-    button.shape {
-      border: none;
-      background-color: initial;
-      margin-right: 12px;
-      margin-left: 12px;
-      padding-top: 4px;
-    }
-
-    button.shape svg,
-    button.shape svg path {
-      fill: #707070;
-      stroke: #707070;
-    }
-
-    button.shape[selected] svg,
-    button.shape[selected] svg path {
-      fill: #1473E6;
-      stroke: #1473E6;
-    }
 `;
-
-/**
- * from http://www.easyrgb.com/en/math.php#text1
- */
-
-var Color = {
-    /* accepts parameters
-     * h  Object = {h:x, s:y, v:z}
-     * OR
-     * h, s, v
-    */
-    HSVtoRGB(H, S, V) {
-        let R,G,B, var_h, var_i, var_1, var_2, var_3, var_r, var_g, var_b;
-        if ( S === 0 ) {
-            R = V * 255;
-            G = V * 255;
-            B = V * 255;
-        } else {
-            var_h = H * 6;
-            if ( var_h === 6 ) { var_h = 0; }      //H must be < 1
-            var_i = parseInt( var_h );            //Or ... var_i = floor( var_h )
-            var_1 = V * ( 1 - S );
-            var_2 = V * ( 1 - S * ( var_h - var_i ) );
-            var_3 = V * ( 1 - S * ( 1 - ( var_h - var_i ) ) );
-
-            if      ( var_i === 0 ) { var_r = V     ; var_g = var_3 ; var_b = var_1; }
-            else if ( var_i === 1 ) { var_r = var_2 ; var_g = V     ; var_b = var_1; }
-            else if ( var_i === 2 ) { var_r = var_1 ; var_g = V     ; var_b = var_3; }
-            else if ( var_i === 3 ) { var_r = var_1 ; var_g = var_2 ; var_b = V;     }
-            else if ( var_i === 4 ) { var_r = var_3 ; var_g = var_1 ; var_b = V;     }
-            else                   { var_r = V     ; var_g = var_1 ; var_b = var_2; }
-
-            R = parseInt(var_r * 255);
-            G = parseInt(var_g * 255);
-            B = parseInt(var_b * 255);
-        }
-        return { r: R, g: G, b: B };
-    },
-
-    RGBtoHSV(r, g, b) {
-        //R, G and B input range = 0 ÷ 255
-        //H, S and V output range = 0 ÷ 1.0
-
-        const var_R = ( r / 255 );
-        const var_G = ( g / 255 );
-        const var_B = ( b / 255 );
-
-        const var_Min = Math.min( var_R, var_G, var_B );   //Min. value of RGB
-        const var_Max = Math.max( var_R, var_G, var_B );    //Max. value of RGB
-        const del_Max = var_Max - var_Min;             //Delta RGB value
-
-        let V = var_Max;
-        let H, S;
-
-        if ( del_Max === 0 )                     //This is a gray, no chroma...
-        {
-            H = 0;
-            S = 0;
-        }
-        else                                    //Chromatic data...
-        {
-            S = del_Max / var_Max;
-
-            const del_R = ( ( ( var_Max - var_R ) / 6 ) + ( del_Max / 2 ) ) / del_Max;
-            const del_G = ( ( ( var_Max - var_G ) / 6 ) + ( del_Max / 2 ) ) / del_Max;
-            const del_B = ( ( ( var_Max - var_B ) / 6 ) + ( del_Max / 2 ) ) / del_Max;
-
-            if      ( var_R === var_Max ) { H = del_B - del_G; }
-            else if ( var_G === var_Max ) { H = ( 1 / 3 ) + del_R - del_B; }
-            else if ( var_B === var_Max ) { H = ( 2 / 3 ) + del_G - del_R; }
-
-            if ( H < 0 ) { H += 1; }
-            if ( H > 1 ) { H -= 1; }
-        }
-        return { h: H, s: S, v: V };
-    },
-
-    RGBtoHex(r, g, b) {
-        if (typeof r === 'object') {
-            g = r.g;
-            b = r.b;
-            r = r.r;
-        }
-        return '#' + this.toHex(parseInt(r)) + this.toHex(parseInt(g)) + this.toHex(parseInt(b));
-    },
-
-    // https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
-    hexToRGB(hex) {
-        var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-            return r + r + g + g + b + b;
-        });
-
-        let target;
-        if (hex.charAt(0) === '#') {
-            target = 7;
-        } else if (hex.charAt(0) !== '#') {
-            target = 6;
-        }
-
-        while(hex.length < target) {
-            hex += '0';
-        }
-
-        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-            r: parseInt(result[1], 16),
-            g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16)
-        } : null;
-    },
-
-    formatHex(val) {
-        if (val.charAt(0) !== '#') {
-            val = '#' + val;
-        }
-        while (val.length < 7) {
-            val += '0';
-        }
-        return val;
-    },
-
-    toHex(val) {
-        let hex = Number(val).toString(16);
-        if (hex.length < 2) {
-            hex = "0" + hex;
-        }
-        return hex;
-    }
-
-};
 
 class SettingsStep extends LitElement {
     static get BlendModes() {
@@ -8687,12 +8735,6 @@ class SettingsStep extends LitElement {
         this.shapeColor = App.DEFAULT_SHAPECOLOR;
 
         /**
-         * shape color slider value
-         */
-        const rgb = Color.hexToRGB(App.DEFAULT_SHAPECOLOR);
-        this.shapeColorSliderValue = 100 - Color.RGBtoHSV(rgb.r, rgb.b, rgb.g).h * 100;
-
-        /**
          * shape distance
          */
         this.shapeDistance = App.DEFAULT_SHAPEDISTANCE;
@@ -8713,24 +8755,20 @@ class SettingsStep extends LitElement {
     }
 
     chooseShape(e) {
-        this.shapeType = e.currentTarget.dataset.shape;
         const ce = new CustomEvent('propertychange', {
             detail: {
                 action: 'shapechange',
-                shape: e.currentTarget.dataset.shape
+                shape: e.target.value
             },
             composed: true, bubbles: true });
         this.dispatchEvent(ce);
-        this.requestUpdate('shapeType');
     }
 
     chooseColor(e) {
-        const rgb = Color.HSVtoRGB(e.target.value / 100, 1, 1);
-        const hex = Color.RGBtoHex(rgb);
         const ce = new CustomEvent('propertychange', {
             detail: {
                 action: 'colorchange',
-                color: hex
+                color: e.target.value
             },
             composed: true, bubbles: true });
         this.dispatchEvent(ce);
@@ -8747,7 +8785,7 @@ class SettingsStep extends LitElement {
     }
 
     chooseBlendMode(e) {
-        this.blendMode = e.currentTarget.selected[0];
+        this.blendMode = e.target.dataset.blend;
         const ce = new CustomEvent('propertychange', {
             detail: {
                 action: 'blendchange',
@@ -8770,351 +8808,23 @@ class SettingsStep extends LitElement {
 
 customElements.define('remix-settings-step', SettingsStep);
 
-/*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-let customTemplateLiteralTag$1;
-const tag$1 = function (strings, ...values) {
-    if (customTemplateLiteralTag$1) {
-        return customTemplateLiteralTag$1(strings, ...values);
-    }
-    return values.reduce((acc, v, idx) => acc + v + strings[idx + 1], strings[0]);
-};
-const setCustomTemplateLiteralTag$1 = (tag) => {
-    customTemplateLiteralTag$1 = tag;
-};
-
-/*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-const AlertIcon = ({ width = 24, height = 24, hidden = false, title = 'Alert' } = {}) => {
-    return tag$1 `<svg
-    xmlns="http://www.w3.org/2000/svg"
-    height="${height}"
-    viewBox="0 0 36 36"
-    width="${width}"
-    aria-hidden="${hidden ? 'true' : 'false'}"
-    role="img"
-    fill="currentColor"
-    aria-label="${title}"
-  >
-    <path
-      d="M17.127 2.579L.4 32.512A1 1 0 001.272 34h33.456a1 1 0 00.872-1.488L18.873 2.579a1 1 0 00-1.746 0zM20 29.5a.5.5 0 01-.5.5h-3a.5.5 0 01-.5-.5v-3a.5.5 0 01.5-.5h3a.5.5 0 01.5.5zm0-6a.5.5 0 01-.5.5h-3a.5.5 0 01-.5-.5v-12a.5.5 0 01.5-.5h3a.5.5 0 01.5.5z"
-    />
-  </svg>`;
-};
-
-/*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-setCustomTemplateLiteralTag$1(html);
-
-/*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-const styles$h = css `
-:host{--spectrum-textfield-border-size:var(--spectrum-alias-border-size-thin,var(--spectrum-global-dimension-static-size-10));--spectrum-textfield-text-line-height:var(--spectrum-alias-component-text-line-height,var(--spectrum-global-font-line-height-small));--spectrum-textfield-text-size:var(--spectrum-alias-item-text-size-m,var(--spectrum-global-dimension-font-size-100));--spectrum-textfield-height:var(--spectrum-alias-item-height-m,var(--spectrum-global-dimension-size-400));--spectrum-textfield-padding-left:var(--spectrum-alias-item-padding-m,var(--spectrum-global-dimension-size-150));--spectrum-textfield-padding-right:var(--spectrum-alias-item-padding-m,var(--spectrum-global-dimension-size-150));--spectrum-textfield-min-width:var(--spectrum-global-dimension-size-600);--spectrum-textfield-success-icon-height:var(--spectrum-alias-ui-icon-checkmark-size-100);--spectrum-textfield-success-icon-width:var(--spectrum-alias-ui-icon-checkmark-size-100);--spectrum-textfield-success-icon-margin-left:var(--spectrum-global-dimension-size-150);--spectrum-textfield-error-icon-height:var(--spectrum-alias-ui-icon-alert-size-100,var(--spectrum-global-dimension-size-225));--spectrum-textfield-error-icon-width:var(--spectrum-alias-ui-icon-alert-size-100,var(--spectrum-global-dimension-size-225));--spectrum-textfield-error-icon-margin-left:var(--spectrum-global-dimension-size-150);--spectrum-textfield-placeholder-text-font-style:var(--spectrum-global-font-style-italic,italic);--spectrum-textfield-placeholder-text-font-weight:var(--spectrum-global-font-weight-regular,400);--spectrum-textfield-border-radius:var(--spectrum-alias-border-radius-regular,var(--spectrum-global-dimension-size-50));--spectrum-textfield-quiet-border-size:var(--spectrum-alias-border-size-thin,var(--spectrum-global-dimension-static-size-10));--spectrum-textfield-quiet-padding-left:0;--spectrum-textfield-quiet-padding-right:0;--spectrum-textfield-quiet-success-icon-margin-left:var(--spectrum-global-dimension-size-150);--spectrum-textfield-quiet-error-icon-margin-left:var(--spectrum-global-dimension-size-150);--spectrum-textfield-quiet-border-radius:0px;--spectrum-textarea-text-padding-top:var(--spectrum-alias-item-text-padding-top-m,var(--spectrum-global-dimension-size-75));--spectrum-textarea-text-padding-bottom:var(--spectrum-alias-item-text-padding-bottom-m,var(--spectrum-global-dimension-size-115));--spectrum-textarea-height:var(--spectrum-alias-item-height-m,var(--spectrum-global-dimension-size-400));--spectrum-textarea-padding-left:var(--spectrum-alias-item-padding-m,var(--spectrum-global-dimension-size-150));--spectrum-textarea-padding-right:var(--spectrum-alias-item-padding-m,var(--spectrum-global-dimension-size-150));--spectrum-textfield-padding-top:3px;--spectrum-textfield-padding-bottom:5px;--spectrum-textfield-text-font-family:var(--spectrum-alias-body-text-font-family,var(--spectrum-global-font-family-base));--spectrum-textfield-icon-gap:var(--spectrum-global-dimension-size-65);--spectrum-textfield-quiet-icon-gap:var(--spectrum-global-dimension-size-75);--spectrum-textarea-min-height:var(--spectrum-textarea-height);--spectrum-textarea-height-adjusted:auto;--spectrum-textarea-padding-top:var(--spectrum-textarea-text-padding-top);--spectrum-textarea-padding-bottom:var(--spectrum-textarea-text-padding-bottom);display:inline-flex;position:relative;min-width:var(--spectrum-textfield-min-width);width:var(--spectrum-alias-single-line-width,var(--spectrum-global-dimension-size-2400))}:host([quiet][multiline]) #input{height:var(--spectrum-textfield-height);min-height:var(--spectrum-textfield-height)}#input{box-sizing:border-box;border:var(--spectrum-textfield-border-size) solid;border-radius:var(--spectrum-textfield-border-radius);padding:var(--spectrum-textfield-padding-top) var(--spectrum-textfield-padding-right) var(--spectrum-textfield-padding-bottom) calc(var(--spectrum-textfield-padding-left) - 1px);text-indent:0;width:100%;height:var(--spectrum-textfield-height);vertical-align:top;margin:0;overflow:visible;font-family:var(--spectrum-textfield-text-font-family);font-size:var(--spectrum-textfield-text-size);line-height:var(--spectrum-textfield-text-line-height);text-overflow:ellipsis;transition:border-color var(--spectrum-global-animation-duration-100,.13s) ease-in-out,box-shadow var(--spectrum-global-animation-duration-100,.13s) ease-in-out;outline:none;-webkit-appearance:none;-moz-appearance:textfield}#input::placeholder{font-weight:var(--spectrum-textfield-placeholder-text-font-weight);font-style:var(--spectrum-textfield-placeholder-text-font-style);transition:color var(--spectrum-global-animation-duration-100,.13s) ease-in-out;opacity:1}#input:lang(ja)::placeholder,#input:lang(ko)::placeholder,#input:lang(zh)::placeholder{font-style:normal}#input:hover::placeholder{font-weight:var(--spectrum-textfield-placeholder-text-font-weight)}#input:disabled{resize:none;opacity:1}#input:disabled::placeholder{font-weight:var(--spectrum-textfield-placeholder-text-font-weight)}#input::-ms-clear{width:0;height:0}#input::-webkit-inner-spin-button,#input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}#input:-moz-ui-invalid{box-shadow:none}:host([dir=ltr][valid]) #input{padding-right:calc(var(--spectrum-textfield-padding-right) + var(--spectrum-icon-checkmark-medium-width) + var(--spectrum-textfield-success-icon-margin-left))}:host([dir=rtl][valid]) #input{padding-left:calc(var(--spectrum-textfield-padding-right) + var(--spectrum-icon-checkmark-medium-width) + var(--spectrum-textfield-success-icon-margin-left))}:host([dir=ltr][invalid]) #input{padding-right:calc(var(--spectrum-textfield-padding-right) + var(--spectrum-icon-alert-medium-width,
-var(--spectrum-global-dimension-size-225)) + var(--spectrum-textfield-error-icon-margin-left))}:host([dir=rtl][invalid]) #input{padding-left:calc(var(--spectrum-textfield-padding-right) + var(--spectrum-icon-alert-medium-width,
-var(--spectrum-global-dimension-size-225)) + var(--spectrum-textfield-error-icon-margin-left))}:host([multiline]) #input{height:var(--spectrum-textarea-height-adjusted);min-height:var(--spectrum-textarea-min-height);padding:var(--spectrum-textarea-padding-top) var(--spectrum-textarea-padding-right) var(--spectrum-textarea-padding-bottom) calc(var(--spectrum-textarea-padding-left) - 1px);overflow:auto}:host([dir=ltr][quiet]) #input{padding-left:var(--spectrum-textfield-quiet-padding-left)}:host([dir=rtl][quiet]) #input{padding-right:var(--spectrum-textfield-quiet-padding-left)}:host([dir=ltr][quiet]) #input{padding-right:var(--spectrum-textfield-quiet-padding-right)}:host([dir=rtl][quiet]) #input{padding-left:var(--spectrum-textfield-quiet-padding-right)}:host([quiet]) #input{border-radius:var(--spectrum-textfield-quiet-border-radius);border-top-width:0;border-bottom-width:var(--spectrum-textfield-quiet-border-size);border-left-width:0;border-right-width:0;resize:none;overflow-y:hidden}:host([dir=ltr][invalid][quiet]) #input{padding-right:calc(var(--spectrum-icon-alert-medium-width,
-var(--spectrum-global-dimension-size-225)) + var(--spectrum-textfield-quiet-error-icon-margin-left))}:host([dir=rtl][invalid][quiet]) #input{padding-left:calc(var(--spectrum-icon-alert-medium-width,
-var(--spectrum-global-dimension-size-225)) + var(--spectrum-textfield-quiet-error-icon-margin-left))}:host([dir=ltr][valid][quiet]) #input{padding-right:calc(var(--spectrum-icon-checkmark-medium-width) + var(--spectrum-textfield-quiet-success-icon-margin-left))}:host([dir=rtl][valid][quiet]) #input{padding-left:calc(var(--spectrum-icon-checkmark-medium-width) + var(--spectrum-textfield-quiet-success-icon-margin-left))}.icon{position:absolute;pointer-events:all}:host([dir=ltr][quiet]) .icon{padding-right:0}:host([dir=rtl][quiet]) .icon{padding-left:0}:host([dir=ltr][invalid]) .icon{right:var(--spectrum-textfield-error-icon-margin-left)}:host([dir=rtl][invalid]) .icon{left:var(--spectrum-textfield-error-icon-margin-left)}:host([invalid]) .icon{width:var(--spectrum-textfield-error-icon-width);height:var(--spectrum-textfield-error-icon-height);bottom:calc(var(--spectrum-textfield-height)/2 - var(--spectrum-textfield-error-icon-height)/2)}:host([dir=ltr][quiet][invalid]) .icon{right:0}:host([dir=rtl][quiet][invalid]) .icon{left:0}:host([dir=ltr][valid]) .icon{right:var(--spectrum-textfield-success-icon-margin-left)}:host([dir=rtl][valid]) .icon{left:var(--spectrum-textfield-success-icon-margin-left)}:host([valid]) .icon{width:var(--spectrum-textfield-success-icon-width);height:var(--spectrum-textfield-success-icon-height);bottom:calc(var(--spectrum-textfield-height)/2 - var(--spectrum-textfield-success-icon-height)/2)}:host([dir=ltr][quiet][valid]) .icon{right:0}:host([dir=rtl][quiet][valid]) .icon{left:0}:host([dir=ltr]) .icon-workflow{left:var(--spectrum-textfield-error-icon-margin-left)}:host([dir=rtl]) .icon-workflow{right:var(--spectrum-textfield-error-icon-margin-left)}.icon-workflow{display:block;position:absolute;height:var(--spectrum-alias-workflow-icon-size-m,var(--spectrum-global-dimension-size-225));width:var(--spectrum-alias-workflow-icon-size-m,var(--spectrum-global-dimension-size-225));top:calc(var(--spectrum-textfield-height)/2 - var(--spectrum-alias-workflow-icon-size-m,
-var(--spectrum-global-dimension-size-225))/2)}:host([dir=ltr][quiet]) .icon-workflow{left:0}:host([dir=rtl][quiet]) .icon-workflow{right:0}:host([dir=ltr][quiet]) .icon-workflow~#input{padding-left:calc(var(--spectrum-alias-workflow-icon-size-m,
-var(--spectrum-global-dimension-size-225)) + var(--spectrum-textfield-quiet-icon-gap))}:host([dir=rtl][quiet]) .icon-workflow~#input{padding-right:calc(var(--spectrum-alias-workflow-icon-size-m,
-var(--spectrum-global-dimension-size-225)) + var(--spectrum-textfield-quiet-icon-gap))}:host([dir=ltr]) .icon-workflow+#input{padding-left:calc(var(--spectrum-textfield-error-icon-margin-left) + var(--spectrum-alias-workflow-icon-size-m,
-var(--spectrum-global-dimension-size-225)) + var(--spectrum-textfield-icon-gap))}:host([dir=rtl]) .icon-workflow+#input{padding-right:calc(var(--spectrum-textfield-error-icon-margin-left) + var(--spectrum-alias-workflow-icon-size-m,
-var(--spectrum-global-dimension-size-225)) + var(--spectrum-textfield-icon-gap))}:host([multiline]) .icon-workflow~#input{height:var(--spectrum-textfield-height);min-height:var(--spectrum-textfield-height)}:host(:hover) #input{border-color:var(--spectrum-alias-border-color-hover,var(--spectrum-global-color-gray-500));box-shadow:none}:host(:hover) #input::placeholder{color:var(--spectrum-alias-placeholder-text-color-hover,var(--spectrum-global-color-gray-900))}:host(:hover) .icon-workflow{color:var(--spectrum-global-color-gray-900)}:host(:active) #input{border-color:var(--spectrum-alias-border-color-mouse-focus,var(--spectrum-global-color-blue-500))}:host(:active) .icon-workflow{color:var(--spectrum-alias-icon-color-down,var(--spectrum-global-color-gray-900))}:host([valid]) .icon{color:var(--spectrum-semantic-positive-color-icon,var(--spectrum-global-color-green-600))}:host([invalid]) .icon{color:var(--spectrum-semantic-negative-color-icon,var(--spectrum-global-color-red-600))}:host([invalid]:hover) #input{border-color:var(--spectrum-semantic-negative-color-state-hover,var(--spectrum-global-color-red-600))}:host([disabled]) .icon,:host([disabled]) .icon-workflow{color:var(--spectrum-global-color-gray-500)}.icon-workflow{color:var(--spectrum-alias-icon-color,var(--spectrum-global-color-gray-700))}#input{background-color:var(--spectrum-global-color-gray-50);border-color:var(--spectrum-alias-border-color,var(--spectrum-global-color-gray-400));color:var(--spectrum-alias-text-color,var(--spectrum-global-color-gray-800))}#input::placeholder{color:var(--spectrum-global-color-gray-600)}#input:focus,:host([focused]) #input{border-color:var(--spectrum-alias-border-color-mouse-focus,var(--spectrum-global-color-blue-500))}#input.focus-visible,#input.focus-visible,:host([focused]) #input{border-color:var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400));box-shadow:0 0 0 1px var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400))}#input.focus-visible,#input:focus-visible,:host([focused]) #input{border-color:var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400));box-shadow:0 0 0 1px var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400))}:host([invalid]) #input{border-color:var(--spectrum-semantic-negative-color-default,var(--spectrum-global-color-red-500))}:host([focused][invalid]) #input,:host([invalid]) #input.focus-visible,:host([invalid]) #input.focus-visible{border-color:var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400));box-shadow:0 0 0 1px var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400))}:host([focused][invalid]) #input,:host([invalid]) #input.focus-visible,:host([invalid]) #input:focus-visible{border-color:var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400));box-shadow:0 0 0 1px var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400))}#input :disabled,:host([disabled]) #input,:host([disabled]:hover) #input{background-color:var(--spectrum-global-color-gray-200);border-color:var(--spectrum-alias-border-color-transparent,transparent);-webkit-text-fill-color:var(--spectrum-alias-text-color-disabled,var(--spectrum-global-color-gray-500))}#input :disabled,#input :disabled::placeholder,:host([disabled]) #input,:host([disabled]) #input::placeholder,:host([disabled]:hover) #input,:host([disabled]:hover) #input::placeholder{color:var(--spectrum-alias-text-color-disabled,var(--spectrum-global-color-gray-500))}:host([quiet]) #input{background-color:var(--spectrum-alias-background-color-transparent,transparent);border-color:var(--spectrum-alias-border-color,var(--spectrum-global-color-gray-400))}:host([focused][quiet]) #input,:host([quiet]) #input:focus{border-color:var(--spectrum-alias-border-color-mouse-focus,var(--spectrum-global-color-blue-500))}:host([focused][quiet]) #input,:host([quiet]) #input.focus-visible,:host([quiet]) #input.focus-visible{border-color:var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400));box-shadow:0 1px 0 var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400))}:host([focused][quiet]) #input,:host([quiet]) #input.focus-visible,:host([quiet]) #input:focus-visible{border-color:var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400));box-shadow:0 1px 0 var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400))}:host([invalid][quiet]) #input{border-color:var(--spectrum-semantic-negative-color-default,var(--spectrum-global-color-red-500))}:host([focused][invalid][quiet]) #input,:host([invalid][quiet]) #input:focus{border-color:var(--spectrum-semantic-negative-color-state-hover,var(--spectrum-global-color-red-600))}:host([focused][invalid][quiet]) #input,:host([invalid][quiet]) #input.focus-visible,:host([invalid][quiet]) #input.focus-visible{border-color:var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400));box-shadow:0 1px 0 var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400))}:host([focused][invalid][quiet]) #input,:host([invalid][quiet]) #input.focus-visible,:host([invalid][quiet]) #input:focus-visible{border-color:var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400));box-shadow:0 1px 0 var(--spectrum-alias-border-color-focus,var(--spectrum-global-color-blue-400))}:host([disabled][quiet]) #input,:host([disabled][quiet]:hover) #input,:host([quiet]) #input :disabled{background-color:var(--spectrum-alias-background-color-transparent,transparent);border-color:var(--spectrum-alias-border-color-mid,var(--spectrum-global-color-gray-300))}:host([grows]) #input{position:absolute;top:0;left:0;height:100%;resize:none}:host([grows]) #sizer{box-sizing:border-box;border:var(--spectrum-textfield-border-size,var(--spectrum-alias-border-size-thin)) solid;border-radius:var(--spectrum-textfield-border-radius,var(--spectrum-alias-border-radius-regular));padding:3px var(--spectrum-textfield-padding-x,var(--spectrum-global-dimension-size-150)) 5px calc(var(--spectrum-textfield-padding-x,
-var(--spectrum-global-dimension-size-150)) - 1px);text-indent:0;width:100%;vertical-align:top;margin:0;font-family:var(--spectrum-alias-body-text-font-family,var(--spectrum-global-font-family-base));font-size:var(--spectrum-textfield-text-size,var(--spectrum-alias-font-size-default));line-height:var(--spectrum-textfield-text-line-height,var(--spectrum-alias-body-text-line-height))}:host([grows][quiet]) #sizer{padding-left:var(--spectrum-textfield-quiet-padding-x,0);padding-right:var(--spectrum-textfield-quiet-padding-x,0);border-right-width:0;border-left-width:0}
-`;
-
-/*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-const styles$i = css `
-.spectrum-UIIcon-Checkmark50{width:var(--spectrum-alias-ui-icon-checkmark-size-50);height:var(--spectrum-alias-ui-icon-checkmark-size-50)}.spectrum-UIIcon-Checkmark75{width:var(--spectrum-alias-ui-icon-checkmark-size-75);height:var(--spectrum-alias-ui-icon-checkmark-size-75)}.spectrum-UIIcon-Checkmark100{width:var(--spectrum-alias-ui-icon-checkmark-size-100);height:var(--spectrum-alias-ui-icon-checkmark-size-100)}.spectrum-UIIcon-Checkmark200{width:var(--spectrum-alias-ui-icon-checkmark-size-200);height:var(--spectrum-alias-ui-icon-checkmark-size-200)}.spectrum-UIIcon-Checkmark300{width:var(--spectrum-alias-ui-icon-checkmark-size-300);height:var(--spectrum-alias-ui-icon-checkmark-size-300)}.spectrum-UIIcon-Checkmark400{width:var(--spectrum-alias-ui-icon-checkmark-size-400);height:var(--spectrum-alias-ui-icon-checkmark-size-400)}.spectrum-UIIcon-Checkmark500{width:var(--spectrum-alias-ui-icon-checkmark-size-500);height:var(--spectrum-alias-ui-icon-checkmark-size-500)}.spectrum-UIIcon-Checkmark600{width:var(--spectrum-alias-ui-icon-checkmark-size-600);height:var(--spectrum-alias-ui-icon-checkmark-size-600)}
-`;
-
-/*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-class Textfield extends Focusable {
-    constructor() {
-        super(...arguments);
-        this.allowedKeys = '';
-        this.focused = false;
-        this.invalid = false;
-        this.label = '';
-        this.placeholder = '';
-        this.grows = false;
-        this.multiline = false;
-        this.valid = false;
-        this.value = '';
-        this.quiet = false;
-        this.required = false;
-    }
-    static get styles() {
-        return [styles$h, styles$i];
-    }
-    get focusElement() {
-        return this.inputElement;
-    }
-    onInput() {
-        if (this.allowedKeys && this.inputElement.value) {
-            const regExp = new RegExp(`^[${this.allowedKeys}]*$`);
-            if (!regExp.test(this.inputElement.value)) {
-                const selectionStart = this.inputElement
-                    .selectionStart;
-                const nextSelectStart = selectionStart - 1;
-                this.inputElement.value = this.value;
-                this.inputElement.setSelectionRange(nextSelectStart, nextSelectStart);
-                return;
-            }
-        }
-        this.value = this.inputElement.value;
-        const selectionStart = this.inputElement.selectionStart;
-        this.updateComplete.then(() => {
-            this.inputElement.setSelectionRange(selectionStart, selectionStart);
-        });
-    }
-    onChange() {
-        this.dispatchEvent(new Event('change', {
-            bubbles: true,
-            composed: true,
-        }));
-    }
-    onFocus() {
-        this.focused = true;
-    }
-    onBlur() {
-        this.focused = false;
-    }
-    renderStateIcons() {
-        if (this.invalid) {
-            return html `
-                <sp-icon id="invalid" class="icon">
-                    ${AlertIcon()}
-                </sp-icon>
-            `;
-        }
-        else if (this.valid) {
-            return html `
-                <sp-icon id="valid" class="icon spectrum-UIIcon-Checkmark100">
-                    ${Checkmark100Icon()}
-                </sp-icon>
-            `;
-        }
-        return nothing;
-    }
-    get renderMultiline() {
-        return html `
-            ${this.grows && !this.quiet
-            ? html `
-                      <div id="sizer">${this.value}</div>
-                  `
-            : nothing}
-            <!-- @ts-ignore -->
-            <textarea
-                aria-label=${this.label || this.placeholder}
-                id="input"
-                pattern=${ifDefined(this.pattern)}
-                placeholder=${this.placeholder}
-                .value=${this.value}
-                @change=${this.onChange}
-                @input=${this.onInput}
-                @focus=${this.onFocus}
-                @blur=${this.onBlur}
-                ?disabled=${this.disabled}
-                ?required=${this.required}
-                autocomplete=${ifDefined(this.autocomplete)}
-            ></textarea>
-        `;
-    }
-    get renderInput() {
-        return html `
-            <!-- @ts-ignore -->
-            <input
-                aria-label=${this.label || this.placeholder}
-                id="input"
-                pattern=${ifDefined(this.pattern)}
-                placeholder=${this.placeholder}
-                .value=${this.value}
-                @change=${this.onChange}
-                @input=${this.onInput}
-                @focus=${this.onFocus}
-                @blur=${this.onBlur}
-                ?disabled=${this.disabled}
-                ?required=${this.required}
-                autocomplete=${ifDefined(this.autocomplete)}
-            />
-        `;
-    }
-    render() {
-        return html `
-            ${this.renderStateIcons()}
-            ${this.multiline ? this.renderMultiline : this.renderInput}
-        `;
-    }
-    updated(changedProperties) {
-        if (changedProperties.has('value') ||
-            (changedProperties.has('required') && this.required)) {
-            this.checkValidity();
-        }
-    }
-    checkValidity() {
-        let validity = this.inputElement.checkValidity();
-        if (this.required || (this.value && this.pattern)) {
-            if ((this.disabled || this.multiline) && this.pattern) {
-                const regex = new RegExp(this.pattern);
-                validity = regex.test(this.value);
-            }
-            this.valid = validity;
-            this.invalid = !validity;
-        }
-        return validity;
-    }
-}
-__decorate([
-    property({ attribute: 'allowed-keys' })
-], Textfield.prototype, "allowedKeys", void 0);
-__decorate([
-    property({ type: Boolean, reflect: true })
-], Textfield.prototype, "focused", void 0);
-__decorate([
-    query('#input')
-], Textfield.prototype, "inputElement", void 0);
-__decorate([
-    property({ type: Boolean, reflect: true })
-], Textfield.prototype, "invalid", void 0);
-__decorate([
-    property()
-], Textfield.prototype, "label", void 0);
-__decorate([
-    property()
-], Textfield.prototype, "placeholder", void 0);
-__decorate([
-    property()
-], Textfield.prototype, "pattern", void 0);
-__decorate([
-    property({ type: Boolean, reflect: true })
-], Textfield.prototype, "grows", void 0);
-__decorate([
-    property({ type: Number })
-], Textfield.prototype, "maxlength", void 0);
-__decorate([
-    property({ type: Number })
-], Textfield.prototype, "minlength", void 0);
-__decorate([
-    property({ type: Boolean, reflect: true })
-], Textfield.prototype, "multiline", void 0);
-__decorate([
-    property({ type: Boolean, reflect: true })
-], Textfield.prototype, "valid", void 0);
-__decorate([
-    property({ type: String })
-], Textfield.prototype, "value", void 0);
-__decorate([
-    property({ type: Boolean, reflect: true })
-], Textfield.prototype, "quiet", void 0);
-__decorate([
-    property({ type: Boolean, reflect: true })
-], Textfield.prototype, "required", void 0);
-__decorate([
-    property({ type: String, reflect: true })
-], Textfield.prototype, "autocomplete", void 0);
-
-/*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-customElements.define('sp-textfield', Textfield);
-
 const template$3 = function(scope) { return html`
 
 <div class="header">
-    <div class="preview illustrated">${FloppyDisk}</div>
-    <div>
-        <h2>Step 4</h2>
-        <span>Save and submit your creation</span>
-    </div>
-</div>
-<span>* You’ll be submitting to the DeYoung staff for approval. Check the gallery later to see your creation</span>
-<br /><br />
-
-<div class="form-row">
-    <div class="field">
-        <sp-field-label for="firstname">First Name</sp-field-label>
-        <sp-textfield id="firstname"></sp-textfield>
-    </div>
-    <div class="field">
-        <sp-field-label for="lastinitial">Last Initial</sp-field-label>
-        <sp-textfield id="lastinitial" style="width: 40px"></sp-textfield>
-    </div>
-    <div class="field">
-        <sp-field-label for="age">Age</sp-field-label>
-        <sp-textfield id="age" style="width: 40px"></sp-textfield>
-    </div>
+    <h2>Step 4</h2>
+    <span>Share and save your artwork!</span>
 </div>
 
-<sp-field-label size="l">Download</sp-field-label>
-<div class="button-row">
+<div class="button-row centered">
     <sp-action-button @click=${() => scope.saveAs('jpg')}>
-        <sp-icon size="s" slot="icon">${SaveFloppy}</sp-icon> Download your masterpiece
+        <sp-icon size="s" slot="icon">${SaveFloppy}</sp-icon> Download as a JPG
+    </sp-action-button>
+    <sp-action-button @click=${() => scope.saveAs('png')}>
+        <sp-icon size="s" slot="icon">${SaveFloppy}</sp-icon> Download as a PNG
     </sp-action-button>
 </div>
+
+<span>* You’ll be submitting to the DeYoung staff for approval. Check the gallery later to see your creation</span>
 
 <br />
 <div class="navigation-row">
@@ -9126,10 +8836,6 @@ const template$3 = function(scope) { return html`
 const style$4 = css`
     :host {
       display: inline-block;
-    }
-  
-    .form-row .field {
-      margin-right: 15px;
     }
 `;
 
@@ -9158,9 +8864,9 @@ class FinalStep extends LitElement {
 customElements.define('remix-final-step', FinalStep);
 
 const template$4 = function(scope) { return html`
-    <remix-background-step ?disabled="${scope.currentStep !== 0}"></remix-background-step>
-    <remix-foreground-step ?disabled="${scope.currentStep !== 1}"></remix-foreground-step>
-    <remix-settings-step ?disabled="${scope.currentStep !== 2}"></remix-settings-step>
+    <remix-foreground-step ?disabled="${scope.currentStep !== 0}"></remix-foreground-step>
+    <remix-settings-step ?disabled="${scope.currentStep !== 1}"></remix-settings-step>
+    <remix-background-step ?disabled="${scope.currentStep !== 2}"></remix-background-step>
     <remix-final-step ?disabled="${scope.currentStep !== 3}"></remix-final-step>
 `};
 
@@ -9208,6 +8914,7 @@ customElements.define('remix-steps', Steps);
 const template$5 = function(scope) { return html`
 
 <sp-theme scale="medium" color="light">
+    <remix-steps></remix-steps>
     <halftone-svg 
             blendmode=${scope.blendMode} 
             distance=${scope.shapeDistance}
@@ -9216,7 +8923,6 @@ const template$5 = function(scope) { return html`
             src="${scope.foregroundImage}">
         <div id="bgimage" style="background-image: url(${scope.backgroundImage})"></div>
     </halftone-svg>
-    <remix-steps></remix-steps>
 </sp-theme>
 `};
 
@@ -9340,7 +9046,7 @@ const drawBackgroundImage = (ctx, srccanvas, offsetX = 0.5, offsetY = 0.5) => {
 window.process = { env : { NODE_ENV: 'nothing' }};
 
 class App extends LitElement {
-    static get DEFAULT_SHAPECOLOR() { return '#00FF00'; }
+    static get DEFAULT_SHAPECOLOR() { return '#000000'; }
     static get DEFAULT_SHAPETYPE() { return 'hexagons'; }
     static get DEFAULT_SHAPEDISTANCE() { return 10; }
     static get DEFAULT_BLENDMODE() { return 'overlay'; }
@@ -9451,4 +9157,4 @@ class App extends LitElement {
 
 customElements.define('remix-app', App);
 
-export default App;
+export { App as A, SpectrumElement as S, __decorate as _, css as c, html as h, ifDefined as i, property as p };
