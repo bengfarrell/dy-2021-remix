@@ -2,7 +2,7 @@
   "name": "dy-2021-remix",
   "version": "1.0.0",
   "dependencies": {
-    "@spectrum-web-components/bundle": "^0.15.8",
+    "@spectrum-web-components/bundle": "^0.16.0",
     "halftone.js": "git+https://github.com/bengfarrell/halftone.js.git",
     "lit-element": "^2.4.0"
   },

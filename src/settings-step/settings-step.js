@@ -3,6 +3,7 @@ import {template} from './settings-step.html.js';
 import {style} from './settings-step.css.js';
 import {style as commonstyle} from '../common/steps.css.js';
 import App from '../app/app';
+import Color from './color.js';
 
 export default class SettingsStep extends LitElement {
     static get BlendModes() {
@@ -38,6 +39,12 @@ export default class SettingsStep extends LitElement {
         this.shapeColor = App.DEFAULT_SHAPECOLOR;
 
         /**
+         * shape color slider value
+         */
+        const rgb = Color.hexToRGB(App.DEFAULT_SHAPECOLOR);
+        this.shapeColorSliderValue = 100 - Color.RGBtoHSV(rgb.r, rgb.b, rgb.g).h * 100;
+
+        /**
          * shape distance
          */
         this.shapeDistance = App.DEFAULT_SHAPEDISTANCE;
@@ -50,7 +57,7 @@ export default class SettingsStep extends LitElement {
         /**
          * is camera enabled
          */
-        this.cameraEnabled = false
+        this.cameraEnabled = false;
     }
 
     static get styles() {
@@ -58,20 +65,24 @@ export default class SettingsStep extends LitElement {
     }
 
     chooseShape(e) {
+        this.shapeType = e.currentTarget.dataset.shape;
         const ce = new CustomEvent('propertychange', {
             detail: {
                 action: 'shapechange',
-                shape: e.target.value
+                shape: e.currentTarget.dataset.shape
             },
             composed: true, bubbles: true });
         this.dispatchEvent(ce);
+        this.requestUpdate('shapeType');
     }
 
     chooseColor(e) {
+        const rgb = Color.HSVtoRGB(e.target.value / 100, 1, 1);
+        const hex = Color.RGBtoHex(rgb);
         const ce = new CustomEvent('propertychange', {
             detail: {
                 action: 'colorchange',
-                color: e.target.value
+                color: hex
             },
             composed: true, bubbles: true });
         this.dispatchEvent(ce);
@@ -88,7 +99,7 @@ export default class SettingsStep extends LitElement {
     }
 
     chooseBlendMode(e) {
-        this.blendMode = e.target.dataset.blend;
+        this.blendMode = e.currentTarget.selected[0];
         const ce = new CustomEvent('propertychange', {
             detail: {
                 action: 'blendchange',

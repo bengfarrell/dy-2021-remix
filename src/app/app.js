@@ -8,7 +8,7 @@ import EventBus from '../eventbus.js';
 window.process = { env : { NODE_ENV: 'nothing' }};
 
 export default class App extends LitElement {
-    static get DEFAULT_SHAPECOLOR() { return '#000000'; }
+    static get DEFAULT_SHAPECOLOR() { return '#00FF00'; }
     static get DEFAULT_SHAPETYPE() { return 'hexagons'; }
     static get DEFAULT_SHAPEDISTANCE() { return 10; }
     static get DEFAULT_BLENDMODE() { return 'overlay'; }

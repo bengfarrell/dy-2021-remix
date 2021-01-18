@@ -1,15 +1,17 @@
 import {html} from 'lit-html';
 import ForegroundStep from './foreground-step.js';
-import '@spectrum-web-components/button/sp-action-button';
+import '@spectrum-web-components/action-button/sp-action-button';
 import { Shuffle, Upload, Camera } from '../icons.js';
 
 export const template = function(scope) { return html`
 
 <div class="header">
-    <h2>Step 1</h2>
-    <span>Choose a foreground image</span>
+    <div class="preview" style="background-image: url(${scope.currentImage})"></div>
+    <div>
+        <h2>Step 2</h2>
+        <span>Add another image on top</span>
+    </div>
 </div>
-
 <input type="file" id="upload" @change=${(e) => scope.onLocalImage(e) } name="img" accept="image/*">
 <div id="preview" style="background-image: url(${scope.currentImage})"></div>
 
@@ -26,6 +28,7 @@ export const template = function(scope) { return html`
 </div>
 
 <div class="navigation-row">
+    <sp-button variant="secondary" @click=${() => scope.navigate('back')}>Back</sp-button>
     <sp-button @click=${() => scope.navigate('next')}>Next</sp-button>
 </div>
 `;}

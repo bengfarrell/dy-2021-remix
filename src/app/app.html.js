@@ -8,7 +8,6 @@ import Steps from '../steps/steps.js';
 export const template = function(scope) { return html`
 
 <sp-theme scale="medium" color="light">
-    <remix-steps></remix-steps>
     <halftone-svg 
             blendmode=${scope.blendMode} 
             distance=${scope.shapeDistance}
@@ -17,5 +16,6 @@ export const template = function(scope) { return html`
             src="${scope.foregroundImage}">
         <div id="bgimage" style="background-image: url(${scope.backgroundImage})"></div>
     </halftone-svg>
+    <remix-steps></remix-steps>
 </sp-theme>
 `};

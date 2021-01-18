@@ -9,6 +9,7 @@ export const style = css`
     }
   
     :host([disabled]) {
+        min-height: 120px;
         height: 120px;
         background-color: #F4F4F4;
         color: #b8b8b8;
@@ -17,12 +18,37 @@ export const style = css`
     }
     
     :host([disabled]) .header {
-        margin-top: 25px;
+        margin-top: 10px;
         margin-bottom: 200px;
-    } 
+    }
+
+    :host([disabled]) .header .preview {
+      display: inline-block;
+    }
   
     .header {
         margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .header .preview {
+        width: 98px;
+        height: 74px;
+        border-style: solid;
+        border-width: 1px;
+        border-color: #D3D3D3;
+        border-radius: 5px;
+        margin-right: 15px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        display: none;
+    }
+
+    .header .preview.illustrated {
+      border: none;
+      text-align: center;
     }
     
     .header h2 {
@@ -36,7 +62,8 @@ export const style = css`
         font-size: 18px;
     }
     
-    .button-row {
+    .button-row,
+    .form-row {
         display: flex;
         align-items: center;
         margin-bottom: 25px;
@@ -57,14 +84,6 @@ export const style = css`
 
     sp-button {
         margin-right: 15px;
-    }
-
-    label {
-        color: #747474;
-        display: inline-block;
-        font-size: 15px;
-        margin-bottom: 5px;
-        margin-right: 5px;
     }
 
     input#upload {

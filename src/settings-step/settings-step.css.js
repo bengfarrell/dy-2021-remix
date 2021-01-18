@@ -3,23 +3,48 @@ import {css} from "lit-element";
 export const style = css`
     :host {
       display: inline-block;
-      --spectrum-actionbutton-background-color-selected: var(--spectrum-global-color-blue-500);
-      --spectrum-actionbutton-background-color-selected-hover: var(--spectrum-global-color-blue-500);
-      --spectrum-actionbutton-emphasized-background-color-selected-hover: var(--spectrum-global-color-blue-500);
-      --spectrum-actionbutton-text-color-selected: white;
-      --spectrum-actionbutton-text-color-selected-hover: white;
+    }
+  
+    sp-slider {
+      width: 100%;
     }
   
     sp-patched-slider {
-      width: 70%;
+      background: linear-gradient(to right, red 0%, #ff0 17%, lime 33%, cyan 50%, blue 66%, #f0f 83%, red 100%);
+      width: 100%;
     }
 
     #blend-modes sp-action-button {
-      margin-right: 5px;
+      margin-right: 20px;
       margin-bottom: 5px;
     }
 
     #blend-modes {
       flex-wrap: wrap;
+    }
+
+    .button-row.shapes {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  
+    button.shape {
+      border: none;
+      background-color: initial;
+      margin-right: 12px;
+      margin-left: 12px;
+      padding-top: 4px;
+    }
+
+    button.shape svg,
+    button.shape svg path {
+      fill: #707070;
+      stroke: #707070;
+    }
+
+    button.shape[selected] svg,
+    button.shape[selected] svg path {
+      fill: #1473E6;
+      stroke: #1473E6;
     }
 `;
