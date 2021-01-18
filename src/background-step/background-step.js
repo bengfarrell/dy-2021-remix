@@ -2,6 +2,7 @@ import {LitElement} from "lit-element";
 import {template} from './background-step.html.js';
 import {style} from './background-step.css.js';
 import {style as commonstyle} from '../common/steps.css.js';
+import {getAssetImage, getRandomImage} from '../utils/data.js';
 
 export default class BackgroundStep extends LitElement {
     static get styles() {
@@ -15,20 +16,26 @@ export default class BackgroundStep extends LitElement {
          * image
          */
         this.currentImage = undefined;
+
+        /**
+         * backgroundParamUsed
+         * has the background GET param been used? We only want it to set the image on inital load
+         */
+        this.backgroundParamUsed = false;
     }
 
-    randomImage() {
-        const data = [
-            './sampleimages/sample1.jpeg',
-            './sampleimages/sample2.jpeg',
-            './sampleimages/sample3.jpeg',
-            './sampleimages/sample4.jpeg',
-            './sampleimages/sample5.jpeg',
-            './sampleimages/sample6.jpeg',
-            './sampleimages/sample7.jpeg'
-        ];
+    updated(changedProperties) {
+        const params = new URLSearchParams(document.location.href.split('?')[1] );
+        if (params.has('background') && !this.backgroundParamUsed) {
+            this.currentImage = params.get('background');
+            this.backgroundParamUsed = true;
+            this.requestUpdate('currentImage');
+            this.sendEvent();
+        }
+    }
 
-        this.currentImage = data[parseInt(Math.random() * data.length)];
+    async randomImage() {
+        this.currentImage = await getRandomImage();
         this.requestUpdate('currentImage');
         this.sendEvent();
     }

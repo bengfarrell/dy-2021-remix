@@ -3,6 +3,7 @@ import {template} from './foreground-step.html.js';
 import {style} from './foreground-step.css.js';
 import {style as commonstyle} from '../common/steps.css.js';
 import EventBus from '../eventbus.js';
+import {getRandomImage} from '../utils/data.js';
 
 export default class ForegroundStep extends LitElement {
     constructor() {
@@ -27,19 +28,9 @@ export default class ForegroundStep extends LitElement {
         return [style, commonstyle];
     }
 
-    randomImage() {
+    async randomImage() {
         this.cameraEnabled = false;
-        const data = [
-            './sampleimages/sample1.jpeg',
-            './sampleimages/sample2.jpeg',
-            './sampleimages/sample3.jpeg',
-            './sampleimages/sample4.jpeg',
-            './sampleimages/sample5.jpeg',
-            './sampleimages/sample6.jpeg',
-            './sampleimages/sample7.jpeg'
-        ];
-
-        this.currentImage = data[parseInt(Math.random() * data.length)];
+        this.currentImage = await getRandomImage();
         this.requestUpdate('currentImage');
         this.sendEvent();
     }
