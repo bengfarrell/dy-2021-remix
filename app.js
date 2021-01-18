@@ -4870,6 +4870,8 @@ class BaseHalftoneElement extends HTMLElement {
 
     loadImage(uri) {
         this.inputSource = new Image();
+        console.log('load image');
+        this.inputSource.crossOrigin = 'anonymous';
         this.inputSource.addEventListener('load', e => {
             if (this.renderer) {
                 this.renderer.input = this.inputSource;
@@ -7104,7 +7106,6 @@ let assets = [];
 
 const getRandomResult = async () => {
     if (assets.length === 0) {
-        console.log('make request');
         const results = await fetchAssetSet();
         if (results.assets) {
             assets = results.assets;
@@ -8445,7 +8446,7 @@ const template$2 = function(scope) { return html`
 <div class="button-row">
     <sp-slider
             @input=${(e) => scope.chooseDistance(e)}
-            min="5" max="20" step="1"
+            min="5" max="100" step="1"
             value=${scope.shapeDistance}><sp-field-label size="l">Choose pattern size</sp-field-label></sp-slider>
 </div>
 
@@ -8706,6 +8707,11 @@ class SettingsStep extends LitElement {
          * is camera enabled
          */
         this.cameraEnabled = false;
+
+        /**
+         * foreground pixel density used to normalize the shape distance slider
+         */
+        this.foregroundPixelDensity = undefined;
     }
 
     static get styles() {
@@ -9384,6 +9390,11 @@ class App extends LitElement {
          * shape color
          */
         this.blendMode = App.DEFAULT_BLENDMODE;
+
+        /**
+         * foreground pixel density used to normalize the shape distance slider
+         */
+        this.foregroundPixelDensity = undefined;
     }
 
     render() {
@@ -9408,7 +9419,6 @@ class App extends LitElement {
         const imgdata = canvas.toDataURL(`image/jpg`);
         this.foregroundImage = imgdata;
 
-        // Doh! This is the one property I need to propagate back up. So throwing an event bus in
         new EventBus().dispatchEvent(new CustomEvent('cameraframe', { detail: imgdata }));
 
         this.requestUpdate('foregroundImage');
@@ -9422,6 +9432,11 @@ class App extends LitElement {
                     this.requestUpdate('backgroundImage');
                 } else {
                     this.foregroundImage = event.detail.image;
+                    const img = new Image();
+                    img.onload = () => {
+                        this.foregroundPixelDensity = (640 * 480) / (img.width * img.height);
+                    };
+                    img.src = this.foregroundImage;
                     this.requestUpdate('foregroundImage');
                 }
                 break;
@@ -9437,7 +9452,8 @@ class App extends LitElement {
                 break;
 
             case 'distancechange':
-                this.shapeDistance = event.detail.distance;
+                //console.log(event.detail.distance * this.foregroundPixelDensity)
+                this.shapeDistance = event.detail.distance; // * this.foregroundPixelDensity;
                 this.requestUpdate('shapeDistance');
                 break;
 
