@@ -12,7 +12,7 @@ export default {
         html(),
         copy({
             targets: [
-                { src: 'sampleimages', dest: 'dist/' },
+                { src: 'assets/sampledata.json', dest: 'dist/' },
             ]
         })],
 };
