@@ -9199,7 +9199,6 @@ const style$5 = css`
       width: 50%;
       display: flex;
       flex-direction: column;
-      background-color: white;
       overflow-y: scroll;
     }
 `;
@@ -9237,16 +9236,24 @@ customElements.define('remix-steps', Steps);
 const template$5 = function(scope) { return html`
 
 <sp-theme scale="medium" color="light">
-    <halftone-svg 
-            blendmode=${scope.blendMode} 
-            distance=${scope.shapeDistance}
-            shapecolor=${scope.shapeColor}
-            crossbarlength="15"
-            shapetype=${scope.shapeType} 
-            src="${scope.foregroundImage}">
-        <div id="bgimage" style="background-image: url(${scope.backgroundImage})"></div>
-    </halftone-svg>
-    <remix-steps></remix-steps>
+    <div id="header">
+        <a class="home" href="../index.html"><img class="logo" src="assets/deyoungsters-logo.svg" width="150" height="75" /></a>
+        <a class="pagelink" href="../about.html">About</a>
+        <a class="pagelink" href="../help.html">Help</a>
+    </div>
+
+    <div id="content">
+        <halftone-svg 
+                blendmode=${scope.blendMode} 
+                distance=${scope.shapeDistance}
+                shapecolor=${scope.shapeColor}
+                crossbarlength="15"
+                shapetype=${scope.shapeType} 
+                src="${scope.foregroundImage}">
+            <div id="bgimage" style="background-image: url(${scope.backgroundImage})"></div>
+        </halftone-svg>
+        <remix-steps></remix-steps>
+    </div>
 </sp-theme>
 `};
 
@@ -9254,7 +9261,38 @@ const style$6 = css`
     :host {
         height: 100vh;
         width: 100vw;
-        display: flex;
+        background-color: white;
+    }
+  
+    sp-theme {
+      display: flex;
+      flex-direction: column;
+    }
+  
+    #header {
+      height: 75px;
+      background-color: white;
+      display: flex;
+      width: 100%;
+      box-shadow: 0px 6px 5px 0px rgba(173,173,173,.5);
+      align-items: center;
+    }
+
+    #header a.pagelink {
+      color: black;
+      text-decoration: none;
+      margin-right: 30px;
+      font-size: 22px;
+    }
+
+    #header a.home {
+      margin-right: auto;
+    }
+  
+    #content {
+      display: flex;
+      width: 100%;
+      height: calc(100% - 75px);
     }
 
     remix-steps {
@@ -9271,6 +9309,7 @@ const style$6 = css`
         display: inline-block;
         flex: 1;
         height: 100%;
+        background-color: #d7d7d7;
     }
 
     #bgimage {
