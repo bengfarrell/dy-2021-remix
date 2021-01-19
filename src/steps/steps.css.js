@@ -6,7 +6,6 @@ export const style = css`
       width: 50%;
       display: flex;
       flex-direction: column;
-      background-color: white;
       overflow-y: scroll;
     }
 `;

@@ -8,15 +8,23 @@ import Steps from '../steps/steps.js';
 export const template = function(scope) { return html`
 
 <sp-theme scale="medium" color="light">
-    <halftone-svg 
-            blendmode=${scope.blendMode} 
-            distance=${scope.shapeDistance}
-            shapecolor=${scope.shapeColor}
-            crossbarlength="15"
-            shapetype=${scope.shapeType} 
-            src="${scope.foregroundImage}">
-        <div id="bgimage" style="background-image: url(${scope.backgroundImage})"></div>
-    </halftone-svg>
-    <remix-steps></remix-steps>
+    <div id="header">
+        <a class="home" href="../index.html"><img class="logo" src="assets/deyoungsters-logo.svg" width="150" height="75" /></a>
+        <a class="pagelink" href="../about.html">About</a>
+        <a class="pagelink" href="../help.html">Help</a>
+    </div>
+
+    <div id="content">
+        <halftone-svg 
+                blendmode=${scope.blendMode} 
+                distance=${scope.shapeDistance}
+                shapecolor=${scope.shapeColor}
+                crossbarlength="15"
+                shapetype=${scope.shapeType} 
+                src="${scope.foregroundImage}">
+            <div id="bgimage" style="background-image: url(${scope.backgroundImage})"></div>
+        </halftone-svg>
+        <remix-steps></remix-steps>
+    </div>
 </sp-theme>
 `};
