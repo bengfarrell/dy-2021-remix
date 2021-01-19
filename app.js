@@ -7113,6 +7113,29 @@ const getRandomResult = async () => {
     return assets.pop();
 };
 
+const submitImageFromCanvas = (canvas, firstname, lastinitial, age) => {
+    const encoded = canvas.toBlob( (result) => {
+        const fd = new FormData();
+        fd.append("image", result, 'remix');
+        fd.append('first_name', firstname);
+        fd.append('last_initial', lastinitial);
+        fd.append('age', age);
+        /* fd.append("background_type", 'layer');
+        fd.append("background_id", background_id);
+        fd.append("foreground_type", foreground_type); // layer or composite
+        fd.append("foreground_id", foreground_id); */
+
+        fetch(`https://artparty.ctlprojects.com/submit/composite`, {
+            method: 'POST',
+            body: fd,
+        })
+            .then((result) => result.json())
+            .then((data) => {
+                // Assert that data["status"] === "success"
+            });
+    }, 'image/jpeg');
+};
+
 const getRandomImage = async () => {
     const asset = await getRandomResult();
     return getAssetImage(asset);
@@ -8445,7 +8468,7 @@ const template$2 = function(scope) { return html`
 <div class="button-row">
     <sp-slider
             @input=${(e) => scope.chooseDistance(e)}
-            min="5" max="20" step="1"
+            min="15" max="60" step="1"
             value=${scope.shapeDistance}><sp-field-label size="l">Choose pattern size</sp-field-label></sp-slider>
 </div>
 
@@ -9091,7 +9114,7 @@ const template$3 = function(scope) { return html`
         <span>Save and submit your creation</span>
     </div>
 </div>
-<span>* You’ll be submitting to the DeYoung staff for approval. Check the gallery later to see your creation</span>
+<span>* You’ll be submitting to the de Young staff for approval. Check the gallery later to see your creation</span>
 <br /><br />
 
 <div class="form-row">
@@ -9119,7 +9142,7 @@ const template$3 = function(scope) { return html`
 <br />
 <div class="navigation-row">
     <sp-button variant="secondary" @click=${() => scope.navigate('back')}>Back</sp-button>
-    <sp-button>Submit & Return to Gallery</sp-button>
+    <sp-button @click=${() => scope.submit()}>Submit & Return to Gallery</sp-button>
 </div>
 `};
 
@@ -9141,6 +9164,15 @@ class FinalStep extends LitElement {
     saveAs(filetype) {
         const ce = new CustomEvent('save', {
             detail: { filetype },
+            composed: true, bubbles: true });
+        this.dispatchEvent(ce);
+    }
+
+    submit() {
+        const firstname = this.shadowRoot.getElementById('firstname').value;
+        const lastinitial = this.shadowRoot.getElementById('lastinitial').value;
+        const age = this.shadowRoot.getElementById('age').value;
+        const ce = new CustomEvent('submit', { detail: { firstname, lastinitial, age },
             composed: true, bubbles: true });
         this.dispatchEvent(ce);
     }
@@ -9211,7 +9243,8 @@ const template$5 = function(scope) { return html`
     <halftone-svg 
             blendmode=${scope.blendMode} 
             distance=${scope.shapeDistance}
-            shapecolor=${scope.shapeColor} 
+            shapecolor=${scope.shapeColor}
+            crossbarlength="15"
             shapetype=${scope.shapeType} 
             src="${scope.foregroundImage}">
         <div id="bgimage" style="background-image: url(${scope.backgroundImage})"></div>
@@ -9252,29 +9285,73 @@ const style$6 = css`
     }
 `;
 
-const downloadImage = (htComponent, backgroundCanvas, filetype = 'jpg') => {
-    const imgA = document.createElement('img');
-    let svg64 = btoa(htComponent.getSVG());
-    let b64Start = 'data:image/svg+xml;base64,';
-    let image64 = b64Start + svg64;
+const downloadImage = async (htComponent, backgroundCanvas, blendMode, filetype = 'jpg') => {
+    const canvas = await compositeImageToCanvas(htComponent, backgroundCanvas, blendMode);
+    downloadCanvasAsImage(canvas, filetype);
+};
 
-    const composite = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = htComponent.contentWidth;
-        canvas.height = htComponent.contentHeight;
-        const ctx = canvas.getContext('2d');
+const downscaleImage = (source, maxWidth) => {
+    const destCanvas = document.createElement('canvas');
+    const destCtx = destCanvas.getContext("2d");
+    const oc = document.createElement('canvas');
+    const octx = oc.getContext('2d');
 
-        ctx.globalCompositeOperation = 'normal';
-        if (backgroundCanvas) {
-            drawBackgroundImage(ctx, backgroundCanvas);
-        }
-        ctx.globalCompositeOperation = 'overlay'; //blendMode;
-        ctx.drawImage(imgA, 0, 0);
-        downloadCanvasAsImage(canvas, filetype);
+    let width;
+    if (maxWidth > source.width) {
+        width = maxWidth;
+    } else {
+        width = source.width;
+    }
+    destCanvas.width = width; // destination canvas size
+    destCanvas.height = destCanvas.width * source.height / source.width;
+
+    var cur = {
+        width: Math.floor(source.width * 0.5),
+        height: Math.floor(source.height * 0.5)
     };
 
-    imgA.onload = () => composite();
-    imgA.src = image64;
+    oc.width = cur.width;
+    oc.height = cur.height;
+
+    octx.drawImage(source, 0, 0, cur.width, cur.height);
+
+    while (cur.width * 0.5 > width) {
+        cur = {
+            width: Math.floor(cur.width * 0.5),
+            height: Math.floor(cur.height * 0.5)
+        };
+        octx.drawImage(oc, 0, 0, cur.width * 2, cur.height * 2, 0, 0, cur.width, cur.height);
+    }
+
+    destCtx.drawImage(oc, 0, 0, cur.width, cur.height, 0, 0, destCanvas.width, destCanvas.height);
+    return destCanvas;
+};
+
+const compositeImageToCanvas = async (htComponent, backgroundCanvas, blendMode) => {
+    return new Promise( (resolve) => {
+        const imgA = document.createElement('img');
+        let svg64 = btoa(htComponent.getSVG());
+        let b64Start = 'data:image/svg+xml;base64,';
+        let image64 = b64Start + svg64;
+
+        const composite = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = htComponent.contentWidth;
+            canvas.height = htComponent.contentHeight;
+            const ctx = canvas.getContext('2d');
+
+            ctx.globalCompositeOperation = 'normal';
+            if (backgroundCanvas) {
+                drawBackgroundImage(ctx, backgroundCanvas);
+            }
+            ctx.globalCompositeOperation = blendMode;
+            ctx.drawImage(imgA, 0, 0);
+            resolve(canvas);
+        };
+
+        imgA.onload = () => composite();
+        imgA.src = image64;
+    });
 };
 
 const downloadCanvasAsImage = (canvas, filetype) => {
@@ -9332,7 +9409,7 @@ window.process = { env : { NODE_ENV: 'nothing' }};
 class App extends LitElement {
     static get DEFAULT_SHAPECOLOR() { return '#00FF00'; }
     static get DEFAULT_SHAPETYPE() { return 'hexagons'; }
-    static get DEFAULT_SHAPEDISTANCE() { return 10; }
+    static get DEFAULT_SHAPEDISTANCE() { return 25; }
     static get DEFAULT_BLENDMODE() { return 'overlay'; }
 
     static get styles() {
@@ -9341,9 +9418,10 @@ class App extends LitElement {
 
     constructor() {
         super();
-        console.log('build 6');
+        console.log('Remix App - build 7');
         this.addEventListener('propertychange', (event) => this.onPropertyChange(event));
         this.addEventListener('save', (event) => this.onSaveImage(event));
+        this.addEventListener('submit', (event) => this.onSubmitImage(event));
         this.addEventListener('takephoto',() => this.takePhoto());
 
         /**
@@ -9386,21 +9464,26 @@ class App extends LitElement {
          * shape color
          */
         this.blendMode = App.DEFAULT_BLENDMODE;
-
-        /**
-         * foreground pixel density used to normalize the shape distance slider
-         */
-        this.foregroundPixelDensity = undefined;
     }
 
     render() {
         return template$5(this);
     }
 
+    async onSubmitImage(event) {
+        const composite = await compositeImageToCanvas(
+            this.shadowRoot.querySelector('halftone-svg'),
+            this.backgroundCanvas,
+            this.blendMode );
+        const scaled = downscaleImage(composite, 1024);
+        submitImageFromCanvas(scaled, event.detail.firstname, event.detail.lastinitial, event.detail.age);
+    }
+
     onSaveImage(event) {
         downloadImage(
             this.shadowRoot.querySelector('halftone-svg'),
             this.backgroundCanvas,
+            this.blendMode,
             event.detail.filetype);
     }
 
@@ -9443,11 +9526,6 @@ class App extends LitElement {
                     this.requestUpdate('backgroundImage');
                 } else {
                     this.foregroundImage = event.detail.image;
-                    const img = new Image();
-                    img.onload = () => {
-                        this.foregroundPixelDensity = (640 * 480) / (img.width * img.height);
-                    };
-                    img.src = this.foregroundImage;
                     this.requestUpdate('foregroundImage');
                 }
                 break;
@@ -9463,8 +9541,7 @@ class App extends LitElement {
                 break;
 
             case 'distancechange':
-                //console.log(event.detail.distance * this.foregroundPixelDensity)
-                this.shapeDistance = event.detail.distance; // * this.foregroundPixelDensity;
+                this.shapeDistance = event.detail.distance;
                 this.requestUpdate('shapeDistance');
                 break;
 
