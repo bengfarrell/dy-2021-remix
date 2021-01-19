@@ -1,36 +1,28 @@
-export const downloadImage = (htComponent, backgroundImage, filetype = 'jpg') => {
+export const downloadImage = (htComponent, backgroundCanvas, filetype = 'jpg') => {
     let rendered = false;
     const imgA = document.createElement('img');
-    const imgB = document.createElement('img');
     let svg64 = btoa(htComponent.getSVG());
     let b64Start = 'data:image/svg+xml;base64,';
     let image64 = b64Start + svg64;
 
     const composite = () => {
-        if (!rendered && imgA.complete && (imgB.complete || backgroundImage)) {
-            const canvas = document.createElement('canvas');
-            canvas.width = htComponent.contentWidth;
-            canvas.height = htComponent.contentHeight;
-            const ctx = canvas.getContext('2d');
+        const canvas = document.createElement('canvas');
+        canvas.width = htComponent.contentWidth;
+        canvas.height = htComponent.contentHeight;
+        const ctx = canvas.getContext('2d');
 
-            ctx.globalCompositeOperation = 'normal';
-            if (backgroundImage) {
-                drawBackgroundImage(ctx, imgB);
-            }
-            ctx.globalCompositeOperation = 'overlay'; //blendMode;
-            ctx.drawImage(imgA, 0, 0);
-            downloadCanvasAsImage(canvas, filetype);
-            rendered = true;
+        ctx.globalCompositeOperation = 'normal';
+        if (backgroundCanvas) {
+            drawBackgroundImage(ctx, backgroundCanvas);
         }
+        ctx.globalCompositeOperation = 'overlay'; //blendMode;
+        ctx.drawImage(imgA, 0, 0);
+        downloadCanvasAsImage(canvas, filetype);
+        rendered = true;
     }
 
     imgA.onload = () => composite();
-    imgB.onload = () => composite();
-
     imgA.src = image64;
-    if (backgroundImage) {
-        imgB.src = backgroundImage;
-    }
 }
 
 export const svgToImage = (htComponent) => {

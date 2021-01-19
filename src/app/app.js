@@ -19,6 +19,7 @@ export default class App extends LitElement {
 
     constructor() {
         super();
+        console.log('build 5');
         this.addEventListener('propertychange', (event) => this.onPropertyChange(event));
         this.addEventListener('save', (event) => this.onSaveImage(event));
         this.addEventListener('takephoto',() => this.takePhoto());
@@ -27,6 +28,17 @@ export default class App extends LitElement {
          * background image
          */
         this.backgroundImage = undefined;
+
+        /**
+         * background canvas - we need to immediately capture the bg to a canvas
+         * to avoid CORS issues
+         */
+        this.backgroundCanvas = document.createElement('canvas');
+
+        /**
+         * background canvas context
+         */
+        this.backgroundCanvasCtx = undefined;
 
         /**
          * background image
@@ -52,6 +64,11 @@ export default class App extends LitElement {
          * shape color
          */
         this.blendMode = App.DEFAULT_BLENDMODE;
+
+        /**
+         * foreground pixel density used to normalize the shape distance slider
+         */
+        this.foregroundPixelDensity = undefined;
     }
 
     render() {
@@ -61,7 +78,7 @@ export default class App extends LitElement {
     onSaveImage(event) {
         downloadImage(
             this.shadowRoot.querySelector('halftone-svg'),
-            this.backgroundImage,
+            this.backgroundCanvas,
             event.detail.filetype);
     }
 
@@ -76,7 +93,6 @@ export default class App extends LitElement {
         const imgdata = canvas.toDataURL(`image/jpg`);
         this.foregroundImage = imgdata;
 
-        // Doh! This is the one property I need to propagate back up. So throwing an event bus in
         new EventBus().dispatchEvent(new CustomEvent('cameraframe', { detail: imgdata }));
 
         this.requestUpdate('foregroundImage');
@@ -86,10 +102,30 @@ export default class App extends LitElement {
         switch (event.detail.action) {
             case 'imagechange':
                 if (event.detail.layer === 'background') {
+                    // weird issue: getting CORS issues with setting img.crossOrigin elsewhere
+                    // unsure how to track this down, but my theory of just spreading the URL around the
+                    // app, and then blitting it to canvas later is proving bad
+                    // So thinking here, is to immediately capture the incoming background to a canvas and
+                    // save ref for downloading/uploading on last step
+                    const img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    img.onload = () => {
+                        this.backgroundCanvas.width = img.naturalWidth;
+                        this.backgroundCanvas.height = img.naturalHeight;
+                        this.backgroundCanvasCtx = this.backgroundCanvas.getContext('2d');
+                        this.backgroundCanvasCtx.drawImage(img, 0, 0, this.backgroundCanvas.width, this.backgroundCanvas.height);
+                    }
+                    img.src = event.detail.image;
+
                     this.backgroundImage = event.detail.image;
                     this.requestUpdate('backgroundImage');
                 } else {
                     this.foregroundImage = event.detail.image;
+                    const img = new Image();
+                    img.onload = () => {
+                        this.foregroundPixelDensity = (640 * 480) / (img.width * img.height);
+                    }
+                    img.src = this.foregroundImage;
                     this.requestUpdate('foregroundImage');
                 }
                 break;
@@ -105,7 +141,8 @@ export default class App extends LitElement {
                 break;
 
             case 'distancechange':
-                this.shapeDistance = event.detail.distance;
+                //console.log(event.detail.distance * this.foregroundPixelDensity)
+                this.shapeDistance = event.detail.distance; // * this.foregroundPixelDensity;
                 this.requestUpdate('shapeDistance');
                 break;
 

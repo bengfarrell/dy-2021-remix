@@ -7,7 +7,6 @@ let assets = [];
 
 export const getRandomResult = async () => {
     if (assets.length === 0) {
-        console.log('make request')
         const results = await fetchAssetSet();
         if (results.assets) {
             assets = results.assets;
@@ -22,7 +21,7 @@ export const getRandomImage = async () => {
 }
 
 const fetchAssetSet = () => {
-    const serverUrl = `https://artparty.ctlprojects.com/list/${ASSET_CATEGORY}?count=${ASSETS_PER_FETCH}&random=${Date.now()}`;
+    const serverUrl = `https://artparty.ctlprojects.com/list/${ASSET_CATEGORY}?__do_not_cache__=${Date.now()}&count=${ASSETS_PER_FETCH}&random=${Date.now()}`;
     const targetUrl = params.has('dataurl') ? params.get('datarul') || './assets/sampledata.json' : serverUrl;
     const proxyUrl = params.has('proxy') ? (params.get('proxy') || 'https://cors-anywhere.herokuapp.com') : undefined;
     const uri = proxyUrl ? `${proxyUrl}/${targetUrl}` : `${targetUrl}`;
