@@ -49,7 +49,7 @@ export const template = function(scope) { return html`
 <div class="button-row">
     <sp-slider
             @input=${(e) => scope.chooseDistance(e)}
-            min="5" max="20" step="1"
+            min="15" max="60" step="1"
             value=${scope.shapeDistance}><sp-field-label size="l">Choose pattern size</sp-field-label></sp-slider>
 </div>
 

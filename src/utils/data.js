@@ -15,6 +15,29 @@ export const getRandomResult = async () => {
     return assets.pop();
 }
 
+export const submitImageFromCanvas = (canvas, firstname, lastinitial, age) => {
+    const encoded = canvas.toBlob( (result) => {
+        const fd = new FormData();
+        fd.append("image", result, 'remix');
+        fd.append('first_name', firstname);
+        fd.append('last_initial', lastinitial);
+        fd.append('age', age);
+        /* fd.append("background_type", 'layer');
+        fd.append("background_id", background_id);
+        fd.append("foreground_type", foreground_type); // layer or composite
+        fd.append("foreground_id", foreground_id); */
+
+        fetch(`https://artparty.ctlprojects.com/submit/composite`, {
+            method: 'POST',
+            body: fd,
+        })
+            .then((result) => result.json())
+            .then((data) => {
+                // Assert that data["status"] === "success"
+            });
+    }, 'image/jpeg');
+}
+
 export const getRandomImage = async () => {
     const asset = await getRandomResult();
     return getAssetImage(asset);

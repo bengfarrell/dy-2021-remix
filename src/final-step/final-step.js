@@ -15,6 +15,15 @@ export default class FinalStep extends LitElement {
         this.dispatchEvent(ce);
     }
 
+    submit() {
+        const firstname = this.shadowRoot.getElementById('firstname').value;
+        const lastinitial = this.shadowRoot.getElementById('lastinitial').value;
+        const age = this.shadowRoot.getElementById('age').value;
+        const ce = new CustomEvent('submit', { detail: { firstname, lastinitial, age },
+            composed: true, bubbles: true });
+        this.dispatchEvent(ce);
+    }
+
     render() {
         return template(this);
     }

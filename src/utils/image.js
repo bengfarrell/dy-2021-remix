@@ -1,28 +1,70 @@
-export const downloadImage = (htComponent, backgroundCanvas, filetype = 'jpg') => {
-    let rendered = false;
-    const imgA = document.createElement('img');
-    let svg64 = btoa(htComponent.getSVG());
-    let b64Start = 'data:image/svg+xml;base64,';
-    let image64 = b64Start + svg64;
+export const downloadImage = async (htComponent, backgroundCanvas, blendMode, filetype = 'jpg') => {
+    const canvas = await compositeImageToCanvas(htComponent, backgroundCanvas, blendMode);
+    downloadCanvasAsImage(canvas, filetype);
+}
 
-    const composite = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = htComponent.contentWidth;
-        canvas.height = htComponent.contentHeight;
-        const ctx = canvas.getContext('2d');
+export const downscaleImage = (source, maxWidth) => {
+    const destCanvas = document.createElement('canvas');
+    const destCtx = destCanvas.getContext("2d");
+    const oc = document.createElement('canvas');
+    const octx = oc.getContext('2d');
 
-        ctx.globalCompositeOperation = 'normal';
-        if (backgroundCanvas) {
-            drawBackgroundImage(ctx, backgroundCanvas);
-        }
-        ctx.globalCompositeOperation = 'overlay'; //blendMode;
-        ctx.drawImage(imgA, 0, 0);
-        downloadCanvasAsImage(canvas, filetype);
-        rendered = true;
+    let width;
+    if (maxWidth > source.width) {
+        width = maxWidth;
+    } else {
+        width = source.width;
+    }
+    destCanvas.width = width; // destination canvas size
+    destCanvas.height = destCanvas.width * source.height / source.width;
+
+    var cur = {
+        width: Math.floor(source.width * 0.5),
+        height: Math.floor(source.height * 0.5)
     }
 
-    imgA.onload = () => composite();
-    imgA.src = image64;
+    oc.width = cur.width;
+    oc.height = cur.height;
+
+    octx.drawImage(source, 0, 0, cur.width, cur.height);
+
+    while (cur.width * 0.5 > width) {
+        cur = {
+            width: Math.floor(cur.width * 0.5),
+            height: Math.floor(cur.height * 0.5)
+        };
+        octx.drawImage(oc, 0, 0, cur.width * 2, cur.height * 2, 0, 0, cur.width, cur.height);
+    }
+
+    destCtx.drawImage(oc, 0, 0, cur.width, cur.height, 0, 0, destCanvas.width, destCanvas.height);
+    return destCanvas;
+}
+
+export const compositeImageToCanvas = async (htComponent, backgroundCanvas, blendMode) => {
+    return new Promise( (resolve) => {
+        const imgA = document.createElement('img');
+        let svg64 = btoa(htComponent.getSVG());
+        let b64Start = 'data:image/svg+xml;base64,';
+        let image64 = b64Start + svg64;
+
+        const composite = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = htComponent.contentWidth;
+            canvas.height = htComponent.contentHeight;
+            const ctx = canvas.getContext('2d');
+
+            ctx.globalCompositeOperation = 'normal';
+            if (backgroundCanvas) {
+                drawBackgroundImage(ctx, backgroundCanvas);
+            }
+            ctx.globalCompositeOperation = blendMode;
+            ctx.drawImage(imgA, 0, 0);
+            resolve(canvas);
+        }
+
+        imgA.onload = () => composite();
+        imgA.src = image64;
+    });
 }
 
 export const svgToImage = (htComponent) => {

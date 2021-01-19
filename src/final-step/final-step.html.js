@@ -14,7 +14,7 @@ export const template = function(scope) { return html`
         <span>Save and submit your creation</span>
     </div>
 </div>
-<span>* You’ll be submitting to the DeYoung staff for approval. Check the gallery later to see your creation</span>
+<span>* You’ll be submitting to the de Young staff for approval. Check the gallery later to see your creation</span>
 <br /><br />
 
 <div class="form-row">
@@ -42,6 +42,6 @@ export const template = function(scope) { return html`
 <br />
 <div class="navigation-row">
     <sp-button variant="secondary" @click=${() => scope.navigate('back')}>Back</sp-button>
-    <sp-button>Submit & Return to Gallery</sp-button>
+    <sp-button @click=${() => scope.submit()}>Submit & Return to Gallery</sp-button>
 </div>
 `};

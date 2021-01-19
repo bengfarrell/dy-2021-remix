@@ -1,8 +1,9 @@
 import {LitElement} from "lit-element";
 import {template} from './app.html.js';
 import {style} from "./app.css.js";
-import {downloadImage, svgToImage} from '../utils/image.js';
+import {compositeImageToCanvas, downloadImage, downscaleImage, svgToImage} from '../utils/image.js';
 import EventBus from '../eventbus.js';
+import {submitImageFromCanvas} from '../utils/data.js';
 
 // global fix for dropdown popper JS in Spectrum Web Components
 window.process = { env : { NODE_ENV: 'nothing' }};
@@ -10,7 +11,7 @@ window.process = { env : { NODE_ENV: 'nothing' }};
 export default class App extends LitElement {
     static get DEFAULT_SHAPECOLOR() { return '#00FF00'; }
     static get DEFAULT_SHAPETYPE() { return 'hexagons'; }
-    static get DEFAULT_SHAPEDISTANCE() { return 10; }
+    static get DEFAULT_SHAPEDISTANCE() { return 25; }
     static get DEFAULT_BLENDMODE() { return 'overlay'; }
 
     static get styles() {
@@ -19,9 +20,10 @@ export default class App extends LitElement {
 
     constructor() {
         super();
-        console.log('build 5');
+        console.log('Remix App - build 7');
         this.addEventListener('propertychange', (event) => this.onPropertyChange(event));
         this.addEventListener('save', (event) => this.onSaveImage(event));
+        this.addEventListener('submit', (event) => this.onSubmitImage(event));
         this.addEventListener('takephoto',() => this.takePhoto());
 
         /**
@@ -64,21 +66,26 @@ export default class App extends LitElement {
          * shape color
          */
         this.blendMode = App.DEFAULT_BLENDMODE;
-
-        /**
-         * foreground pixel density used to normalize the shape distance slider
-         */
-        this.foregroundPixelDensity = undefined;
     }
 
     render() {
         return template(this);
     }
 
+    async onSubmitImage(event) {
+        const composite = await compositeImageToCanvas(
+            this.shadowRoot.querySelector('halftone-svg'),
+            this.backgroundCanvas,
+            this.blendMode );
+        const scaled = downscaleImage(composite, 1024);
+        submitImageFromCanvas(scaled, event.detail.firstname, event.detail.lastinitial, event.detail.age);
+    }
+
     onSaveImage(event) {
         downloadImage(
             this.shadowRoot.querySelector('halftone-svg'),
             this.backgroundCanvas,
+            this.blendMode,
             event.detail.filetype);
     }
 
@@ -121,11 +128,6 @@ export default class App extends LitElement {
                     this.requestUpdate('backgroundImage');
                 } else {
                     this.foregroundImage = event.detail.image;
-                    const img = new Image();
-                    img.onload = () => {
-                        this.foregroundPixelDensity = (640 * 480) / (img.width * img.height);
-                    }
-                    img.src = this.foregroundImage;
                     this.requestUpdate('foregroundImage');
                 }
                 break;
@@ -141,8 +143,7 @@ export default class App extends LitElement {
                 break;
 
             case 'distancechange':
-                //console.log(event.detail.distance * this.foregroundPixelDensity)
-                this.shapeDistance = event.detail.distance; // * this.foregroundPixelDensity;
+                this.shapeDistance = event.detail.distance;
                 this.requestUpdate('shapeDistance');
                 break;
 

@@ -11,7 +11,8 @@ export const template = function(scope) { return html`
     <halftone-svg 
             blendmode=${scope.blendMode} 
             distance=${scope.shapeDistance}
-            shapecolor=${scope.shapeColor} 
+            shapecolor=${scope.shapeColor}
+            crossbarlength="15"
             shapetype=${scope.shapeType} 
             src="${scope.foregroundImage}">
         <div id="bgimage" style="background-image: url(${scope.backgroundImage})"></div>
