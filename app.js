@@ -7119,7 +7119,7 @@ const getRandomImage = async () => {
 };
 
 const fetchAssetSet = () => {
-    const serverUrl = `https://artparty.ctlprojects.com/list/${ASSET_CATEGORY}?count=${ASSETS_PER_FETCH}&random=${Date.now()}`;
+    const serverUrl = `https://artparty.ctlprojects.com/list/${ASSET_CATEGORY}?__do_not_cache__=${Date.now()}&count=${ASSETS_PER_FETCH}&random=${Date.now()}`;
     const targetUrl = params.has('dataurl') ? params.get('datarul') || './assets/sampledata.json' : serverUrl;
     const proxyUrl = params.has('proxy') ? (params.get('proxy') || 'https://cors-anywhere.herokuapp.com') : undefined;
     const uri = proxyUrl ? `${proxyUrl}/${targetUrl}` : `${targetUrl}`;
@@ -8445,7 +8445,7 @@ const template$2 = function(scope) { return html`
 <div class="button-row">
     <sp-slider
             @input=${(e) => scope.chooseDistance(e)}
-            min="5" max="100" step="1"
+            min="5" max="20" step="1"
             value=${scope.shapeDistance}><sp-field-label size="l">Choose pattern size</sp-field-label></sp-slider>
 </div>
 
@@ -8706,11 +8706,6 @@ class SettingsStep extends LitElement {
          * is camera enabled
          */
         this.cameraEnabled = false;
-
-        /**
-         * foreground pixel density used to normalize the shape distance slider
-         */
-        this.foregroundPixelDensity = undefined;
     }
 
     static get styles() {
@@ -9257,41 +9252,29 @@ const style$6 = css`
     }
 `;
 
-const downloadImage = (htComponent, backgroundImage, filetype = 'jpg') => {
-    let rendered = false;
+const downloadImage = (htComponent, backgroundCanvas, filetype = 'jpg') => {
     const imgA = document.createElement('img');
-    const imgB = document.createElement('img');
-    // imgA.crossOrigin = 'anonymous';
-    imgB.crossOrigin = 'anonymous';
     let svg64 = btoa(htComponent.getSVG());
     let b64Start = 'data:image/svg+xml;base64,';
     let image64 = b64Start + svg64;
 
     const composite = () => {
-        if (!rendered && imgA.complete && (imgB.complete || backgroundImage)) {
-            const canvas = document.createElement('canvas');
-            canvas.width = htComponent.contentWidth;
-            canvas.height = htComponent.contentHeight;
-            const ctx = canvas.getContext('2d');
+        const canvas = document.createElement('canvas');
+        canvas.width = htComponent.contentWidth;
+        canvas.height = htComponent.contentHeight;
+        const ctx = canvas.getContext('2d');
 
-            ctx.globalCompositeOperation = 'normal';
-            if (backgroundImage) {
-                drawBackgroundImage(ctx, imgB);
-            }
-            ctx.globalCompositeOperation = 'overlay'; //blendMode;
-            ctx.drawImage(imgA, 0, 0);
-            downloadCanvasAsImage(canvas, filetype);
-            rendered = true;
+        ctx.globalCompositeOperation = 'normal';
+        if (backgroundCanvas) {
+            drawBackgroundImage(ctx, backgroundCanvas);
         }
+        ctx.globalCompositeOperation = 'overlay'; //blendMode;
+        ctx.drawImage(imgA, 0, 0);
+        downloadCanvasAsImage(canvas, filetype);
     };
 
     imgA.onload = () => composite();
-    imgB.onload = () => composite();
-
     imgA.src = image64;
-    if (backgroundImage) {
-        imgB.src = backgroundImage;
-    }
 };
 
 const downloadCanvasAsImage = (canvas, filetype) => {
@@ -9358,7 +9341,7 @@ class App extends LitElement {
 
     constructor() {
         super();
-        console.log('build 4');
+        console.log('build 6');
         this.addEventListener('propertychange', (event) => this.onPropertyChange(event));
         this.addEventListener('save', (event) => this.onSaveImage(event));
         this.addEventListener('takephoto',() => this.takePhoto());
@@ -9367,6 +9350,17 @@ class App extends LitElement {
          * background image
          */
         this.backgroundImage = undefined;
+
+        /**
+         * background canvas - we need to immediately capture the bg to a canvas
+         * to avoid CORS issues
+         */
+        this.backgroundCanvas = document.createElement('canvas');
+
+        /**
+         * background canvas context
+         */
+        this.backgroundCanvasCtx = undefined;
 
         /**
          * background image
@@ -9406,7 +9400,7 @@ class App extends LitElement {
     onSaveImage(event) {
         downloadImage(
             this.shadowRoot.querySelector('halftone-svg'),
-            this.backgroundImage,
+            this.backgroundCanvas,
             event.detail.filetype);
     }
 
@@ -9430,6 +9424,21 @@ class App extends LitElement {
         switch (event.detail.action) {
             case 'imagechange':
                 if (event.detail.layer === 'background') {
+                    // weird issue: getting CORS issues with setting img.crossOrigin elsewhere
+                    // unsure how to track this down, but my theory of just spreading the URL around the
+                    // app, and then blitting it to canvas later is proving bad
+                    // So thinking here, is to immediately capture the incoming background to a canvas and
+                    // save ref for downloading/uploading on last step
+                    const img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    img.onload = () => {
+                        this.backgroundCanvas.width = img.naturalWidth;
+                        this.backgroundCanvas.height = img.naturalHeight;
+                        this.backgroundCanvasCtx = this.backgroundCanvas.getContext('2d');
+                        this.backgroundCanvasCtx.drawImage(img, 0, 0, this.backgroundCanvas.width, this.backgroundCanvas.height);
+                    };
+                    img.src = event.detail.image;
+
                     this.backgroundImage = event.detail.image;
                     this.requestUpdate('backgroundImage');
                 } else {
