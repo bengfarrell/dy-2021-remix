@@ -2,7 +2,7 @@ import {LitElement} from "lit-element";
 import {template} from './background-step.html.js';
 import {style} from './background-step.css.js';
 import {style as commonstyle} from '../common/steps.css.js';
-import {getAssetImage, getRandomImage} from '../utils/data.js';
+import {getAssetImage, getRandomResult} from '../utils/data.js';
 
 export default class BackgroundStep extends LitElement {
     static get styles() {
@@ -35,9 +35,10 @@ export default class BackgroundStep extends LitElement {
     }
 
     async randomImage() {
-        this.currentImage = await getRandomImage();
+        const asset = await getRandomResult();
+        this.currentImage = getAssetImage(asset);
         this.requestUpdate('currentImage');
-        this.sendEvent();
+        this.sendEvent(asset);
     }
 
     onLocalImage(e) {

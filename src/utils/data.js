@@ -23,9 +23,9 @@ export const submitImageFromCanvas = (canvas, firstname, lastinitial, age) => {
         fd.append('last_initial', lastinitial);
         fd.append('age', age);
         /* fd.append("background_type", 'layer');
-        fd.append("background_id", background_id);
-        fd.append("foreground_type", foreground_type); // layer or composite
-        fd.append("foreground_id", foreground_id); */
+        fd.append("background_id", 1);
+        fd.append("foreground_type", 'layer');
+        fd.append("foreground_id", 2); */
 
         fetch(`https://artparty.ctlprojects.com/submit/composite`, {
             method: 'POST',
@@ -33,14 +33,9 @@ export const submitImageFromCanvas = (canvas, firstname, lastinitial, age) => {
         })
             .then((result) => result.json())
             .then((data) => {
-                // Assert that data["status"] === "success"
+                console.log(data);
             });
     }, 'image/jpeg');
-}
-
-export const getRandomImage = async () => {
-    const asset = await getRandomResult();
-    return getAssetImage(asset);
 }
 
 const fetchAssetSet = () => {
