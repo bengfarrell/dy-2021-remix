@@ -20,7 +20,7 @@ export default class App extends LitElement {
 
     constructor() {
         super();
-        console.log('Remix App - build 8');
+        console.log('Remix App - build 9');
         this.addEventListener('propertychange', (event) => this.onPropertyChange(event));
         this.addEventListener('save', (event) => this.onSaveImage(event));
         this.addEventListener('submit', (event) => this.onSubmitImage(event));
