@@ -7120,10 +7120,10 @@ const submitImageFromCanvas = (canvas, firstname, lastinitial, age) => {
         fd.append('first_name', firstname);
         fd.append('last_initial', lastinitial);
         fd.append('age', age);
-        fd.append("background_type", 'layer');
+        /* fd.append("background_type", 'layer');
         fd.append("background_id", 1);
         fd.append("foreground_type", 'layer');
-        fd.append("foreground_id", 2);
+        fd.append("foreground_id", 2); */
 
         fetch(`https://artparty.ctlprojects.com/submit/composite`, {
             method: 'POST',
@@ -7132,14 +7132,8 @@ const submitImageFromCanvas = (canvas, firstname, lastinitial, age) => {
             .then((result) => result.json())
             .then((data) => {
                 console.log(data);
-                // Assert that data["status"] === "success"
             });
     }, 'image/jpeg');
-};
-
-const getRandomImage = async () => {
-    const asset = await getRandomResult();
-    return getAssetImage(asset);
 };
 
 const fetchAssetSet = () => {
@@ -7194,9 +7188,10 @@ class BackgroundStep extends LitElement {
     }
 
     async randomImage() {
-        this.currentImage = await getRandomImage();
+        const asset = await getRandomResult();
+        this.currentImage = getAssetImage(asset);
         this.requestUpdate('currentImage');
-        this.sendEvent();
+        this.sendEvent(asset);
     }
 
     onLocalImage(e) {
@@ -7360,7 +7355,8 @@ class ForegroundStep extends LitElement {
 
     async randomImage() {
         this.cameraEnabled = false;
-        this.currentImage = await getRandomImage();
+        const asset = await getRandomResult();
+        this.currentImage = getAssetImage(asset);
         this.requestUpdate('currentImage');
         this.sendEvent();
     }
@@ -9419,7 +9415,7 @@ class App extends LitElement {
 
     constructor() {
         super();
-        console.log('Remix App - build 8');
+        console.log('Remix App - build 9');
         this.addEventListener('propertychange', (event) => this.onPropertyChange(event));
         this.addEventListener('save', (event) => this.onSaveImage(event));
         this.addEventListener('submit', (event) => this.onSubmitImage(event));
