@@ -6965,8 +6965,8 @@ const template = function(scope) { return html`
 <div class="header">
     <div class="preview" style="background-image: url(${scope.currentImage})"></div>
     <div>
-        <h2>Step 1</h2>
-        <span>Choose a background image</span>
+        <h2>Step 1 <span class="mobile-only">of 4</span></h2>
+        <span class="subhead">Choose a background image</span>
     </div>
 </div>
 
@@ -6977,13 +6977,14 @@ const template = function(scope) { return html`
     <sp-action-button @click=${() => scope.randomImage()} variant="secondary">
         <sp-icon size="s" slot="icon">${Shuffle}</sp-icon> Generate a random image
     </sp-action-button>
+    <span class="button-or-separator">OR</span>
     <sp-action-button @click=${() => scope.uploadImage()} variant="secondary">
         <sp-icon size="s" slot="icon">${Upload}</sp-icon> Upload your own image
     </sp-action-button>
 </div>
 
 <div class="navigation-row">
-    <sp-button @click=${() => scope.navigate('next')}>Next</sp-button>
+    <sp-button @click=${() => scope.navigate('next')}><span>Next</span></sp-button>
 </div>
 `};
 
@@ -7005,7 +7006,6 @@ const style$1 = css`
         min-height: 120px;
         height: 120px;
         background-color: #F4F4F4;
-        color: #b8b8b8;
         pointer-events: none;
         overflow: hidden;
     }
@@ -7013,16 +7013,22 @@ const style$1 = css`
     :host([disabled]) .header {
         margin-top: 10px;
         margin-bottom: 200px;
+        color: #b8b8b8;
     }
 
     :host([disabled]) .header .preview {
       display: inline-block;
     }
   
+    .mobile-only {
+      display: none !important;
+    }
+  
     .header {
         margin-bottom: 20px;
         display: flex;
         align-items: center;
+        color: #323232;
     }
     
     .header .preview {
@@ -7049,8 +7055,12 @@ const style$1 = css`
         font-weight: bold;
         margin: 0;
     }
+
+    .header h2 span {
+      display: inline-block;
+    }
     
-    .header span {
+    .header span.subhead {
         font-weight: bold;
         font-size: 18px;
     }
@@ -7060,8 +7070,20 @@ const style$1 = css`
         display: flex;
         align-items: center;
         margin-bottom: 25px;
+        flex-wrap: wrap;
     }
 
+    .button-or-separator {
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+      color: #747474;
+      font-size: 15px;
+      display: none;
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+  
     .button-row.centered {
         justify-content: center;
     }
@@ -7078,6 +7100,11 @@ const style$1 = css`
     sp-button {
         margin-right: 15px;
     }
+  
+    sp-button span {
+      padding-top: 4px;
+      display: inline-block;
+    }
 
     input#upload {
         display: none;
@@ -7093,6 +7120,45 @@ const style$1 = css`
         background-position: center;
         background-size: contain;
         background-repeat: no-repeat;
+    }
+
+    @media only screen and (max-width:1023px) {
+      #preview {
+        display: none;
+      }
+      
+      .mobile-only {
+        display: inherit;
+      }
+
+      .button-or-separator {
+        display: inline-block;
+      }
+
+      sp-action-button {
+        margin-right: 2px;
+      }
+
+      :host([disabled]) {
+        display: none;
+      }
+
+      :host {
+        border: none;
+      }
+
+      .header h2 {
+        font-size: 16px;
+        color: #323232;
+      }
+
+      .header span.subhead {
+        font-size: 16px;
+      }
+
+      .not-mobile {
+        display: none;
+      }
     }
 `;
 
@@ -7232,8 +7298,8 @@ const template$1 = function(scope) { return html`
 <div class="header">
     <div class="preview" style="background-image: url(${scope.currentImage})"></div>
     <div>
-        <h2>Step 2</h2>
-        <span>Add another image on top</span>
+        <h2>Step 2 <span class="mobile-only">of 4</span></h2>
+        <span class="subhead">Add another image on top</span>
     </div>
 </div>
 <input type="file" id="upload" @change=${(e) => scope.onLocalImage(e) } name="img" accept="image/*">
@@ -7252,8 +7318,8 @@ const template$1 = function(scope) { return html`
 </div>
 
 <div class="navigation-row">
-    <sp-button variant="secondary" @click=${() => scope.navigate('back')}>Back</sp-button>
-    <sp-button @click=${() => scope.navigate('next')}>Next</sp-button>
+    <sp-button variant="secondary" @click=${() => scope.navigate('back')}><span>Back</span></sp-button>
+    <sp-button @click=${() => scope.navigate('next')}><span>Next</span></sp-button>
 </div>
 `;};
 
@@ -8441,8 +8507,8 @@ const template$2 = function(scope) { return html`
 <div class="header">
     <div class="preview illustrated">${PaintPalette}</div>
     <div>
-        <h2>Step 3</h2>
-        <span>Customize the final look!</span>
+        <h2>Step 3 <span class="mobile-only">of 4</span></h2>
+        <span class="subhead">Customize the final look!</span>
     </div>
 </div>
 
@@ -8488,8 +8554,8 @@ ${SettingsStep.BlendModes.map((blendmode, index) =>
 </div>
 
 <div class="navigation-row">
-    <sp-button variant="secondary" @click=${() => scope.navigate('back')}>Back</sp-button>
-    <sp-button @click=${() => scope.navigate('next')}>Next</sp-button>
+    <sp-button variant="secondary" @click=${() => scope.navigate('back')}><span>Back</span></sp-button>
+    <sp-button @click=${() => scope.navigate('next')}><span>Next</span></sp-button>
 </div>
 `;};
 
@@ -8677,7 +8743,6 @@ class SettingsStep extends LitElement {
     static get BlendModes() {
         return [
             { label: 'Multiply', value: 'multiply' },
-            { label: 'Screen', value: 'screen' },
             { label: 'Overlay', value: 'overlay' },
             { label: 'Darken', value: 'darken' },
             { label: 'Lighten', value: 'lighten' },
@@ -9107,8 +9172,8 @@ const template$3 = function(scope) { return html`
 <div class="header">
     <div class="preview illustrated">${FloppyDisk}</div>
     <div>
-        <h2>Step 4</h2>
-        <span>Save and submit your creation</span>
+        <h2>Step 4 <span class="mobile-only">of 4</span></h2>
+        <span class="subhead">Save and submit your creation</span>
     </div>
 </div>
 <span>* You’ll be submitting to the de Young staff for approval. Check the gallery later to see your creation</span>
@@ -9138,8 +9203,9 @@ const template$3 = function(scope) { return html`
 
 <br />
 <div class="navigation-row">
-    <sp-button variant="secondary" @click=${() => scope.navigate('back')}>Back</sp-button>
-    <sp-button @click=${() => scope.submit()}>Submit & Return to Gallery</sp-button>
+    <sp-button variant="secondary" @click=${() => scope.navigate('back')}><span>Back</span></sp-button>
+    <sp-button class="not-mobile" @click=${() => scope.submit()}><span>Submit & Return to Gallery</span></sp-button>
+    <sp-button class="mobile-only" @click=${() => scope.submit()}><span>Submit Creation</span></sp-button>
 </div>
 `};
 
@@ -9267,6 +9333,13 @@ const style$6 = css`
     sp-theme {
       display: flex;
       flex-direction: column;
+      font-family: akzidenz-grotesk-next-pro, sans-serif;
+      font-style: normal;
+      font-weight: 300;
+      --spectrum-alias-body-text-font-family: akzidenz-grotesk-next-pro, sans-serif;
+      --spectrum-global-font-family-base: akzidenz-grotesk-next-pro, sans-serif;
+      --spectrum-alias-component-text-line-height: 1;
+      --spectrum-global-font-line-height-small: 1;
     }
   
     #header {
@@ -9318,6 +9391,25 @@ const style$6 = css`
         display: inline-block;
         background-position: center;
         background-size: cover;
+    }
+
+    @media only screen and (max-width:1023px) {
+      #content {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: calc(100% - 75px);
+      }
+      
+      halftone-svg {
+        width: 100%;
+        height: initial;
+      }
+      
+      remix-steps {
+        width: 100%;
+        flex: 1;
+      }
     }
 `;
 
@@ -9557,6 +9649,10 @@ class App extends LitElement {
                         this.backgroundCanvasCtx.drawImage(img, 0, 0, this.backgroundCanvas.width, this.backgroundCanvas.height);
                     };
                     img.src = event.detail.image;
+                    const halftone = this.shadowRoot.querySelector('halftone-svg');
+                    if (halftone) {
+                        halftone.resize(); // for some reason neither FF nor Safari have resized properly yet, so force it
+                    }
 
                     this.backgroundImage = event.detail.image;
                     this.requestUpdate('backgroundImage');
