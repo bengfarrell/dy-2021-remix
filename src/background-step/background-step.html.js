@@ -28,6 +28,6 @@ export const template = function(scope) { return html`
 </div>
 
 <div class="navigation-row">
-    <sp-button @click=${() => scope.navigate('next')}>Next</sp-button>
+    <sp-button @click=${() => scope.navigate('next')}><span>Next</span></sp-button>
 </div>
 `};

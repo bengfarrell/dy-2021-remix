@@ -123,6 +123,10 @@ export default class App extends LitElement {
                         this.backgroundCanvasCtx.drawImage(img, 0, 0, this.backgroundCanvas.width, this.backgroundCanvas.height);
                     }
                     img.src = event.detail.image;
+                    const halftone = this.shadowRoot.querySelector('halftone-svg');
+                    if (halftone) {
+                        halftone.resize(); // for some reason neither FF nor Safari have resized properly yet, so force it
+                    }
 
                     this.backgroundImage = event.detail.image;
                     this.requestUpdate('backgroundImage');

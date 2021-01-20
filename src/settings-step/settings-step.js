@@ -9,7 +9,6 @@ export default class SettingsStep extends LitElement {
     static get BlendModes() {
         return [
             { label: 'Multiply', value: 'multiply' },
-            { label: 'Screen', value: 'screen' },
             { label: 'Overlay', value: 'overlay' },
             { label: 'Darken', value: 'darken' },
             { label: 'Lighten', value: 'lighten' },

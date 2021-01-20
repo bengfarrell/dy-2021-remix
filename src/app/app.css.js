@@ -10,6 +10,13 @@ export const style = css`
     sp-theme {
       display: flex;
       flex-direction: column;
+      font-family: akzidenz-grotesk-next-pro, sans-serif;
+      font-style: normal;
+      font-weight: 300;
+      --spectrum-alias-body-text-font-family: akzidenz-grotesk-next-pro, sans-serif;
+      --spectrum-global-font-family-base: akzidenz-grotesk-next-pro, sans-serif;
+      --spectrum-alias-component-text-line-height: 1;
+      --spectrum-global-font-line-height-small: 1;
     }
   
     #header {

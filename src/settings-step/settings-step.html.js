@@ -72,7 +72,7 @@ ${SettingsStep.BlendModes.map((blendmode, index) =>
 </div>
 
 <div class="navigation-row">
-    <sp-button variant="secondary" @click=${() => scope.navigate('back')}>Back</sp-button>
-    <sp-button @click=${() => scope.navigate('next')}>Next</sp-button>
+    <sp-button variant="secondary" @click=${() => scope.navigate('back')}><span>Back</span></sp-button>
+    <sp-button @click=${() => scope.navigate('next')}><span>Next</span></sp-button>
 </div>
 `;}

@@ -41,8 +41,8 @@ export const template = function(scope) { return html`
 
 <br />
 <div class="navigation-row">
-    <sp-button variant="secondary" @click=${() => scope.navigate('back')}>Back</sp-button>
-    <sp-button class="not-mobile" @click=${() => scope.submit()}>Submit & Return to Gallery</sp-button>
-    <sp-button class="mobile-only" @click=${() => scope.submit()}>Submit Creation</sp-button>
+    <sp-button variant="secondary" @click=${() => scope.navigate('back')}><span>Back</span></sp-button>
+    <sp-button class="not-mobile" @click=${() => scope.submit()}><span>Submit & Return to Gallery</span></sp-button>
+    <sp-button class="mobile-only" @click=${() => scope.submit()}><span>Submit Creation</span></sp-button>
 </div>
 `};

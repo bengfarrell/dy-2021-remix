@@ -12,7 +12,6 @@ export const style = css`
         min-height: 120px;
         height: 120px;
         background-color: #F4F4F4;
-        color: #b8b8b8;
         pointer-events: none;
         overflow: hidden;
     }
@@ -20,6 +19,7 @@ export const style = css`
     :host([disabled]) .header {
         margin-top: 10px;
         margin-bottom: 200px;
+        color: #b8b8b8;
     }
 
     :host([disabled]) .header .preview {
@@ -27,13 +27,14 @@ export const style = css`
     }
   
     .mobile-only {
-      display: none;
+      display: none !important;
     }
   
     .header {
         margin-bottom: 20px;
         display: flex;
         align-items: center;
+        color: #323232;
     }
     
     .header .preview {
@@ -105,6 +106,11 @@ export const style = css`
     sp-button {
         margin-right: 15px;
     }
+  
+    sp-button span {
+      padding-top: 4px;
+      display: inline-block;
+    }
 
     input#upload {
         display: none;
@@ -149,6 +155,7 @@ export const style = css`
 
       .header h2 {
         font-size: 16px;
+        color: #323232;
       }
 
       .header span.subhead {
