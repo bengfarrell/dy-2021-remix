@@ -25,8 +25,8 @@ export const template = function(scope) { return html`
 <div class="header">
     <div class="preview illustrated">${PaintPalette}</div>
     <div>
-        <h2>Step 3</h2>
-        <span>Customize the final look!</span>
+        <h2>Step 3 <span class="mobile-only">of 4</span></h2>
+        <span class="subhead">Customize the final look!</span>
     </div>
 </div>
 

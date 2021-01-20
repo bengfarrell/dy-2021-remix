@@ -10,8 +10,8 @@ export const template = function(scope) { return html`
 <div class="header">
     <div class="preview illustrated">${FloppyDisk}</div>
     <div>
-        <h2>Step 4</h2>
-        <span>Save and submit your creation</span>
+        <h2>Step 4 <span class="mobile-only">of 4</span></h2>
+        <span class="subhead">Save and submit your creation</span>
     </div>
 </div>
 <span>* You’ll be submitting to the de Young staff for approval. Check the gallery later to see your creation</span>
@@ -42,6 +42,7 @@ export const template = function(scope) { return html`
 <br />
 <div class="navigation-row">
     <sp-button variant="secondary" @click=${() => scope.navigate('back')}>Back</sp-button>
-    <sp-button @click=${() => scope.submit()}>Submit & Return to Gallery</sp-button>
+    <sp-button class="not-mobile" @click=${() => scope.submit()}>Submit & Return to Gallery</sp-button>
+    <sp-button class="mobile-only" @click=${() => scope.submit()}>Submit Creation</sp-button>
 </div>
 `};

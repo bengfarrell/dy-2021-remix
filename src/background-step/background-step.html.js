@@ -9,8 +9,8 @@ export const template = function(scope) { return html`
 <div class="header">
     <div class="preview" style="background-image: url(${scope.currentImage})"></div>
     <div>
-        <h2>Step 1</h2>
-        <span>Choose a background image</span>
+        <h2>Step 1 <span class="mobile-only">of 4</span></h2>
+        <span class="subhead">Choose a background image</span>
     </div>
 </div>
 
@@ -21,6 +21,7 @@ export const template = function(scope) { return html`
     <sp-action-button @click=${() => scope.randomImage()} variant="secondary">
         <sp-icon size="s" slot="icon">${Shuffle}</sp-icon> Generate a random image
     </sp-action-button>
+    <span class="button-or-separator">OR</span>
     <sp-action-button @click=${() => scope.uploadImage()} variant="secondary">
         <sp-icon size="s" slot="icon">${Upload}</sp-icon> Upload your own image
     </sp-action-button>

@@ -62,4 +62,23 @@ export const style = css`
         background-position: center;
         background-size: cover;
     }
+
+    @media only screen and (max-width:1023px) {
+      #content {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: calc(100% - 75px);
+      }
+      
+      halftone-svg {
+        width: 100%;
+        height: initial;
+      }
+      
+      remix-steps {
+        width: 100%;
+        flex: 1;
+      }
+    }
 `;

@@ -8,8 +8,8 @@ export const template = function(scope) { return html`
 <div class="header">
     <div class="preview" style="background-image: url(${scope.currentImage})"></div>
     <div>
-        <h2>Step 2</h2>
-        <span>Add another image on top</span>
+        <h2>Step 2 <span class="mobile-only">of 4</span></h2>
+        <span class="subhead">Add another image on top</span>
     </div>
 </div>
 <input type="file" id="upload" @change=${(e) => scope.onLocalImage(e) } name="img" accept="image/*">

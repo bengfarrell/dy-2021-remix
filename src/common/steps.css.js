@@ -26,6 +26,10 @@ export const style = css`
       display: inline-block;
     }
   
+    .mobile-only {
+      display: none;
+    }
+  
     .header {
         margin-bottom: 20px;
         display: flex;
@@ -56,8 +60,12 @@ export const style = css`
         font-weight: bold;
         margin: 0;
     }
+
+    .header h2 span {
+      display: inline-block;
+    }
     
-    .header span {
+    .header span.subhead {
         font-weight: bold;
         font-size: 18px;
     }
@@ -67,8 +75,20 @@ export const style = css`
         display: flex;
         align-items: center;
         margin-bottom: 25px;
+        flex-wrap: wrap;
     }
 
+    .button-or-separator {
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+      color: #747474;
+      font-size: 15px;
+      display: none;
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+  
     .button-row.centered {
         justify-content: center;
     }
@@ -100,5 +120,43 @@ export const style = css`
         background-position: center;
         background-size: contain;
         background-repeat: no-repeat;
+    }
+
+    @media only screen and (max-width:1023px) {
+      #preview {
+        display: none;
+      }
+      
+      .mobile-only {
+        display: inherit;
+      }
+
+      .button-or-separator {
+        display: inline-block;
+      }
+
+      sp-action-button {
+        margin-right: 2px;
+      }
+
+      :host([disabled]) {
+        display: none;
+      }
+
+      :host {
+        border: none;
+      }
+
+      .header h2 {
+        font-size: 16px;
+      }
+
+      .header span.subhead {
+        font-size: 16px;
+      }
+
+      .not-mobile {
+        display: none;
+      }
     }
 `;
