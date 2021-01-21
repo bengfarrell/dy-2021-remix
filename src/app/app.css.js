@@ -70,6 +70,18 @@ export const style = css`
         background-size: cover;
     }
 
+    @media only screen and (max-width:511px) {
+      #header a.pagelink {
+        font-size: 14px;
+      }
+    }
+
+    @media only screen and (min-width:511px) and (max-width:1023px) {
+      #header a.pagelink {
+        font-size: 16px;
+      }
+    }
+
     @media only screen and (max-width:1023px) {
       #content {
         display: flex;
@@ -85,6 +97,7 @@ export const style = css`
       
       remix-steps {
         width: 100%;
+        max-width: 100%;
         flex: 1;
       }
     }

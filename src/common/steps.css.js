@@ -26,10 +26,6 @@ export const style = css`
       display: inline-block;
     }
   
-    .mobile-only {
-      display: none !important;
-    }
-  
     .header {
         margin-bottom: 20px;
         display: flex;
@@ -128,13 +124,9 @@ export const style = css`
         background-repeat: no-repeat;
     }
 
-    @media only screen and (max-width:1023px) {
+    @media only screen and (max-width:767px) {
       #preview {
         display: none;
-      }
-      
-      .mobile-only {
-        display: inherit;
       }
 
       .button-or-separator {
@@ -145,6 +137,9 @@ export const style = css`
         margin-right: 2px;
       }
 
+    }
+
+    @media only screen and (max-width:1023px) {
       :host([disabled]) {
         display: none;
       }
@@ -161,9 +156,45 @@ export const style = css`
       .header span.subhead {
         font-size: 16px;
       }
+    }
 
-      .not-mobile {
+    @media only screen and (max-width:511px) {
+      .header h2 {
+        font-size: 17px;
+      }
+
+      .header span.subhead {
+        font-size: 19px;
+      }
+
+      sp-button {
+        margin-right: 8px;
+      }
+    }
+
+    @media only screen and (min-width:767px) {
+      .page-of {
         display: none;
       }
+    }
+    
+    @media only screen and (min-width:511px) and (max-width:767px) {
+        .header h2 {
+          font-size: 19px;
+        }
+        
+        .header span.subhead {
+          font-size: 19px;
+        }
+    }
+
+    @media only screen and (min-width:768px) and (max-width:1023px) {
+        .header h2 {
+          font-size: 22px;
+        }
+        
+        .header span.subhead {
+          font-size: 27px;
+        }
     }
 `;

@@ -25,6 +25,11 @@ export default class Steps extends LitElement {
         this.currentStep = 0;
     }
 
+    updated(_changedProperties) {
+        super.updated(_changedProperties);
+        this.scrollTo(0, 0);
+    }
+
     render() {
         return template(this);
     }

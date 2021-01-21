@@ -9,7 +9,7 @@ export const template = function(scope) { return html`
 <div class="header">
     <div class="preview" style="background-image: url(${scope.currentImage})"></div>
     <div>
-        <h2>Step 1 <span class="mobile-only">of 4</span></h2>
+        <h2>Step 1 <span class="page-of">of 4</span></h2>
         <span class="subhead">Choose a background image</span>
     </div>
 </div>
