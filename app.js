@@ -7197,7 +7197,7 @@ const style$1 = css`
 
 const params = new URLSearchParams(document.location.href.split('?')[1] );
 const ASSET_CATEGORY = 'layer'; // composite, or all
-const IMAGE_URI = 'https://artparty.ctlprojects.com';
+const IMAGE_URI = ' https://artparty2021.hooperstreetprojects.com';
 const ASSETS_PER_FETCH = 30;
 
 let assets = [];
@@ -7219,7 +7219,7 @@ const submitImageFromCanvas = (canvas, firstname, lastinitial, age) => {
         fd.append('first_name', firstname);
         fd.append('last_initial', lastinitial);
         fd.append('age', age);
-        fetch(`https://artparty.ctlprojects.com/submit/composite`, {
+        fetch(` https://artparty2021.hooperstreetprojects.com/submit/composite`, {
             method: 'POST',
             body: fd,
         })
@@ -7231,7 +7231,7 @@ const submitImageFromCanvas = (canvas, firstname, lastinitial, age) => {
 };
 
 const fetchAssetSet = () => {
-    const serverUrl = `https://artparty.ctlprojects.com/list/${ASSET_CATEGORY}?__do_not_cache__=${Date.now()}&count=${ASSETS_PER_FETCH}&random=${Date.now()}`;
+    const serverUrl = ` https://artparty2021.hooperstreetprojects.com/list/${ASSET_CATEGORY}?__do_not_cache__=${Date.now()}&count=${ASSETS_PER_FETCH}&random=${Date.now()}`;
     const targetUrl = params.has('dataurl') ? params.get('datarul') || './assets/sampledata.json' : serverUrl;
     const proxyUrl = params.has('proxy') ? (params.get('proxy') || 'https://cors-anywhere.herokuapp.com') : undefined;
     const uri = proxyUrl ? `${proxyUrl}/${targetUrl}` : `${targetUrl}`;
