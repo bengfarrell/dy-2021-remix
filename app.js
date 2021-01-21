@@ -7186,11 +7186,6 @@ const submitImageFromCanvas = (canvas, firstname, lastinitial, age) => {
         fd.append('first_name', firstname);
         fd.append('last_initial', lastinitial);
         fd.append('age', age);
-        /* fd.append("background_type", 'layer');
-        fd.append("background_id", 1);
-        fd.append("foreground_type", 'layer');
-        fd.append("foreground_id", 2); */
-
         fetch(`https://artparty.ctlprojects.com/submit/composite`, {
             method: 'POST',
             body: fd,
@@ -7245,8 +7240,8 @@ class BackgroundStep extends LitElement {
 
     updated(changedProperties) {
         const params = new URLSearchParams(document.location.href.split('?')[1] );
-        if (params.has('background') && !this.backgroundParamUsed) {
-            this.currentImage = params.get('background');
+        if ('background' in sessionStorage && !this.backgroundParamUsed) {
+            this.currentImage = sessionStorage.getItem('background');
             this.backgroundParamUsed = true;
             this.requestUpdate('currentImage');
             this.sendEvent();
