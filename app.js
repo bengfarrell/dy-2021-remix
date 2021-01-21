@@ -7168,7 +7168,7 @@ const style$1 = css`
 
     @media only screen and (min-width:767px) {
       .page-of {
-        display: none;
+        display: none !important;
       }
     }
     
