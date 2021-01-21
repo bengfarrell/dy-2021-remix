@@ -6965,7 +6965,7 @@ const template = function(scope) { return html`
 <div class="header">
     <div class="preview" style="background-image: url(${scope.currentImage})"></div>
     <div>
-        <h2>Step 1 <span class="mobile-only">of 4</span></h2>
+        <h2>Step 1 <span class="page-of">of 4</span></h2>
         <span class="subhead">Choose a background image</span>
     </div>
 </div>
@@ -7018,10 +7018,6 @@ const style$1 = css`
 
     :host([disabled]) .header .preview {
       display: inline-block;
-    }
-  
-    .mobile-only {
-      display: none !important;
     }
   
     .header {
@@ -7122,13 +7118,9 @@ const style$1 = css`
         background-repeat: no-repeat;
     }
 
-    @media only screen and (max-width:1023px) {
+    @media only screen and (max-width:767px) {
       #preview {
         display: none;
-      }
-      
-      .mobile-only {
-        display: inherit;
       }
 
       .button-or-separator {
@@ -7139,6 +7131,9 @@ const style$1 = css`
         margin-right: 2px;
       }
 
+    }
+
+    @media only screen and (max-width:1023px) {
       :host([disabled]) {
         display: none;
       }
@@ -7155,10 +7150,46 @@ const style$1 = css`
       .header span.subhead {
         font-size: 16px;
       }
+    }
 
-      .not-mobile {
+    @media only screen and (max-width:511px) {
+      .header h2 {
+        font-size: 17px;
+      }
+
+      .header span.subhead {
+        font-size: 19px;
+      }
+
+      sp-button {
+        margin-right: 8px;
+      }
+    }
+
+    @media only screen and (min-width:767px) {
+      .page-of {
         display: none;
       }
+    }
+    
+    @media only screen and (min-width:511px) and (max-width:767px) {
+        .header h2 {
+          font-size: 19px;
+        }
+        
+        .header span.subhead {
+          font-size: 19px;
+        }
+    }
+
+    @media only screen and (min-width:768px) and (max-width:1023px) {
+        .header h2 {
+          font-size: 22px;
+        }
+        
+        .header span.subhead {
+          font-size: 27px;
+        }
     }
 `;
 
@@ -7293,7 +7324,7 @@ const template$1 = function(scope) { return html`
 <div class="header">
     <div class="preview" style="background-image: url(${scope.currentImage})"></div>
     <div>
-        <h2>Step 2 <span class="mobile-only">of 4</span></h2>
+        <h2>Step 2 <span class="page-of">of 4</span></h2>
         <span class="subhead">Add another image on top</span>
     </div>
 </div>
@@ -8502,7 +8533,7 @@ const template$2 = function(scope) { return html`
 <div class="header">
     <div class="preview illustrated">${PaintPalette}</div>
     <div>
-        <h2>Step 3 <span class="mobile-only">of 4</span></h2>
+        <h2>Step 3 <span class="page-of">of 4</span></h2>
         <span class="subhead">Customize the final look!</span>
     </div>
 </div>
@@ -9167,7 +9198,7 @@ const template$3 = function(scope) { return html`
 <div class="header">
     <div class="preview illustrated">${FloppyDisk}</div>
     <div>
-        <h2>Step 4 <span class="mobile-only">of 4</span></h2>
+        <h2>Step 4 <span class="page-of">of 4</span></h2>
         <span class="subhead">Save and submit your creation</span>
     </div>
 </div>
@@ -9199,8 +9230,7 @@ const template$3 = function(scope) { return html`
 <br />
 <div class="navigation-row">
     <sp-button variant="secondary" @click=${() => scope.navigate('back')}><span>Back</span></sp-button>
-    <sp-button class="not-mobile" @click=${() => scope.submit()}><span>Submit & Return to Gallery</span></sp-button>
-    <sp-button class="mobile-only" @click=${() => scope.submit()}><span>Submit Creation</span></sp-button>
+    <sp-button @click=${() => scope.submit()}><span>Submit & Return to Gallery</span></sp-button>
 </div>
 `};
 
@@ -9285,6 +9315,11 @@ class Steps extends LitElement {
          * current step index
          */
         this.currentStep = 0;
+    }
+
+    updated(_changedProperties) {
+        super.updated(_changedProperties);
+        this.scrollTo(0, 0);
     }
 
     render() {
@@ -9388,6 +9423,18 @@ const style$6 = css`
         background-size: cover;
     }
 
+    @media only screen and (max-width:511px) {
+      #header a.pagelink {
+        font-size: 14px;
+      }
+    }
+
+    @media only screen and (min-width:511px) and (max-width:1023px) {
+      #header a.pagelink {
+        font-size: 16px;
+      }
+    }
+
     @media only screen and (max-width:1023px) {
       #content {
         display: flex;
@@ -9403,6 +9450,7 @@ const style$6 = css`
       
       remix-steps {
         width: 100%;
+        max-width: 100%;
         flex: 1;
       }
     }
