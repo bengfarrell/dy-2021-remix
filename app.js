@@ -7091,10 +7091,12 @@ const style$1 = css`
     
     sp-action-button {
         margin-right: 15px;
+        -webkit-appearance: none;
     }
 
     sp-button {
         margin-right: 15px;
+        -webkit-appearance: none;
     }
   
     sp-button span {
