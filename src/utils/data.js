@@ -22,11 +22,6 @@ export const submitImageFromCanvas = (canvas, firstname, lastinitial, age) => {
         fd.append('first_name', firstname);
         fd.append('last_initial', lastinitial);
         fd.append('age', age);
-        /* fd.append("background_type", 'layer');
-        fd.append("background_id", 1);
-        fd.append("foreground_type", 'layer');
-        fd.append("foreground_id", 2); */
-
         fetch(`https://artparty.ctlprojects.com/submit/composite`, {
             method: 'POST',
             body: fd,

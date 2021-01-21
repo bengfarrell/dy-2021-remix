@@ -26,8 +26,8 @@ export default class BackgroundStep extends LitElement {
 
     updated(changedProperties) {
         const params = new URLSearchParams(document.location.href.split('?')[1] );
-        if (params.has('background') && !this.backgroundParamUsed) {
-            this.currentImage = params.get('background');
+        if ('background' in sessionStorage && !this.backgroundParamUsed) {
+            this.currentImage = sessionStorage.getItem('background');
             this.backgroundParamUsed = true;
             this.requestUpdate('currentImage');
             this.sendEvent();
