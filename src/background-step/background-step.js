@@ -35,7 +35,10 @@ export default class BackgroundStep extends LitElement {
     }
 
     async randomImage() {
+        const loadingSpinner = this.shadowRoot.querySelector('#preview .loader');
+        loadingSpinner.style.display = 'flex';
         const asset = await getRandomResult();
+        loadingSpinner.style.display = 'none';
         this.currentImage = getAssetImage(asset);
         this.requestUpdate('currentImage');
         this.sendEvent(asset);

@@ -42,6 +42,6 @@ export const template = function(scope) { return html`
 <br />
 <div class="navigation-row">
     <sp-button variant="secondary" @click=${() => scope.navigate('back')}><span>Back</span></sp-button>
-    <sp-button @click=${() => scope.submit()}><span>Submit & Return to Gallery</span></sp-button>
+    <sp-button ?disabled=${scope.submitted} @click=${() => scope.submit()}><span>Submit & Return to Gallery</span></sp-button>
 </div>
 `};

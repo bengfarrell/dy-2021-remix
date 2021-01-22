@@ -1,3 +1,5 @@
+import EventBus from '../eventbus.js';
+
 const params = new URLSearchParams(document.location.href.split('?')[1] );
 const ASSET_CATEGORY = 'layer'; // composite, or all
 const IMAGE_URI = ' https://artparty2021.hooperstreetprojects.com';
@@ -28,8 +30,12 @@ export const submitImageFromCanvas = (canvas, firstname, lastinitial, age) => {
         })
             .then((result) => result.json())
             .then((data) => {
-                console.log(data);
-            });
+                new EventBus().dispatchEvent(new CustomEvent('uploadcomplete'));
+                window.location = 'http://adobe.deyoungsters.com';
+            }).catch(error => {
+                new EventBus().dispatchEvent(new CustomEvent('uploadfailed'));
+                alert('Sorry there was an issue submitting your remix, please try again. And if you keep having problems, try back later or download your remix and send it to specialevents@famsf.org');
+            })
     }, 'image/jpeg');
 }
 

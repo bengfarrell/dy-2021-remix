@@ -124,6 +124,7 @@ export const style = css`
         background-position: center;
         background-size: contain;
         background-repeat: no-repeat;
+        display: flex;
     }
 
     @media only screen and (max-width:767px) {
@@ -173,6 +174,22 @@ export const style = css`
         margin-right: 8px;
       }
     }
+  
+    .loader {
+      border: 6px solid #cdcdcd; /* Light grey */
+      border-top: 6px solid #3498db; /* Blue */
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 2s linear infinite;
+      margin: auto;
+      display: none;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
 
     @media only screen and (min-width:767px) {
       .page-of {
@@ -198,5 +215,15 @@ export const style = css`
         .header span.subhead {
           font-size: 27px;
         }
+
+        .button-row.touch-buffer {
+          width: 65%;
+        }
+    }
+
+    @media only screen and (max-width:767px) {
+      .button-row.touch-buffer {
+        width: 85%;
+      }
     }
 `;

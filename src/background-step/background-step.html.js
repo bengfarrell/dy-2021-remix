@@ -15,7 +15,7 @@ export const template = function(scope) { return html`
 </div>
 
 <input type="file" id="upload" @change=${(e) => scope.onLocalImage(e) } name="img" accept="image/*">
-<div id="preview" style="background-image: url(${scope.currentImage})"></div>
+<div id="preview" style="background-image: url(${scope.currentImage})"><div class="loader"></div></div>
 
 <div class="button-row centered">
     <sp-action-button @click=${() => scope.randomImage()} variant="secondary">

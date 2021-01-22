@@ -31,7 +31,7 @@ export const template = function(scope) { return html`
 </div>
 
 <sp-field-label size="l">Choose a pattern</sp-field-label>
-<div class="button-row shapes">
+<div class="button-row shapes touch-buffer">
     <button class="shape" ?selected="${scope.shapeType === 'circles'}" data-shape="circles" @click="${(e) => scope.chooseShape(e)}">${ShapeCircle}</button>
     <button class="shape" ?selected="${scope.shapeType === 'altcircles'}" data-shape="altcircles" @click="${(e) => scope.chooseShape(e)}">${ShapeTwoCircles}</button>
     <button class="shape" ?selected="${scope.shapeType === 'hexagons'}" data-shape="hexagons" @click="${(e) => scope.chooseShape(e)}">${ShapeHexagon}</button>
@@ -46,7 +46,7 @@ export const template = function(scope) { return html`
     <button class="shape" ?selected="${scope.shapeType === 'altsquares'}" data-shape="altsquares" @click="${(e) => scope.chooseShape(e)}">${ShapeTwoSquares}</button>
 </div>
 
-<div class="button-row">
+<div class="button-row touch-buffer">
     <sp-slider
             @input=${(e) => scope.chooseDistance(e)}
             min="15" max="60" step="1"
@@ -54,7 +54,7 @@ export const template = function(scope) { return html`
 </div>
 
 <sp-field-label size="l">Choose pattern color</sp-field-label>
-<div class="button-row">
+<div class="button-row touch-buffer">
     <sp-patched-slider
         @input=${(e) => scope.chooseColor(e)}
         min="0" max="100" step=".1"
@@ -62,7 +62,7 @@ export const template = function(scope) { return html`
 </div>
 
 <sp-field-label size="l">Select a style</sp-field-label>
-<div class="button-row" id="blend-modes">
+<div class="button-row touch-buffer" id="blend-modes">
     <sp-action-group emphasized selects="single" @change=${(e) => scope.chooseBlendMode(e)} >
 ${SettingsStep.BlendModes.map((blendmode, index) =>
     html`<sp-action-button 
