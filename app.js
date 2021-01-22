@@ -6971,7 +6971,7 @@ const template = function(scope) { return html`
 </div>
 
 <input type="file" id="upload" @change=${(e) => scope.onLocalImage(e) } name="img" accept="image/*">
-<div id="preview" style="background-image: url(${scope.currentImage})"></div>
+<div id="preview" style="background-image: url(${scope.currentImage})"><div class="loader"></div></div>
 
 <div class="button-row centered">
     <sp-action-button @click=${() => scope.randomImage()} variant="secondary">
@@ -7118,6 +7118,7 @@ const style$1 = css`
         background-position: center;
         background-size: contain;
         background-repeat: no-repeat;
+        display: flex;
     }
 
     @media only screen and (max-width:767px) {
@@ -7167,6 +7168,22 @@ const style$1 = css`
         margin-right: 8px;
       }
     }
+  
+    .loader {
+      border: 6px solid #cdcdcd; /* Light grey */
+      border-top: 6px solid #3498db; /* Blue */
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 2s linear infinite;
+      margin: auto;
+      display: none;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
 
     @media only screen and (min-width:767px) {
       .page-of {
@@ -7192,168 +7209,16 @@ const style$1 = css`
         .header span.subhead {
           font-size: 27px;
         }
-    }
-`;
 
-const params = new URLSearchParams(document.location.href.split('?')[1] );
-const ASSET_CATEGORY = 'layer'; // composite, or all
-const IMAGE_URI = ' https://artparty2021.hooperstreetprojects.com';
-const ASSETS_PER_FETCH = 30;
-
-let assets = [];
-
-const getRandomResult = async () => {
-    if (assets.length === 0) {
-        const results = await fetchAssetSet();
-        if (results.assets) {
-            assets = results.assets;
-        }
-    }
-    return assets.pop();
-};
-
-const submitImageFromCanvas = (canvas, firstname, lastinitial, age) => {
-    const encoded = canvas.toBlob( (result) => {
-        const fd = new FormData();
-        fd.append("image", result, 'remix');
-        fd.append('first_name', firstname);
-        fd.append('last_initial', lastinitial);
-        fd.append('age', age);
-        fetch(` https://artparty2021.hooperstreetprojects.com/submit/composite`, {
-            method: 'POST',
-            body: fd,
-        })
-            .then((result) => result.json())
-            .then((data) => {
-                console.log(data);
-            });
-    }, 'image/jpeg');
-};
-
-const fetchAssetSet = () => {
-    const serverUrl = ` https://artparty2021.hooperstreetprojects.com/list/${ASSET_CATEGORY}?__do_not_cache__=${Date.now()}&count=${ASSETS_PER_FETCH}&random=${Date.now()}`;
-    const targetUrl = params.has('dataurl') ? params.get('datarul') || './assets/sampledata.json' : serverUrl;
-    const proxyUrl = params.has('proxy') ? (params.get('proxy') || 'https://cors-anywhere.herokuapp.com') : undefined;
-    const uri = proxyUrl ? `${proxyUrl}/${targetUrl}` : `${targetUrl}`;
-
-    return fetch(uri)
-        .then(blob => blob.json())
-        .then(data => {
-            return data;
-        })
-        .catch(e => {
-            console.error(e);
-            return e;
-        });
-};
-
-const getAssetImage = (item) => {
-    return `${IMAGE_URI}/image/${item.asset_type}/${item.unique_id}`;
-};
-
-class BackgroundStep extends LitElement {
-    static get styles() {
-        return [style, style$1];
-    }
-
-    constructor() {
-        super();
-
-        /**
-         * image
-         */
-        this.currentImage = undefined;
-
-        /**
-         * backgroundParamUsed
-         * has the background GET param been used? We only want it to set the image on inital load
-         */
-        this.backgroundParamUsed = false;
-    }
-
-    updated(changedProperties) {
-        const params = new URLSearchParams(document.location.href.split('?')[1] );
-        if ('background' in sessionStorage && !this.backgroundParamUsed) {
-            this.currentImage = sessionStorage.getItem('background');
-            this.backgroundParamUsed = true;
-            this.requestUpdate('currentImage');
-            this.sendEvent();
+        .button-row.touch-buffer {
+          width: 65%;
         }
     }
 
-    async randomImage() {
-        const asset = await getRandomResult();
-        this.currentImage = getAssetImage(asset);
-        this.requestUpdate('currentImage');
-        this.sendEvent(asset);
-    }
-
-    onLocalImage(e) {
-        this.currentImage = URL.createObjectURL(e.target.files[0]);
-        this.requestUpdate('currentImage');
-        this.sendEvent();
-    }
-
-    uploadImage() {
-        this.shadowRoot.querySelector('input').click();
-    }
-
-    render() {
-        return template(this);
-    }
-
-    navigate(direction) {
-        const ce = new CustomEvent('navigate', { detail: direction, composed: true, bubbles: true });
-        this.dispatchEvent(ce);
-    }
-
-    sendEvent() {
-        const ce = new CustomEvent('propertychange', {
-            detail: {
-                action: 'imagechange',
-                layer: 'background',
-                image: this.currentImage
-            },
-            composed: true, bubbles: true });
-        this.dispatchEvent(ce);
-    }
-}
-
-customElements.define('remix-background-step', BackgroundStep);
-
-const template$1 = function(scope) { return html`
-
-<div class="header">
-    <div class="preview" style="background-image: url(${scope.currentImage})"></div>
-    <div>
-        <h2>Step 2 <span class="page-of">of 4</span></h2>
-        <span class="subhead">Add another image on top</span>
-    </div>
-</div>
-<input type="file" id="upload" @change=${(e) => scope.onLocalImage(e) } name="img" accept="image/*">
-<div id="preview" style="background-image: url(${scope.currentImage})"></div>
-
-<div class="button-row centered">
-    <sp-action-button variant="secondary" @click=${() => scope.randomImage()} >
-        <sp-icon size="s" slot="icon">${Shuffle}</sp-icon> Random
-    </sp-action-button>
-    <sp-action-button variant="secondary" @click=${() => scope.uploadImage()} >
-        <sp-icon size="s" slot="icon">${Upload}</sp-icon> Upload
-    </sp-action-button>
-    <sp-action-button variant="secondary" @click=${() => scope.useCamera()}>
-        <sp-icon size="s" slot="icon">${Camera}</sp-icon> ${scope.cameraEnabled ? 'Snap' : 'Camera'}
-    </sp-action-button>
-</div>
-
-<div class="navigation-row">
-    <sp-button variant="secondary" @click=${() => scope.navigate('back')}><span>Back</span></sp-button>
-    <sp-button @click=${() => scope.navigate('next')}><span>Next</span></sp-button>
-</div>
-`;};
-
-const style$2 = css`
-    :host {
-      display: inline-block;
+    @media only screen and (max-width:767px) {
+      .button-row.touch-buffer {
+        width: 85%;
+      }
     }
 `;
 
@@ -7424,6 +7289,175 @@ class EventBus extends EventListener {
     }
 }
 
+const params = new URLSearchParams(document.location.href.split('?')[1] );
+const ASSET_CATEGORY = 'layer'; // composite, or all
+const IMAGE_URI = ' https://artparty2021.hooperstreetprojects.com';
+const ASSETS_PER_FETCH = 30;
+
+let assets = [];
+
+const getRandomResult = async () => {
+    if (assets.length === 0) {
+        const results = await fetchAssetSet();
+        if (results.assets) {
+            assets = results.assets;
+        }
+    }
+    return assets.pop();
+};
+
+const submitImageFromCanvas = (canvas, firstname, lastinitial, age) => {
+    const encoded = canvas.toBlob( (result) => {
+        const fd = new FormData();
+        fd.append("image", result, 'remix');
+        fd.append('first_name', firstname);
+        fd.append('last_initial', lastinitial);
+        fd.append('age', age);
+        fetch(` https://artparty2021.hooperstreetprojects.com/submit/composite`, {
+            method: 'POST',
+            body: fd,
+        })
+            .then((result) => result.json())
+            .then((data) => {
+                new EventBus().dispatchEvent(new CustomEvent('uploadcomplete'));
+                window.location = 'http://adobe.deyoungsters.com';
+            }).catch(error => {
+                new EventBus().dispatchEvent(new CustomEvent('uploadfailed'));
+                alert('Sorry there was an issue submitting your remix, please try again. And if you keep having problems, try back later or download your remix and send it to specialevents@famsf.org');
+            });
+    }, 'image/jpeg');
+};
+
+const fetchAssetSet = () => {
+    const serverUrl = ` https://artparty2021.hooperstreetprojects.com/list/${ASSET_CATEGORY}?__do_not_cache__=${Date.now()}&count=${ASSETS_PER_FETCH}&random=${Date.now()}`;
+    const targetUrl = params.has('dataurl') ? params.get('datarul') || './assets/sampledata.json' : serverUrl;
+    const proxyUrl = params.has('proxy') ? (params.get('proxy') || 'https://cors-anywhere.herokuapp.com') : undefined;
+    const uri = proxyUrl ? `${proxyUrl}/${targetUrl}` : `${targetUrl}`;
+
+    return fetch(uri)
+        .then(blob => blob.json())
+        .then(data => {
+            return data;
+        })
+        .catch(e => {
+            console.error(e);
+            return e;
+        });
+};
+
+const getAssetImage = (item) => {
+    return `${IMAGE_URI}/image/${item.asset_type}/${item.unique_id}`;
+};
+
+class BackgroundStep extends LitElement {
+    static get styles() {
+        return [style, style$1];
+    }
+
+    constructor() {
+        super();
+
+        /**
+         * image
+         */
+        this.currentImage = undefined;
+
+        /**
+         * backgroundParamUsed
+         * has the background GET param been used? We only want it to set the image on inital load
+         */
+        this.backgroundParamUsed = false;
+    }
+
+    updated(changedProperties) {
+        const params = new URLSearchParams(document.location.href.split('?')[1] );
+        if ('background' in sessionStorage && !this.backgroundParamUsed) {
+            this.currentImage = sessionStorage.getItem('background');
+            this.backgroundParamUsed = true;
+            this.requestUpdate('currentImage');
+            this.sendEvent();
+        }
+    }
+
+    async randomImage() {
+        const loadingSpinner = this.shadowRoot.querySelector('#preview .loader');
+        loadingSpinner.style.display = 'flex';
+        const asset = await getRandomResult();
+        loadingSpinner.style.display = 'none';
+        this.currentImage = getAssetImage(asset);
+        this.requestUpdate('currentImage');
+        this.sendEvent(asset);
+    }
+
+    onLocalImage(e) {
+        this.currentImage = URL.createObjectURL(e.target.files[0]);
+        this.requestUpdate('currentImage');
+        this.sendEvent();
+    }
+
+    uploadImage() {
+        this.shadowRoot.querySelector('input').click();
+    }
+
+    render() {
+        return template(this);
+    }
+
+    navigate(direction) {
+        const ce = new CustomEvent('navigate', { detail: direction, composed: true, bubbles: true });
+        this.dispatchEvent(ce);
+    }
+
+    sendEvent() {
+        const ce = new CustomEvent('propertychange', {
+            detail: {
+                action: 'imagechange',
+                layer: 'background',
+                image: this.currentImage
+            },
+            composed: true, bubbles: true });
+        this.dispatchEvent(ce);
+    }
+}
+
+customElements.define('remix-background-step', BackgroundStep);
+
+const template$1 = function(scope) { return html`
+
+<div class="header">
+    <div class="preview" style="background-image: url(${scope.currentImage})"></div>
+    <div>
+        <h2>Step 2 <span class="page-of">of 4</span></h2>
+        <span class="subhead">Add another image on top</span>
+    </div>
+</div>
+<input type="file" id="upload" @change=${(e) => scope.onLocalImage(e) } name="img" accept="image/*">
+<div id="preview" style="background-image: url(${scope.currentImage})"><div class="loader"></div></div>
+
+<div class="button-row centered">
+    <sp-action-button variant="secondary" @click=${() => scope.randomImage()} >
+        <sp-icon size="s" slot="icon">${Shuffle}</sp-icon> Random
+    </sp-action-button>
+    <sp-action-button variant="secondary" @click=${() => scope.uploadImage()} >
+        <sp-icon size="s" slot="icon">${Upload}</sp-icon> Upload
+    </sp-action-button>
+    <sp-action-button variant="secondary" @click=${() => scope.useCamera()}>
+        <sp-icon size="s" slot="icon">${Camera}</sp-icon> ${scope.cameraEnabled ? 'Snap' : 'Camera'}
+    </sp-action-button>
+</div>
+
+<div class="navigation-row">
+    <sp-button variant="secondary" @click=${() => scope.navigate('back')}><span>Back</span></sp-button>
+    <sp-button @click=${() => scope.navigate('next')}><span>Next</span></sp-button>
+</div>
+`;};
+
+const style$2 = css`
+    :host {
+      display: inline-block;
+    }
+`;
+
 class ForegroundStep extends LitElement {
     constructor() {
         new EventBus().addEventListener('cameraframe', e => {
@@ -7449,7 +7483,10 @@ class ForegroundStep extends LitElement {
 
     async randomImage() {
         this.cameraEnabled = false;
+        const loadingSpinner = this.shadowRoot.querySelector('#preview .loader');
+        loadingSpinner.style.display = 'flex';
         const asset = await getRandomResult();
+        loadingSpinner.style.display = 'none';
         this.currentImage = getAssetImage(asset);
         this.requestUpdate('currentImage');
         this.sendEvent();
@@ -8541,7 +8578,7 @@ const template$2 = function(scope) { return html`
 </div>
 
 <sp-field-label size="l">Choose a pattern</sp-field-label>
-<div class="button-row shapes">
+<div class="button-row shapes touch-buffer">
     <button class="shape" ?selected="${scope.shapeType === 'circles'}" data-shape="circles" @click="${(e) => scope.chooseShape(e)}">${ShapeCircle}</button>
     <button class="shape" ?selected="${scope.shapeType === 'altcircles'}" data-shape="altcircles" @click="${(e) => scope.chooseShape(e)}">${ShapeTwoCircles}</button>
     <button class="shape" ?selected="${scope.shapeType === 'hexagons'}" data-shape="hexagons" @click="${(e) => scope.chooseShape(e)}">${ShapeHexagon}</button>
@@ -8556,7 +8593,7 @@ const template$2 = function(scope) { return html`
     <button class="shape" ?selected="${scope.shapeType === 'altsquares'}" data-shape="altsquares" @click="${(e) => scope.chooseShape(e)}">${ShapeTwoSquares}</button>
 </div>
 
-<div class="button-row">
+<div class="button-row touch-buffer">
     <sp-slider
             @input=${(e) => scope.chooseDistance(e)}
             min="15" max="60" step="1"
@@ -8564,7 +8601,7 @@ const template$2 = function(scope) { return html`
 </div>
 
 <sp-field-label size="l">Choose pattern color</sp-field-label>
-<div class="button-row">
+<div class="button-row touch-buffer">
     <sp-patched-slider
         @input=${(e) => scope.chooseColor(e)}
         min="0" max="100" step=".1"
@@ -8572,7 +8609,7 @@ const template$2 = function(scope) { return html`
 </div>
 
 <sp-field-label size="l">Select a style</sp-field-label>
-<div class="button-row" id="blend-modes">
+<div class="button-row touch-buffer" id="blend-modes">
     <sp-action-group emphasized selects="single" @change=${(e) => scope.chooseBlendMode(e)} >
 ${SettingsStep.BlendModes.map((blendmode, index) =>
     html`<sp-action-button 
@@ -9232,7 +9269,7 @@ const template$3 = function(scope) { return html`
 <br />
 <div class="navigation-row">
     <sp-button variant="secondary" @click=${() => scope.navigate('back')}><span>Back</span></sp-button>
-    <sp-button @click=${() => scope.submit()}><span>Submit & Return to Gallery</span></sp-button>
+    <sp-button ?disabled=${scope.submitted} @click=${() => scope.submit()}><span>Submit & Return to Gallery</span></sp-button>
 </div>
 `};
 
@@ -9251,6 +9288,19 @@ class FinalStep extends LitElement {
         return [style$4, style$1];
     }
 
+    static get properties() {
+        return {
+            submitted: {type: Boolean},
+        };
+    }
+
+    constructor() {
+        super();
+        new EventBus().addEventListener('uploadfailed', () => {
+            this.submitted = false;
+        });
+    }
+
     saveAs(filetype) {
         const ce = new CustomEvent('save', {
             detail: { filetype },
@@ -9259,6 +9309,7 @@ class FinalStep extends LitElement {
     }
 
     submit() {
+        this.submitted = true;
         const firstname = this.shadowRoot.getElementById('firstname').value;
         const lastinitial = this.shadowRoot.getElementById('lastinitial').value;
         const age = this.shadowRoot.getElementById('age').value;
