@@ -7120,7 +7120,13 @@ const style$1 = css`
         background-repeat: no-repeat;
         display: flex;
     }
-
+  
+    @media only screen and (max-width:1023px) {
+      .navigation-row {
+        margin-bottom: 50px;
+      }
+    }
+  
     @media only screen and (max-width:767px) {
       #preview {
         display: none;
