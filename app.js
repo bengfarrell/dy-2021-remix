@@ -9662,7 +9662,7 @@ class App extends LitElement {
 
     constructor() {
         super();
-        console.log('Remix App - build 9');
+        console.log('Remix App - build 10');
         this.addEventListener('propertychange', (event) => this.onPropertyChange(event));
         this.addEventListener('save', (event) => this.onSaveImage(event));
         this.addEventListener('submit', (event) => this.onSubmitImage(event));
