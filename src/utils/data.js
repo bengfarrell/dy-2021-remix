@@ -24,7 +24,7 @@ export const submitImageFromCanvas = (canvas, firstname, lastinitial, age) => {
         fd.append('first_name', firstname);
         fd.append('last_initial', lastinitial);
         fd.append('age', age);
-        fetch(` https://artparty2021.hooperstreetprojects.com/submit/composite`, {
+        fetch(`https://artparty2021.hooperstreetprojects.com/submit/composite`, {
             method: 'POST',
             body: fd,
         })
