@@ -34,7 +34,7 @@ export const submitImageFromCanvas = (canvas, firstname, lastinitial, age) => {
                 window.location = 'http://adobe.deyoungsters.com';
             }).catch(error => {
                 new EventBus().dispatchEvent(new CustomEvent('uploadfailed'));
-                alert('Sorry there was an issue submitting your remix, please try again. And if you keep having problems, try back later or download your remix and send it to specialevents@famsf.org');
+                alert('Sorry, there was an issue submitting your remix, please try again. If you keep having problems, try back later or download your remix and send it to specialevents@famsf.org');
             })
     }, 'image/jpeg');
 }
