@@ -5222,7 +5222,6 @@ class HalftoneSVG extends BaseHalftoneElement {
     get svgPath() {
         return this.cachedSVGPath;
     }
-
     /**
      * get SVG path with surrounding transform group
      */
@@ -9560,14 +9559,16 @@ const downscaleImage = (source, maxWidth) => {
 const compositeImageToCanvas = async (htComponent, backgroundCanvas, blendMode) => {
     return new Promise( (resolve) => {
         const imgA = document.createElement('img');
-        let svg64 = btoa(htComponent.getSVG());
+        const svg = gatherSVG(htComponent, backgroundCanvas);
+        let svg64 = btoa(svg);
         let b64Start = 'data:image/svg+xml;base64,';
         let image64 = b64Start + svg64;
 
         const composite = () => {
+            const scale = backgroundCanvas.width / htComponent.contentWidth;
             const canvas = document.createElement('canvas');
-            canvas.width = htComponent.contentWidth;
-            canvas.height = htComponent.contentHeight;
+            canvas.width = htComponent.contentWidth * scale;
+            canvas.height = htComponent.contentHeight * scale;
             const ctx = canvas.getContext('2d');
 
             ctx.globalCompositeOperation = 'normal';
@@ -9580,8 +9581,21 @@ const compositeImageToCanvas = async (htComponent, backgroundCanvas, blendMode) 
         };
 
         imgA.onload = () => composite();
+        imgA.onerror = (e) => {
+            console.log(e);
+        };
         imgA.src = image64;
     });
+};
+
+const gatherSVG = (htComponent, background) => {
+    const scale = background.width / htComponent.contentWidth;
+    const naturalScaleWidth = htComponent.visibleRect.width / htComponent.renderer.width;
+    const naturalScaleHeight = htComponent.visibleRect.height / htComponent.renderer.height;
+    const fill = htComponent.hasAttribute('shapecolor') ? htComponent.getAttribute('shapecolor') : 'black';
+    return `<svg xmlns="http://www.w3.org/2000/svg"><g fill="${fill}" transform="scale(${naturalScaleWidth * scale}, ${naturalScaleHeight * scale})">
+        <path d="${htComponent.svgPath}"></path>
+    </g></svg>`;
 };
 
 const downloadCanvasAsImage = (canvas, filetype) => {
