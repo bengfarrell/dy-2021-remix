@@ -7086,7 +7086,6 @@ const style$1 = css`
     .navigation-row {
         display: flex;
         justify-content: flex-end;
-        margin-bottom: 100px;
     }
     
     sp-action-button {
@@ -7119,6 +7118,12 @@ const style$1 = css`
         background-size: contain;
         background-repeat: no-repeat;
         display: flex;
+    }
+  
+    @media only screen and (max-width:1023px) {
+      .navigation-row {
+        margin-bottom: 100px;
+      }
     }
   
     @media only screen and (max-width:767px) {
@@ -9664,7 +9669,7 @@ class App extends LitElement {
 
     constructor() {
         super();
-        console.log('Remix App - build 11');
+        console.log('Remix App - build 12');
         this.addEventListener('propertychange', (event) => this.onPropertyChange(event));
         this.addEventListener('save', (event) => this.onSaveImage(event));
         this.addEventListener('submit', (event) => this.onSubmitImage(event));
