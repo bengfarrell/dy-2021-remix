@@ -7086,6 +7086,7 @@ const style$1 = css`
     .navigation-row {
         display: flex;
         justify-content: flex-end;
+        margin-bottom: 100px;
     }
     
     sp-action-button {
@@ -7118,12 +7119,6 @@ const style$1 = css`
         background-size: contain;
         background-repeat: no-repeat;
         display: flex;
-    }
-  
-    @media only screen and (max-width:1023px) {
-      .navigation-row {
-        margin-bottom: 50px;
-      }
     }
   
     @media only screen and (max-width:767px) {
@@ -7532,6 +7527,13 @@ class ForegroundStep extends LitElement {
     }
 
     navigate(direction) {
+        // automatically snap photo if active
+        if (this.cameraEnabled) {
+            // take photo
+            this.cameraEnabled = false;
+            const ce = new CustomEvent('takephoto', { composed: true, bubbles: true });
+            this.dispatchEvent(ce);
+        }
         const ce = new CustomEvent('navigate', { detail: direction, composed: true, bubbles: true });
         this.dispatchEvent(ce);
     }
@@ -9662,7 +9664,7 @@ class App extends LitElement {
 
     constructor() {
         super();
-        console.log('Remix App - build 10');
+        console.log('Remix App - build 11');
         this.addEventListener('propertychange', (event) => this.onPropertyChange(event));
         this.addEventListener('save', (event) => this.onSaveImage(event));
         this.addEventListener('submit', (event) => this.onSubmitImage(event));
@@ -9765,16 +9767,16 @@ class App extends LitElement {
                         this.backgroundCanvasCtx.drawImage(img, 0, 0, this.backgroundCanvas.width, this.backgroundCanvas.height);
                     };
                     img.src = event.detail.image;
-                    const halftone = this.shadowRoot.querySelector('halftone-svg');
-                    if (halftone) {
-                        halftone.resize(); // for some reason neither FF nor Safari have resized properly yet, so force it
-                    }
 
                     this.backgroundImage = event.detail.image;
                     this.requestUpdate('backgroundImage');
                 } else {
                     this.foregroundImage = event.detail.image;
                     this.requestUpdate('foregroundImage');
+                }
+                const halftone = this.shadowRoot.querySelector('halftone-svg');
+                if (halftone) {
+                    halftone.resize(); // for some reason neither FF nor Safari have resized properly yet, so force it
                 }
                 break;
 
