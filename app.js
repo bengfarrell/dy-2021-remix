@@ -5073,6 +5073,7 @@ class BaseHalftoneElement extends HTMLElement {
 
     async startCamera() {
         this.inputSource = document.createElement('video');
+        this.inputSource.toggleAttribute('playsinline', true);
         this._stream = await navigator.mediaDevices.getUserMedia({
             'audio': false,
             'video': {
@@ -5222,6 +5223,7 @@ class HalftoneSVG extends BaseHalftoneElement {
     get svgPath() {
         return this.cachedSVGPath;
     }
+
     /**
      * get SVG path with surrounding transform group
      */
@@ -7122,7 +7124,7 @@ const style$1 = css`
   
     @media only screen and (max-width:1023px) {
       .navigation-row {
-        margin-bottom: 100px;
+        margin-bottom: 200px;
       }
     }
   
@@ -7312,7 +7314,7 @@ const getRandomResult = async () => {
 };
 
 const submitImageFromCanvas = (canvas, firstname, lastinitial, age) => {
-    const encoded = canvas.toBlob( (result) => {
+    canvas.toBlob( (result) => {
         const fd = new FormData();
         fd.append("image", result, 'remix');
         fd.append('first_name', firstname);
@@ -7375,7 +7377,7 @@ class BackgroundStep extends LitElement {
     }
 
     updated(changedProperties) {
-        const params = new URLSearchParams(document.location.href.split('?')[1] );
+        new URLSearchParams(document.location.href.split('?')[1] );
         if ('background' in sessionStorage && !this.backgroundParamUsed) {
             this.currentImage = sessionStorage.getItem('background');
             this.backgroundParamUsed = true;
@@ -9669,7 +9671,7 @@ class App extends LitElement {
 
     constructor() {
         super();
-        console.log('Remix App - build 12');
+        console.log('Remix App - build 13');
         this.addEventListener('propertychange', (event) => this.onPropertyChange(event));
         this.addEventListener('save', (event) => this.onSaveImage(event));
         this.addEventListener('submit', (event) => this.onSubmitImage(event));
