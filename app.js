@@ -9671,11 +9671,18 @@ class App extends LitElement {
 
     constructor() {
         super();
-        console.log('Remix App - build 13');
+        console.log('Remix App - build 14');
         this.addEventListener('propertychange', (event) => this.onPropertyChange(event));
         this.addEventListener('save', (event) => this.onSaveImage(event));
         this.addEventListener('submit', (event) => this.onSubmitImage(event));
         this.addEventListener('takephoto',() => this.takePhoto());
+
+        document.body.onresize = () => {
+            const halftone = this.shadowRoot.querySelector('halftone-svg');
+            if (halftone) {
+                halftone.resize();
+            }
+        };
 
         /**
          * background image
